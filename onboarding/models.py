@@ -17,3 +17,9 @@ class Track(models.Model):
 
     def __str__(self):
         return self.track_name
+
+class Topic(models.Model):
+    topic_name = models.CharField(max_length = 50)
+
+    def __str__(self):
+        return self.topic_name
