@@ -32,3 +32,14 @@ class Course(models.Model):
 
     def __str__(self):
         return self.course_name
+
+
+class Resources(models.Model):
+    resource_name = models.CharField(max_length=50)
+    resource_cid = models.ForeignKey(Course, on_delete=models.CASCADE)
+    resource_descirption = models.TextField()
+    resource_link = models.TextField()
+    resource_image = models.ImageField(upload_to='resources_photos')
+
+    def __str__(self):
+        return self.resource_name
