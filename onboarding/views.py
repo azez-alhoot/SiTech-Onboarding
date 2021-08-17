@@ -1,12 +1,13 @@
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from .forms import CustomUserCreationForm
-from .models import CustomUser
 from django.views.generic.edit import CreateView
-
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from .models import Track
+from django.http import HttpResponse
+from django.shortcuts import render
 
 # Create your views here.
-
 
 class SignUp(CreateView):
     form_class = CustomUserCreationForm
@@ -14,3 +15,10 @@ class SignUp(CreateView):
     template_name = 'registration/signup.html'
 
 
+class Track(ListView):
+    model = Track
+    template_name = 'tracks.html'
+
+class Track(DetailView):
+    model = Track
+    template_name = 'topics.html'
