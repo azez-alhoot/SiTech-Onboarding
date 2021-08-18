@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import SignupView, TrackView, TopicView, CourseView, ResourcesView
+from .views import SignupView, TrackView, TopicView, CourseView, ResourcesView, user_track_view
 from django.views.generic.base import TemplateView
 
 urlpatterns = [
@@ -9,4 +9,5 @@ urlpatterns = [
     path('topics/', TopicView.as_view(), name = 'topics'),
     path('courses/', CourseView.as_view(), name = 'courses'),
     path('resources/', ResourcesView.as_view(), name = 'resources'),
+    path('usertrackbridje/<int:id1>/<int:id2>', user_track_view, name = 'user_track_view'),
 ]
