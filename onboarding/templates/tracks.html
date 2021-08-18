@@ -8,6 +8,10 @@
 <ul>
     {% for track in object_list %}
         <li>{{ track.track_name }}</li>
+        <form action="{% url 'user_track_view' user.id track.id %}" method="post">
+            {% csrf_token %} 
+            <button type="submit">Enroll</button>
+        </form>
     {% endfor %}
 </ul>
 {% endblock %}

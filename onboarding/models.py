@@ -43,3 +43,10 @@ class Resources(models.Model):
 
     def __str__(self):
         return self.resource_name
+
+class UserTrackBridge(models.Model):
+    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True)
+    track_id = models.ForeignKey(Track, on_delete=models.CASCADE, blank=True)
+
+    def __str__(self):
+        return f'user => {self.user_id} , track=> {self.track_id}'
