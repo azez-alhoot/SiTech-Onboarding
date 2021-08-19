@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from .forms import CustomUserCreationForm, UserTrackForm
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
-from .models import CustomUser, Topic, Track, Course, Resources, TrackTopicBridge
+from .models import CustomUser, Topic, TopicCourseBridge, Track, Course, Resources, TrackTopicBridge
 from django.shortcuts import render, redirect
 
 # Create your views here.
@@ -52,3 +52,19 @@ def track_topic_view(request, trackid):
         track_topics.append(Topic.objects.get(topic_name = entry.topic_id))
    
     return render(request, 'track_topics.html', {'track_topics': track_topics})
+
+
+def topic_course_view(request ,topicid):
+
+    topic_cousres_entries =TopicCourseBridge.objects.all().filter(topic_id =topicid)
+
+    topic_courses =[]
+
+    for entry in topic_cousres_entries:
+        topic_courses.append(Course.objects.get(course_name=entry.course_id))
+
+    return render(request, 'topic_course.html' ,{'topic_courses' : topic_courses})    
+
+    
+
+
