@@ -14,7 +14,7 @@ class CustomUser(AbstractUser):
 
 
 class Track(models.Model):
-    track_name = models.CharField(max_length=50)
+    track_name = models.CharField(max_length=50)  
 
     def __str__(self):
         return self.track_name
@@ -58,3 +58,10 @@ class TrackTopicBridge(models.Model):
 
     def __str__(self):
         return f'track => {self.track_id}, topic => {self.topic_id}'
+
+class TopicCourseBridge(models.Model):
+    topic_id=models.ForeignKey(Topic,on_delete=models.CASCADE,blank=True)  
+    course_id=models.ForeignKey(Course,on_delete=models.CASCADE,blank=True)    
+
+    def __str__(self):
+        return f'topic=> {self.topic_id} , course => {self.cousre_id}'
