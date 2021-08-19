@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import models
-from .models import CustomUser,UserTrackBridge
+from .models import CustomUser, UserTrackBridge
 
 class CustomUserCreationForm(UserCreationForm):
     
@@ -13,3 +13,8 @@ class UserTrackForm(models.ModelForm):
     class Meta:
         model = UserTrackBridge
         fields = ('user_id', 'track_id')
+
+# class TrackTopicForm(models.ModelForm):
+#     class Meta:
+#         model = TrackTopicBridge
+#         fields = ('track_id', 'topic_id')

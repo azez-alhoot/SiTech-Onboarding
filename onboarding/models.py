@@ -49,4 +49,12 @@ class UserTrackBridge(models.Model):
     track_id = models.ForeignKey(Track, on_delete=models.CASCADE, blank=True)
 
     def __str__(self):
-        return f'user => {self.user_id} , track=> {self.track_id}'
+        return f'user => {self.user_id} , track => {self.track_id}'
+
+
+class TrackTopicBridge(models.Model):
+    track_id = models.ForeignKey(Track, on_delete=models.CASCADE, blank=True)
+    topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE, blank=True)
+
+    def __str__(self):
+        return f'track => {self.track_id}, topic => {self.topic_id}'
