@@ -48,6 +48,9 @@ class UserTrackBridge(models.Model):
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True)
     track_id = models.ForeignKey(Track, on_delete=models.CASCADE, blank=True)
 
+    class Meta:
+        unique_together = ('user_id', 'track_id')
+
     def __str__(self):
         return f'user => {self.user_id} , track => {self.track_id}'
 
@@ -64,4 +67,4 @@ class TopicCourseBridge(models.Model):
     course_id=models.ForeignKey(Course,on_delete=models.CASCADE,blank=True)    
 
     def __str__(self):
-        return f'topic=> {self.topic_id} , course => {self.cousre_id}'
+        return f'topic=> {self.topic_id} , course => {self.course_id}'
