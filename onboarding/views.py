@@ -89,14 +89,12 @@ def profile_view(request, userid):
 def profile_edit_view(request, userid):
     
     user = CustomUser.objects.get(id = userid)
-   
     if request.method == "POST":
         form = CustomUserChangeForm(request.POST, instance = user)
-        
         if form.is_valid():
             form.save()
             return redirect('profile', userid = userid)
     else:
-        form = CustomUserChangeForm(request.GET) 
+        form = CustomUserChangeForm(initial={'first_name': user.first_name, 'last_name': user.last_name}) 
         
     return render(request, 'profile_edit.html', {'form': form})
