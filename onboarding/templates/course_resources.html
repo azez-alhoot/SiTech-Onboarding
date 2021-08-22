@@ -6,7 +6,7 @@
 
 <h1>Resources</h1>
 <ul>
-    {% for resource in object_list %}
+    {% for resource in resources %}
     <a href="{{resource.resource_link}}">{{ resource.resource_name }}</li>
         {% endfor %}
 </ul>

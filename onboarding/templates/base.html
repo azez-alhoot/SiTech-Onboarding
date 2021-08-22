@@ -7,7 +7,13 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+<header>
+    {% if user.is_authenticated %}
+    <a href="{% url 'profile' user.id %}">My Profile</a>
+    {% endif %}
+</header>
     {% block content%}
     {% endblock %}
+    <footer>This is a footer</footer>
 </body>
 </html>

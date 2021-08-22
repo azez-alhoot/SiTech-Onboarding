@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+
+<h1>My Profile</h1>
+<ul>
+   
+    {% if user.is_authenticated %}
+    <ul>
+        <li>{{user.first_name|title}} {{user.last_name|title}}</li>
+        <li>{{user.username}}</li>
+        <li>{{user.title}}</li>
+        <li>{{user.email}}</li>
+        <li><img src="{{user.image}}" alt="image"></li>
+    </ul>
+
+    <button><a href="{% url 'profile_edit' user.id %}">Edit</a></button>
+
+    <h2>My Enrolled Tracks:</h2>
+
+    {% for track in user_tracks %}
+        <li><a href="{% url 'track' track.id %}">{{track.track_name}}</a></li>
+    {% endfor %}
+  
+    {% endif %}
+   
+</ul>
+{% endblock %}
