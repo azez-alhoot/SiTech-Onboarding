@@ -15,4 +15,7 @@
 
     {% endfor %}
 </ul>
+    {% if context %}
+        <p>{{ context.error }}</p>
+    {% endif %}
 {% endblock %}

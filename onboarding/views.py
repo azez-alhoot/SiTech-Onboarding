@@ -43,7 +43,7 @@ def user_track_view(request, id1, id2):
             context = {
                 'error':'you alrady in this track'
             }
-            return redirect('track', trackid = id2)
+            return render(request, 'tracks.html', {'context': context})
     else:
         form = UserTrackForm()
     return render(request, 'tracks.html', {'form': form})
