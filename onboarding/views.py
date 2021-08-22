@@ -101,8 +101,7 @@ def profile_edit_view(request, userid):
             form.save()
             return redirect('profile', userid = userid)
     else:
-        form = CustomUserChangeForm(request.GET) 
-        
+       form = CustomUserChangeForm(initial={'first_name': user.first_name, 'last_name': user.last_name})
     return render(request, 'profile_edit.html', {'form': form})
 
 def change_password(request):
@@ -121,4 +120,3 @@ def change_password(request):
         'form': form
     })
 
-    
