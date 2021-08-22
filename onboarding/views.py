@@ -1,8 +1,8 @@
 from django.urls import reverse_lazy
-from .forms import CustomUserCreationForm, UserTrackForm
+from .forms import CustomUserCreationForm, UserTrackForm, CustomUserChangeForm
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
-from .models import CustomUser, Topic, TopicCourseBridge, Track, Course, Resources, TrackTopicBridge
+from .models import CustomUser, Topic, TopicCourseBridge, Track, Course, Resources, TrackTopicBridge, UserTrackBridge
 from django.shortcuts import render, redirect
 from django.db import IntegrityError
 
@@ -16,7 +16,6 @@ class SignupView(CreateView):
 class TrackView(ListView):
     model = Track
     template_name = 'tracks.html'
-
 
 class CourseView(ListView):
     model = Course
@@ -65,13 +64,39 @@ def topic_course_view(request ,topicid):
 
     topic_cousres_entries =TopicCourseBridge.objects.all().filter(topic_id =topicid)
 
-    topic_courses =[]
+    topic_courses = []
 
     for entry in topic_cousres_entries:
         topic_courses.append(Course.objects.get(course_name=entry.course_id))
 
-    return render(request, 'topic_course.html' ,{'topic_courses' : topic_courses})    
+    return render(request, 'topic_courses.html', {'topic_courses' : topic_courses})    
 
+
+def course_resources_view(request, courseid):
+    resources = Resources.objects.all().filter(id = courseid)
+    return render(request, 'course_resources.html', {'resources': resources})
+
+def profile_view(request, userid):
+    user_enrolled_tracks_from_bridge = UserTrackBridge.objects.all().filter(user_id = userid)
+
+    tracks = []
+
+    for entry in user_enrolled_tracks_from_bridge:
+        tracks.append(Track.objects.get(track_name = entry.track_id))
+
+    return render(request, 'profile.html', {'user_tracks': tracks})
+
+def profile_edit_view(request, userid):
     
-
-
+    user = CustomUser.objects.get(id = userid)
+   
+    if request.method == "POST":
+        form = CustomUserChangeForm(request.POST, instance = user)
+        
+        if form.is_valid():
+            form.save()
+            return redirect('profile', userid = userid)
+    else:
+        form = CustomUserChangeForm(request.GET) 
+        
+    return render(request, 'profile_edit.html', {'form': form})
