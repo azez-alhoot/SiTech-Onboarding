@@ -8,6 +8,7 @@ class CustomUser(AbstractUser):
 
     title = models.CharField(max_length=50)
     image = models.ImageField(upload_to='static/user_photos/')
+    
 
     def __str__(self):
         return self.username
