@@ -13,8 +13,3 @@ class UserTrackForm(models.ModelForm):
     class Meta:
         model = UserTrackBridge
         fields = ('user_id', 'track_id')
-
-# class TrackTopicForm(models.ModelForm):
-#     class Meta:
-#         model = TrackTopicBridge
-#         fields = ('track_id', 'topic_id')

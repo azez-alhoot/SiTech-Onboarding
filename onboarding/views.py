@@ -4,6 +4,7 @@ from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from .models import CustomUser, Topic, TopicCourseBridge, Track, Course, Resources, TrackTopicBridge
 from django.shortcuts import render, redirect
+from django.db import IntegrityError
 
 # Create your views here.
 
@@ -27,16 +28,22 @@ class ResourcesView(ListView):
 
 def user_track_view(request, id1, id2):
     if request.method == "POST":
-        user = CustomUser.objects.get(id=id1)
-        track = Track.objects.get(id=id2)
-        form = UserTrackForm(request.POST or None)
-        print(form)
-        if form.is_valid():
+        try: 
+          user = CustomUser.objects.get(id=id1)
+          track = Track.objects.get(id=id2)
+          form = UserTrackForm(request.POST or None)
+          if form.is_valid():
             entry = form.save(commit=False)
             entry.user_id = user
             entry.track_id = track
             entry.save()
             return redirect('track', trackid = id2)
+
+        except IntegrityError:
+            context = {
+                'error':'you alrady in this track'
+            }
+            return render(request, 'tracks.html', {'context': context})
     else:
         form = UserTrackForm()
     return render(request, 'tracks.html', {'form': form})
