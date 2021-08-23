@@ -11,6 +11,7 @@ class Track(models.Model):
 
 class CustomUser(AbstractUser):
 
+
     track_objects = Track.objects.values_list('track_name', flat=True)
 
     tracks = []
@@ -21,6 +22,7 @@ class CustomUser(AbstractUser):
 
     title = models.CharField(max_length=50, default='Software Engineer', choices=tracks)
     image = models.ImageField(upload_to='static/user_photos/')
+
     
 
     def __str__(self):
