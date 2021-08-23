@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import SignupView, TrackView, user_track_view, track_topic_view , topic_course_view, profile_view, profile_edit_view, course_resources_view
+from .views import SignupView, TrackView, user_track_view, track_topic_view , topic_course_view, profile_view, profile_edit_view, course_resources_view ,change_password
 from django.views.generic.base import TemplateView
 
 urlpatterns = [
@@ -12,4 +12,6 @@ urlpatterns = [
     path('usertrackbridge/<int:id1>/<int:id2>/', user_track_view, name = 'user_track_view'),
     path('profile/<int:userid>/', profile_view, name = 'profile'),
     path('profile/edit/<int:userid>/', profile_edit_view, name = 'profile_edit'),
+    path(r'^password/$', change_password, name='change_password'),
+    
 ]

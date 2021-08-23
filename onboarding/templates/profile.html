@@ -14,9 +14,14 @@
         <li>{{user.title}}</li>
         <li>{{user.email}}</li>
         <li><img src="{{user.image}}" alt="image"></li>
+        
     </ul>
 
-    <button><a href="{% url 'profile_edit' user.id %}">Edit</a></button>
+    <button><a href="{% url 'profile_edit' user.id %}">Edit</a></button> 
+    <br>
+
+    <button><a href="{% url 'password_change' %}">change password</a></button>
+
 
     <h2>My Enrolled Tracks:</h2>
 
