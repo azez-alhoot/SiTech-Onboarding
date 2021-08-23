@@ -3,33 +3,23 @@ from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
+
 class Track(models.Model):
-    track_name = models.CharField(max_length=50)  
+    track_name = models.CharField(max_length=50)
 
     def __str__(self):
         return self.track_name
 
+
 class CustomUser(AbstractUser):
-
-
-    track_objects = Track.objects.values_list('track_name', flat=True)
-
-    tracks = []
-
-    for object in track_objects:
-        tracks.append((object,f'{object}'))
-
-
-    title = models.CharField(max_length=50, default='Software Engineer', choices=tracks)
+    tracks = [('Software Engineer', 'Software Engineer'),
+              ('Data Scientist', 'Data Scientist')]
+    title = models.CharField(
+        max_length=50, default="Software Engineer", choices=tracks)
     image = models.ImageField(upload_to='user_photos/')
-
-    
 
     def __str__(self):
         return self.username
-
-
-
 
 
 class Topic(models.Model):
@@ -56,8 +46,10 @@ class Resources(models.Model):
     def __str__(self):
         return self.resource_name
 
+
 class UserTrackBridge(models.Model):
-    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True)
+    user_id = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, blank=True)
     track_id = models.ForeignKey(Track, on_delete=models.CASCADE, blank=True)
 
     class Meta:
@@ -74,9 +66,10 @@ class TrackTopicBridge(models.Model):
     def __str__(self):
         return f'track => {self.track_id}, topic => {self.topic_id}'
 
+
 class TopicCourseBridge(models.Model):
-    topic_id=models.ForeignKey(Topic,on_delete=models.CASCADE,blank=True)  
-    course_id=models.ForeignKey(Course,on_delete=models.CASCADE,blank=True)    
+    topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE, blank=True)
+    course_id = models.ForeignKey(Course, on_delete=models.CASCADE, blank=True)
 
     def __str__(self):
         return f'topic=> {self.topic_id} , course => {self.course_id}'
