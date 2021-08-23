@@ -21,7 +21,7 @@ class CustomUser(AbstractUser):
 
 
     title = models.CharField(max_length=50, default='Software Engineer', choices=tracks)
-    image = models.ImageField(upload_to='static/user_photos/')
+    image = models.ImageField(upload_to='user_photos/')
 
     
 
