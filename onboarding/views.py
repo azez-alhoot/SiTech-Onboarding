@@ -66,18 +66,19 @@ def track_topic_view(request, trackid):
 
 def topic_course_view(request ,topicid):
 
-    topic_cousres_entries =TopicCourseBridge.objects.all().filter(topic_id =topicid)
+    topic_courses_entries =TopicCourseBridge.objects.all().filter(topic_id =topicid)
 
     topic_courses = []
 
-    for entry in topic_cousres_entries:
+    for entry in topic_courses_entries:
         topic_courses.append(Course.objects.get(course_name=entry.course_id))
 
     return render(request, 'topic_courses.html', {'topic_courses' : topic_courses})    
 
 
 def course_resources_view(request, courseid):
-    resources = Resources.objects.all().filter(id = courseid)
+    resources = Resources.objects.all().filter(resource_cid = courseid)
+
     return render(request, 'course_resources.html', {'resources': resources})
 
 def profile_view(request, userid):
