@@ -7,7 +7,9 @@
 <h1>Resources</h1>
 <ul>
     {% for resource in resources %}
-    <a href="{{resource.resource_link}}">{{ resource.resource_name }}</li>
-        {% endfor %}
+    <a href="//{{resource.resource_link}}" target='_blank'>{{ resource.resource_name }}</a></li>
+    <li><img src="{{ resource.resource_image.url }}" alt="image"></li>
+
+    {% endfor %}
 </ul>
 {% endblock %}
