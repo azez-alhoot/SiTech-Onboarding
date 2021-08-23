@@ -12,6 +12,6 @@ urlpatterns = [
     path('usertrackbridge/<int:id1>/<int:id2>/', user_track_view, name = 'user_track_view'),
     path('profile/<int:userid>/', profile_view, name = 'profile'),
     path('profile/edit/<int:userid>/', profile_edit_view, name = 'profile_edit'),
-    path(r'^password/$', change_password, name='change_password'),
+    path('password/', change_password, name='change_password'),
     
 ]

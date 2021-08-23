@@ -3,10 +3,23 @@ from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
+class Track(models.Model):
+    track_name = models.CharField(max_length=50)  
+
+    def __str__(self):
+        return self.track_name
 
 class CustomUser(AbstractUser):
 
-    title = models.CharField(max_length=50)
+    track_objects = Track.objects.values_list('track_name', flat=True)
+
+    tracks = []
+
+    for object in track_objects:
+        tracks.append((object,f'{object}'))
+
+
+    title = models.CharField(max_length=50, default='Software Engineer', choices=tracks)
     image = models.ImageField(upload_to='static/user_photos/')
     
 
@@ -14,11 +27,7 @@ class CustomUser(AbstractUser):
         return self.username
 
 
-class Track(models.Model):
-    track_name = models.CharField(max_length=50)  
 
-    def __str__(self):
-        return self.track_name
 
 
 class Topic(models.Model):
