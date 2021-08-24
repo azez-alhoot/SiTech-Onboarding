@@ -18,34 +18,30 @@ class SignupView(CreateView):
     success_url = reverse_lazy('login')
     template_name = 'registration/signup.html'
 
-
 class TrackView(ListView):
     model = Track
     template_name = 'tracks.html'
-
 
 class CourseView(ListView):
     model = Course
     template_name = 'courses.html'
 
-
 class ResourcesView(ListView):
     model = Resources
     template_name = 'resources.html'
 
-
-def user_track_view(request, id1, id2):
+def user_track_view(request, user_id, track_id):
     if request.method == "POST":
         try:
-            user = CustomUser.objects.get(id=id1)
-            track = Track.objects.get(id=id2)
+            user = CustomUser.objects.get(id=user_id)
+            track = Track.objects.get(id=track_id)
             form = UserTrackForm(request.POST or None)
             if form.is_valid():
                 entry = form.save(commit=False)
-                entry.user_id = user
-                entry.track_id = track
+                entry.user = user
+                entry.track = track
                 entry.save()
-                return redirect('track', trackid=id2)
+                return redirect('track', trackid=track_id)
 
         except IntegrityError:
             context = {
@@ -59,43 +55,28 @@ def user_track_view(request, id1, id2):
 
 def track_topic_view(request, trackid):
 
-    track_topics_entries = TrackTopicBridge.objects.all().filter(track_id=trackid)
+    topics = TrackTopicBridge.objects.filter(track=trackid).values_list('topic_id', 'topic__name')
 
-    track_topics = []
-
-    for entry in track_topics_entries:
-        track_topics.append(Topic.objects.get(topic_name=entry.topic_id))
-
-    return render(request, 'track_topics.html', {'track_topics': track_topics})
+    return render(request, 'track_topics.html', {'topics': topics})
 
 
 def topic_course_view(request, topicid):
 
-    topic_courses_entries = TopicCourseBridge.objects.all().filter(topic_id=topicid)
+    courses = TopicCourseBridge.objects.filter(topic=topicid).values_list('course_id', 'course__name')
 
-    topic_courses = []
-
-    for entry in topic_courses_entries:
-        topic_courses.append(Course.objects.get(course_name=entry.course_id))
-
-    return render(request, 'topic_courses.html', {'topic_courses': topic_courses})
+    return render(request, 'topic_courses.html', {'courses': courses})
 
 
 def course_resources_view(request, courseid):
-    resources = Resources.objects.all().filter(resource_cid=courseid)
+    resources = Resources.objects.filter(course=courseid)
 
     return render(request, 'course_resources.html', {'resources': resources})
 
 
 def profile_view(request, userid):
-    user_enrolled_tracks_from_bridge = UserTrackBridge.objects.all().filter(user_id=userid)
+    tracks = UserTrackBridge.objects.filter(user=userid).values_list('track_id','track__name')
 
-    tracks = []
-
-    for entry in user_enrolled_tracks_from_bridge:
-        tracks.append(Track.objects.get(track_name=entry.track_id))
-
-    return render(request, 'profile.html', {'user_tracks': tracks})
+    return render(request, 'profile.html', {'tracks': tracks})
 
 
 def profile_edit_view(request, userid):
