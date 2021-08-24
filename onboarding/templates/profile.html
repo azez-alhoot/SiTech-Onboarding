@@ -13,7 +13,9 @@
         <li>{{user.username}}</li>
         <li>{{user.title}}</li>
         <li>{{user.email}}</li>
-        <li><img src="{{ user.image.url }}" alt="image"></li>
+        {% if user.image %}
+            <li><img src="{{ user.image.url }}" alt="image"></li>
+        {% endif %}
         
     </ul>
 
