@@ -17,4 +17,4 @@ class CustomUserChangeForm(UserChangeForm):
 class UserTrackForm(models.ModelForm):
     class Meta:
         model = UserTrackBridge
-        fields = ('user_id', 'track_id')
+        fields = ('user', 'track')

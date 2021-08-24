@@ -6,30 +6,33 @@
 
 <h1>My Profile</h1>
 <ul>
-   
+
     {% if user.is_authenticated %}
     <ul>
         <li>{{user.first_name|title}} {{user.last_name|title}}</li>
         <li>{{user.username}}</li>
         <li>{{user.title}}</li>
         <li>{{user.email}}</li>
-        <li><img src="{{ user.image.url }}" alt="image"></li>
-        
+        {% if user.image %}
+            <li><img src="{{ user.image.url }}" alt="image"></li>
+        {% endif %}
+
     </ul>
 
-    <button><a href="{% url 'profile_edit' user.id %}">Edit</a></button> 
+    <button><a href="{% url 'profile_edit' user.id %}">Edit</a></button>
     <br>
 
-    <button><a href="{% url 'change_password' %}"target="_blank">change password</a></button> <!--add target="_blank"-->
+    <button><a href="{% url 'change_password' %}" target="_blank">change password</a></button>
+    <!--add target="_blank"-->
 
 
     <h2>My Enrolled Tracks:</h2>
 
-    {% for track in user_tracks %}
-        <li><a href="{% url 'track' track.id %}">{{track.track_name}}</a></li>
+    {% for track in tracks %}
+    <li><a href="{% url 'track' track.0 %}">{{track.1}}</a></li>
     {% endfor %}
-  
+
     {% endif %}
-   
+
 </ul>
 {% endblock %}
