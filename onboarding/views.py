@@ -5,12 +5,13 @@ from django.views.generic.list import ListView
 from .models import CustomUser, Topic, TopicCourseBridge, Track, Course, Resources, TrackTopicBridge, UserTrackBridge
 from django.shortcuts import render, redirect
 from django.db import IntegrityError
-from django.contrib import messages #
-from django.contrib.auth import update_session_auth_hash #
-from django.contrib.auth.forms import PasswordChangeForm #
-from django.shortcuts import render, redirect #
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.shortcuts import render, redirect
 
 # Create your views here.
+
 
 class SignupView(CreateView):
     form_class = CustomUserCreationForm
@@ -29,22 +30,22 @@ class ResourcesView(ListView):
     model = Resources
     template_name = 'resources.html'
 
-def user_track_view(request, id1, id2):
+def user_track_view(request, user_id, track_id):
     if request.method == "POST":
-        try: 
-          user = CustomUser.objects.get(id=id1)
-          track = Track.objects.get(id=id2)
-          form = UserTrackForm(request.POST or None)
-          if form.is_valid():
-            entry = form.save(commit=False)
-            entry.user_id = user
-            entry.track_id = track
-            entry.save()
-            return redirect('track', trackid = id2)
+        try:
+            user = CustomUser.objects.get(id=user_id)
+            track = Track.objects.get(id=track_id)
+            form = UserTrackForm(request.POST or None)
+            if form.is_valid():
+                entry = form.save(commit=False)
+                entry.user = user
+                entry.track = track
+                entry.save()
+                return redirect('track', trackid=track_id)
 
         except IntegrityError:
             context = {
-                'error':'you alrady in this track'
+                'error': 'you alrady in this track'
             }
             return render(request, 'tracks.html', {'context': context})
     else:
@@ -54,55 +55,44 @@ def user_track_view(request, id1, id2):
 
 def track_topic_view(request, trackid):
 
-    track_topics_entries = TrackTopicBridge.objects.all().filter(track_id = trackid)
+    topics = TrackTopicBridge.objects.filter(track=trackid).values_list('topic_id', 'topic__name')
 
-    track_topics = []
-
-    for entry in track_topics_entries:
-        track_topics.append(Topic.objects.get(topic_name = entry.topic_id))
-   
-    return render(request, 'track_topics.html', {'track_topics': track_topics})
+    return render(request, 'track_topics.html', {'topics': topics})
 
 
-def topic_course_view(request ,topicid):
+def topic_course_view(request, topicid):
 
-    topic_courses_entries =TopicCourseBridge.objects.all().filter(topic_id =topicid)
+    courses = TopicCourseBridge.objects.filter(topic=topicid).values_list('course_id', 'course__name')
 
-    topic_courses = []
-
-    for entry in topic_courses_entries:
-        topic_courses.append(Course.objects.get(course_name=entry.course_id))
-
-    return render(request, 'topic_courses.html', {'topic_courses' : topic_courses})    
+    return render(request, 'topic_courses.html', {'courses': courses})
 
 
 def course_resources_view(request, courseid):
-    resources = Resources.objects.all().filter(resource_cid = courseid)
+    resources = Resources.objects.filter(course=courseid)
 
     return render(request, 'course_resources.html', {'resources': resources})
 
+
 def profile_view(request, userid):
-    user_enrolled_tracks_from_bridge = UserTrackBridge.objects.all().filter(user_id = userid)
+    tracks = UserTrackBridge.objects.filter(user=userid).values_list('track_id','track__name')
 
-    tracks = []
+    return render(request, 'profile.html', {'tracks': tracks})
 
-    for entry in user_enrolled_tracks_from_bridge:
-        tracks.append(Track.objects.get(track_name = entry.track_id))
-
-    return render(request, 'profile.html', {'user_tracks': tracks})
 
 def profile_edit_view(request, userid):
-    
-    user = CustomUser.objects.get(id = userid)
+
+    user = CustomUser.objects.get(id=userid)
     if request.method == "POST":
-        form = CustomUserChangeForm(request.POST, instance = user)
+        form = CustomUserChangeForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('profile', userid = userid)
+            return redirect('profile', userid=userid)
     else:
-        form = CustomUserChangeForm(initial={'first_name': user.first_name, 'last_name': user.last_name}) 
-        
+        form = CustomUserChangeForm(
+            initial={'first_name': user.first_name, 'last_name': user.last_name})
+
     return render(request, 'profile_edit.html', {'form': form})
+
 
 def change_password(request):
     if request.method == 'POST':
@@ -110,7 +100,8 @@ def change_password(request):
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
-            messages.success(request, 'Your password was successfully updated!')
+            messages.success(
+                request, 'Your password was successfully updated!')
             return redirect('change_password')
         else:
             messages.error(request, 'Please correct the error below.')
@@ -119,4 +110,3 @@ def change_password(request):
     return render(request, 'change_password.html', {
         'form': form
     })
-
