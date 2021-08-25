@@ -6,8 +6,8 @@
 
 <h1>Topics</h1>
 <ul>
-    {% for topic in track_topics %}
-    <li><a href="{% url 'topic' topic.id %}">{{ topic.topic_name }}</a></li>
+    {% for topic in topics %}
+    <li><a href="{% url 'topic' topic.0 %}">{{ topic.1 }}</a></li>
     {% endfor %}
 </ul>
 {% endblock %}

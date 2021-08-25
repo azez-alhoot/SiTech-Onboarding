@@ -7,8 +7,8 @@
 <h1>Resources</h1>
 <ul>
     {% for resource in resources %}
-    <a href="//{{resource.resource_link}}" target='_blank'>{{ resource.resource_name }}</a></li>
-    <li><img src="{{ resource.resource_image.url }}" alt="image"></li>
+    <a href="//{{resource.link}}" target='_blank'>{{ resource.name }}</a></li>
+    <li><img src="{{ resource.image.url }}" alt="image"></li>
 
     {% endfor %}
 </ul>

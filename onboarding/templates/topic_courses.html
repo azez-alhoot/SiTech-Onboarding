@@ -6,8 +6,8 @@
 
 <h1>Courses</h1>
 <ul>
-    {% for course in topic_courses %}
-    <li><a href="{% url 'course' course.id %}">{{ course.course_name }}</a></li>
+    {% for course in courses %}
+    <li><a href="{% url 'course' course.0 %}">{{ course.1 }}</a></li>
     {% endfor %}
 </ul>
 {% endblock %}
