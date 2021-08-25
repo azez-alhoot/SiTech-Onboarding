@@ -3,17 +3,4 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-
-{% if user.is_authenticated %}
-  Welcome {{ user.username }}!
-  <p><a href="{% url 'logout' %}">Logout</a></p>
-  <button><a href="{% url 'tracks' %}">Tracks</a></button>
-  
-{% else %}
-  <p>You are not logged in</p>
-  <a href="{% url 'login' %}">Login</a> |
-  <a href="{% url 'signup' %}">Signup</a>
-  
-{% endif %}
-
 {% endblock %}

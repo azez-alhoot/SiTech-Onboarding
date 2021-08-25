@@ -1,69 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block cssimport %}
+<link rel="stylesheet" href="{% static 'css/forms.css' %}" type="text/css">
+{% endblock %}
 {% block title %}Signup{% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
-<style>
-  .login-signup-form .card {
-    position: relative;
-    overflow: hidden;
-  }
-  .login-signup-form .card .shape {
-    width: 300px;
-    height: 300px;
-    border-radius: 40px;
-    display: block;
-    position: absolute;
-    top: 0;
-    right: -150px;
-    background: rgba(0,0,0,0.05);
-    transform: rotate(45deg);
-  }
-  
-  .login-signup-form .card .card-header i {
-     font-size: 54px;
-     margin-bottom: 15px;
-  }
-  
-  .login-signup-form .card .card-header h2 {
-     font-size: 25px;
-     font-weight: 700;
-  }
-  
-  .login-signup-form .card .card-body {
-    position: relative;
-  }
-  
-  .login-signup-form .card .card-body label {
-    font-size: 13px;
-  }
-  
-  .login-signup-form .card .card-body input,
-  .login-signup-form .card .card-body textarea {
-    border: 1px solid #aaa;
-    border-radius: 0;
-  }
-  .login-signup-form .card .card-body input:focus,
-  .login-signup-form .card .card-body textarea:focus {
-    border: 1px solid #222;
-  }
-  
-  .login-signup-form .card .card-body .btn {
-    background: #222;
-    color: #fff;
-    border-radius: 0;
-  }
-  .login-signup-form .card .card-body .btn:hover {
-    background: #555;
-    color: #fff;
-  }
-  .login-signup-form .card .card-body .custom-control label {
-    font-size: 16px;
-  }
-  .shadow-az {
-  box-shadow: 1px 4px 10px 0px rgba(0, 0, 0, 0.75);
-  }
-  </style>
-  
   <div class="login-signup-form py-4">
     <div class="container">
       <div class="row justify-content-center">
@@ -87,6 +29,7 @@
                 </div>
               </form>
             </div>
+            <a href="{% url 'login' %}" class="text-decoration-none px-3 py-1">already have an account?</a>
           </div>
         </div>
       </div>
