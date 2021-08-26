@@ -1,96 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-{% load static %}
 
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="{% static 'css/back.css' %}">
-        {% block cssimport %}
-        {% endblock %}
-    <style>
+        <link href="{% static 'css/back.css' %}" rel="stylesheet">
 
-        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
-        .bg-custom {
-            background-color: #EBE9E1;
-        }
-        .nav-height {
-            height: 106px;
-        }
-    </style>
-
+    {% block cssimport %}{% endblock %}
     <title>{% block title %}{% endblock %}</title>
 </head>
 
 <body>
-
-    <nav class="navbar nav-height navbar-expand-lg navbar-light bg-custom position-sticky zindex-sticky" style="top: 0px;">
-        <div class="container-fluid px-5">
-            <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'images/logo.jpg' %}" alt=""
-                    height="65"></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <!-- <div> -->
-            <div class="collapse navbar-collapse d-flex flex-row-reverse" id="navbarSupportedContent">
-
-                {% if not user.is_authenticated %}
-                <a type="button" href="{% url 'login' %}" class="btn btn-outline-secondary text-color-white">Login</a>
-                <a type="button" href="{% url 'signup' %}" class="btn btn-outline-secondary mx-3">Signup</a>
-                {% endif %}
-
-                {% if user.is_authenticated %}
-                <div class="d-flex align-items-baseline">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{% url 'tracks'%}">Tracks</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">About Us</a>
-                        </li>
-                    </ul>
     
-                    <li class="nav dropdown">
-                        <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <img src="{{ user.image.url }}" style="border-radius: 50%; height: 65px;">
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="right: 5%;
-                                left: unset;">
-                            <li>
-                                <h6 class="dropdown-item" href="#">Welcome {{ user.username }}!</h6>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="{% url 'profile' user.id %}">My Profile</a></li>
-                            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
-                        </ul>
-                    </li>
-                </div>
-                {% endif %}
-            </div>
-            <!-- </div> -->
+    {% include 'layout/header.html' %}
 
-        </div>
-    </nav>
-    {% block content%}
+    {% block content %}
     {% endblock %}
-    </header>
-    </div>
 
+    {% include 'layout/footer.html' %}
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
