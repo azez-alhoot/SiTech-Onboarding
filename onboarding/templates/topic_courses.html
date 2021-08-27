@@ -1,13 +1,32 @@
 {% extends 'base.html' %}
 
-{% block title %}Topic_course{% endblock %}
+{% load static %}
+
+{% block cssimport %}<link rel="stylesheet" href="{% static 'css/courses.css' %}" type="text/css">{% endblock %}
+
+{% block title %}Courses{% endblock %}
 
 {% block content %}
 
-<h1>Courses</h1>
-<ul>
-    {% for course in courses %}
-    <li><a href="{% url 'course' course.0 %}">{{ course.1 }}</a></li>
-    {% endfor %}
-</ul>
+<nav aria-label="breadcrumb" id="sub-nav">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">Tracks</li>
+        <li class="breadcrumb-item active" aria-current="page">Topics</li>
+        <li class="breadcrumb-item active" aria-current="page">Courses</li>
+    </ol>
+</nav>
+
+<p>About courses, shu hummeh o shu testa3mel o keef troo7 o hek</p>
+
+
+{% for course in courses %}
+<div class="card" style="width: 20rem;">
+    <img class="card-img-top" src="/static/images/Icon_MT_3.svg" alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title">{{ course.1 }}</h5>
+        <a class="btn btn-primary" href="{% url 'course' course.0 %}">Start</a>
+    </div>
+</div>
+{% endfor %}
+
 {% endblock %}

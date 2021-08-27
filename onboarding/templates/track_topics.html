@@ -1,13 +1,31 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+{% block cssimport %}
+<link rel="stylesheet" href="{% static 'css/topics.css' %}" type="text/css">{% endblock %}
+
 {% block title %}Topics{% endblock %}
 
 {% block content %}
 
-<h1>Topics</h1>
-<ul>
-    {% for topic in topics %}
-    <li><a href="{% url 'topic' topic.0 %}">{{ topic.1 }}</a></li>
-    {% endfor %}
-</ul>
+<nav aria-label="breadcrumb" id="sub-nav">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">Tracks</li>
+        <li class="breadcrumb-item active" aria-current="page">Topics</li>
+    </ol>
+</nav>
+
+<p>About topics, shu hummeh o shu testa3mel o keef troo7 o hek</p>
+
+{% for topic in topics %}
+<div class="card" style="width: 20rem;">
+    <img class="card-img-top" src="/static/images/Icon_MT_2.svg" alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title">{{ topic.1 }}</h5>
+        <a class="btn btn-primary" href="{% url 'topic' topic.0 %}">Start</a>
+    </div>
+</div>
+{% endfor %}
+
 {% endblock %}
