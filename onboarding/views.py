@@ -32,7 +32,8 @@ class ResourcesView(ListView):
 
 def user_track_view(request, user_id, track_id):
     if request.method == "POST":
-        try:
+        entry = UserTrackBridge.objects.filter(user=user_id, track=track_id)
+        if not entry:
             user = CustomUser.objects.get(id=user_id)
             track = Track.objects.get(id=track_id)
             form = UserTrackForm(request.POST or None)
@@ -42,12 +43,8 @@ def user_track_view(request, user_id, track_id):
                 entry.track = track
                 entry.save()
                 return redirect('track', trackid=track_id)
-
-        except IntegrityError:
-            context = {
-                'error': 'you alrady in this track'
-            }
-            return render(request, 'tracks.html', {'context': context})
+        else:
+            return redirect('track', trackid=track_id)
     else:
         form = UserTrackForm()
     return render(request, 'tracks.html', {'form': form})
