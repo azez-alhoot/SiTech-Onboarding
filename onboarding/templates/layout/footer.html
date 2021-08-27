@@ -26,7 +26,12 @@
             <div style="margin-left: 90px;">
                 
                 <a href="https://www.sitech.me/">website</a>
+
+                {% if user.is_authenticated %}
+
                 <a href="{% url 'tracks' %}">Tracks</a>
+
+                {% endif %}
                <!-- <a href="#">Contact</a>
                 <a href="#">Blog</a>
                 <a href="#">Resources</a>
