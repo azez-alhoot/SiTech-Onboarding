@@ -1,15 +1,35 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+{% block cssimport %}
+<link rel="stylesheet" href="{% static 'css/resources.css' %}" type="text/css">{% endblock %}
+
 {% block title %}Resources{% endblock %}
 
 {% block content %}
 
-<h1>Resources</h1>
-<ul>
-    {% for resource in resources %}
-    <a href="//{{resource.link}}" target='_blank'>{{ resource.name }}</a></li>
-    <li><img src="{{ resource.image.url }}" alt="image"></li>
+<nav aria-label="breadcrumb" id="sub-nav">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">Tracks</li>
+        <li class="breadcrumb-item active" aria-current="page">Topics</li>
+        <li class="breadcrumb-item active" aria-current="page">Courses</li>
+        <li class="breadcrumb-item active" aria-current="page">Resources</li>
+    </ol>
+</nav>
 
-    {% endfor %}
-</ul>
+<p>About resouces, shu hummeh o shu testa3mel o keef troo7 o hek</p>
+
+
+{% for resource in resources %}
+<div class="card" style="width: 20rem;">
+    <img class="card-img-top" src="{{ resource.image.url }}" alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title">{{ resource.name }}</h5>
+        <p class="card-text">{{ resource.descirption }}</p>
+        <a class="btn btn-primary" href="//{{ resource.link }}">Go</a>
+    </div>
+</div>
+{% endfor %}
+
 {% endblock %}
