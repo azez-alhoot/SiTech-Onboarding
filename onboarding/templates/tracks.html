@@ -1,21 +1,37 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+{% block cssimport %}<link rel="stylesheet" href="{% static 'css/tracks.css' %}" type="text/css">{% endblock %}
+
 {% block title %}Tracks{% endblock %}
 
 {% block content %}
 
-<h1>Tracks</h1>
+<nav aria-label="breadcrumb" id="sub-nav">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">Tracks</li>
+    </ol>
+  </nav>
+
+  <p>About Tracks, shu hummeh o shu testa3mel o keef troo7 o hek</p>
+
 <ul>
     {% for track in object_list %}
-        <li>{{ track.name }}</li>
-        <form action="{% url 'user_track_view' user.id track.id %}" method="post">
-            {% csrf_token %} 
-            <button type="submit">Enroll</button>
+    <div class="card" style="width: 20rem;">
+        <img class="card-img-top" src="/static/images/Icon_MT_1.svg" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">{{ track.name }}</h5>
+          <form action="{% url 'user_track_view' user.id track.id %}" method="post">
+            {% csrf_token %}
+            <button class="btn btn-primary" type="submit">Enroll</button>
         </form>
-
+        </div>
+      </div>
+    
+    
     {% endfor %}
 </ul>
-    {% if context %}
-        <p>{{ context.error }}</p>
-    {% endif %}
+
 {% endblock %}
+
