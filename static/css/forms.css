@@ -56,5 +56,58 @@
   }
   
   .shadow-az {
-    box-shadow: 1px 4px 10px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 10px rgba(139, 205, 234, 0.6);
+  }
+
+  .btn-custom {
+    background: #112849;
+    color: #fff;
+    border-radius: 3px;
+    border: none;
+    width: 100px;
+    height: 50px;
+  }
+
+  .shape-custom {
+    width: 300px;
+    height: 300px;
+    /* border-radius: 62px; */
+    display: block;
+    position: absolute;
+    top: 64px;
+    right: -150px;
+    background: #112849;
+    transform: rotate(45deg);
+  }
+
+  .shape-custom-2 {
+    width: 300px;
+    height: 300px;
+    /* border-radius: 40px; */
+    display: block;
+    position: absolute;
+    top: 534px;
+    right: -150px;
+    background: #124BD8;
+    transform: rotate(45deg);
+  }
+
+  .shape-custom-3 {
+    width: 250px;
+    height: 305px;
+    /* border-radius: 62px; */
+    display: block;
+    position: absolute;
+    top: 0px;
+    right: -150px;
+    background: #112849;
+    transform: rotate(45deg);
+  }
+
+  .form-bg {
+    background-color: #F5F0EB;
+  }
+
+  .h1-text-form-color {
+    color: #124BD8;
   }
