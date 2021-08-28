@@ -2,7 +2,9 @@
 
 {% load static %}
 
-  <nav class="navbar nav-height navbar-expand-lg navbar-light bg-custom position-sticky zindex-sticky" style="top: 0px;">
+<link href="{% static 'css/header.css' %}" rel="stylesheet">
+
+  <nav class="navbar nav-height navbar-expand-lg navbar-light bg-custom sticky-top " style="top: 0px;">
         <div class="container-fluid px-5">
             <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'images/logo.jpg' %}" alt=""
                     height="65"></a>

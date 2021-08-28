@@ -1,7 +1,18 @@
 {% extends 'base.html' %}
-
-{% block title %}
-
-<h1>Home</h1>
+{% load static %}
+{% block cssimport %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}" type="text/css">
+{% endblock %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="container-fluid div-custom">
+    <div class="content">
+        <div class="content-box">
+            <h1>Welcome to Sitech!</h1>
+            <h2>Congratulations on joining the team!</h2>
+            <h3>This is where you can start your journey...</h3>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
