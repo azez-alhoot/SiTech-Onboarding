@@ -9,23 +9,28 @@
 
 {% block content %}
 
-<nav aria-label="breadcrumb" id="sub-nav">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item active" aria-current="page">Tracks</li>
-        <li class="breadcrumb-item active" aria-current="page">Topics</li>
-    </ol>
-</nav>
-
-<p>About topics, shu hummeh o shu testa3mel o keef troo7 o hek</p>
-
-{% for topic in topics %}
-<div class="card" style="width: 20rem;">
-    <img class="card-img-top" src="/static/images/Icon_MT_2.svg" alt="Card image cap">
-    <div class="card-body">
-        <h5 class="card-title">{{ topic.1 }}</h5>
-        <a class="btn btn-primary" href="{% url 'topic' topic.0 %}">Start</a>
-    </div>
+<div class="container-fluid m-2 p-2 text-center ">
+    <nav aria-label="breadcrumb" class="w-50 border border-white bg-white d-flex mx-auto mb-3 rounded-pill">
+        <ol class="breadcrumb p-2 mx-auto m-0">
+            <li class="breadcrumb-item active p-2 " aria-current="page">Tracks</li>
+            <li class="breadcrumb-item active p-2 " aria-current="page">Topics</li>
+        </ol>
+    </nav>
+    <p>About Tracks, shu hummeh o shu testa3mel o keef troo7 o hek</p>
 </div>
-{% endfor %}
 
+<div class=" d-flex justify-content-center p-2 mx-auto">
+    {% for topic in topics %}
+    <div class="card m-4 p-4 w-25 border-1 rounded" style="width: 20rem;">
+        <img class=" img-thumbnail track-images mx-auto d-block" src="/media/{{ topic.3 }}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title mt-2 p-0 fw-bold fs-3 text-center">{{ topic.1 }}</h5>
+            <p class="card-text text-wrap">{{ topic.2 }}</p>
+            <div class="text-center">
+                <a class="btn btn-primary" href="{% url 'topic' topic.0 %}">Start</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}

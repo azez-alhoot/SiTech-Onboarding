@@ -1,11 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import FileExtensionValidator
 
 # Create your models here.
 
 
 class Track(models.Model):
     name = models.CharField(max_length=50)
+    descirption = models.TextField()
+    image = models.FileField(upload_to='tracks_photos', validators=[FileExtensionValidator(['png', 'jpg', 'svg'])])
+
 
     def __str__(self):
         return self.name
@@ -22,6 +26,9 @@ class CustomUser(AbstractUser):
 
 class Topic(models.Model):
     name = models.CharField(max_length=50)
+    descirption = models.TextField()
+    image = models.FileField(upload_to='topics_photos', validators=[FileExtensionValidator(['png', 'jpg', 'svg'])])
+
 
     def __str__(self):
         return self.name
@@ -29,17 +36,21 @@ class Topic(models.Model):
 
 class Course(models.Model):
     name = models.CharField(max_length=50)
+    descirption = models.TextField()
+    image = models.FileField(upload_to='courses_photos', validators=[FileExtensionValidator(['png', 'jpg', 'svg'])])
+
 
     def __str__(self):
         return self.name
 
 
-class Resources(models.Model):
+class Resource(models.Model):
     name = models.CharField(max_length=50)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     descirption = models.TextField()
     link = models.TextField()
-    image = models.ImageField(upload_to='resources_photos')
+    image = models.FileField(upload_to='resources_photos', validators=[FileExtensionValidator(['png', 'jpg', 'svg'])])
+
 
     def __str__(self):
         return self.name
