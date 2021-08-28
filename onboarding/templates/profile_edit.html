@@ -1,17 +1,39 @@
 {% extends 'base.html' %}
-
+{% load static %}
+{% block cssimport %}
+<link rel="stylesheet" href="{% static 'css/forms.css' %}" type="text/css">
+{% endblock %}
 {% block title %}Edit Profile{% endblock %}
 
+{% load crispy_forms_tags %}
 {% block content %}
-
-<h1>Edit Profile</h1>
-
-<form method="POST" action="{% url 'profile_edit' user.id %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-
-    <button type="submit">Save</button>
-</form>
-
-
+<div class="login-signup-form py-4">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-5">
+        <div class="card form-bg shadow-az">
+          <span class="shape-custom-3 "></span>
+          <div class="card-header text-center bg-transparent">
+            <i class="fas fa-user-circle"></i>
+            <h2 class="h1-text-form-color">Edit Your Name</h2>
+          </div>
+          <div class="card-body py-4 h1-text-form-color">
+            <form method="POST">
+              {% csrf_token %}
+              <div class="form-group">
+                {{ form.first_name|as_crispy_field }}
+              </div>
+              <div class="form-group">
+                {{ form.last_name|as_crispy_field }}
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn-custom">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

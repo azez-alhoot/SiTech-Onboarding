@@ -16,7 +16,6 @@
         {% if user.image %}
             <li><img src="{{ user.image.url }}" alt="image"></li>
         {% endif %}
-
     </ul>
 
     <button><a href="{% url 'profile_edit' user.id %}">Edit</a></button>

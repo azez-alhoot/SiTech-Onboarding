@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from .forms import CustomUserCreationForm, UserTrackForm, CustomUserChangeForm
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
-from .models import CustomUser, Topic, TopicCourseBridge, Track, Course, Resources, TrackTopicBridge, UserTrackBridge
+from .models import CustomUser, Topic, TopicCourseBridge, Track, Course, Resource, TrackTopicBridge, UserTrackBridge
 from django.shortcuts import render, redirect
 from django.db import IntegrityError
 from django.contrib import messages
@@ -22,17 +22,12 @@ class TrackView(ListView):
     model = Track
     template_name = 'tracks.html'
 
-class CourseView(ListView):
-    model = Course
-    template_name = 'courses.html'
 
-class ResourcesView(ListView):
-    model = Resources
-    template_name = 'resources.html'
 
 def user_track_view(request, user_id, track_id):
     if request.method == "POST":
-        try:
+        entry = UserTrackBridge.objects.filter(user=user_id, track=track_id)
+        if not entry:
             user = CustomUser.objects.get(id=user_id)
             track = Track.objects.get(id=track_id)
             form = UserTrackForm(request.POST or None)
@@ -42,12 +37,8 @@ def user_track_view(request, user_id, track_id):
                 entry.track = track
                 entry.save()
                 return redirect('track', trackid=track_id)
-
-        except IntegrityError:
-            context = {
-                'error': 'you alrady in this track'
-            }
-            return render(request, 'tracks.html', {'context': context})
+        else:
+            return redirect('track', trackid=track_id)
     else:
         form = UserTrackForm()
     return render(request, 'tracks.html', {'form': form})
@@ -55,20 +46,20 @@ def user_track_view(request, user_id, track_id):
 
 def track_topic_view(request, trackid):
 
-    topics = TrackTopicBridge.objects.filter(track=trackid).values_list('topic_id', 'topic__name')
+    topics = TrackTopicBridge.objects.filter(track=trackid).values_list('topic_id', 'topic__name', 'topic__descirption', 'topic__image')
 
     return render(request, 'track_topics.html', {'topics': topics})
 
 
 def topic_course_view(request, topicid):
 
-    courses = TopicCourseBridge.objects.filter(topic=topicid).values_list('course_id', 'course__name')
+    courses = TopicCourseBridge.objects.filter(topic=topicid).values_list('course_id', 'course__name', 'course__descirption', 'course__image')
 
     return render(request, 'topic_courses.html', {'courses': courses})
 
 
 def course_resources_view(request, courseid):
-    resources = Resources.objects.filter(course=courseid)
+    resources = Resource.objects.filter(course=courseid).values_list('name', 'descirption', 'image', 'link')
 
     return render(request, 'course_resources.html', {'resources': resources})
 

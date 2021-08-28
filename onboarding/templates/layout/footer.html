@@ -1,0 +1,35 @@
+{% load static %}
+<link href="{% static 'css/footer.css' %}" rel="stylesheet">
+
+<div id="footer">
+   
+    <div style="margin-left: 90px;">
+
+        <a href="https://www.sitech.me/">website</a>
+
+        {% if user.is_authenticated %}
+
+        <a href="{% url 'tracks' %}">Tracks</a>
+
+        {% endif %}
+    </div>
+    <div>
+        <span>
+            
+            <img src="{% static 'images/logos.svg' %}" style=" margin-top:7px; /* */
+                    width: 200px;
+                    height: 25px;
+                    margin-left: 70px;">&nbsp;&nbsp; <span style="color: #81a2bd;font-size: 13;">Copyright ©️ 2021
+                Sitech. All rights reserved.
+            </span>
+            
+            <a href="https://www.sitech.me/privacy-policy" style="color: ##81a2bd;font-size: 13;">Privacy Policy</a>
+            
+            <a href="https://www.linkedin.com/company/sitechinc/" class="fa fa-linkedin"
+                style="margin-left: 500px;"></a>
+            <a href="https://www.instagram.com/sitechinc/" class="fa fa-instagram"></a>
+            <a href="https://twitter.com/SiTechINC" class="fa fa-twitter"></a>
+            <a href="https://web.facebook.com/sitechfb?_rdc=1&_rdr" class="fa fa-facebook"></a>
+        </span>
+    </div>
+</div>
