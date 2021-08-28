@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block cssimport %}
+<link rel="stylesheet" href="{% static 'css/resources.css' %}" type="text/css">{% endblock %}
+
+{% block title %}Resources{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid m-2 p-2 text-center ">
+    <nav aria-label="breadcrumb" class="w-50 border border-white bg-white d-flex mx-auto mb-3 rounded-pill">
+        <ol class="breadcrumb p-2 mx-auto m-0">
+            <li class="breadcrumb-item active p-2 " aria-current="page">Tracks</li>
+            <li class="breadcrumb-item active p-2 " aria-current="page">Topics</li>
+            <li class="breadcrumb-item active p-2 " aria-current="page">Courses</li>
+            <li class="breadcrumb-item active p-2 " aria-current="page">Resources</li>
+        </ol>
+    </nav>
+    <p>About Tracks, shu hummeh o shu testa3mel o keef troo7 o hek</p>
+</div>
+
+<div class=" d-flex justify-content-center p-2 mx-auto">
+    {% for resource in resources %}
+    <div class="card m-4 p-4 w-25 border-1 rounded" style="width: 20rem;">
+        <img class=" img-thumbnail track-images mx-auto d-block" src="/media/{{ resource.2 }}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title mt-2 p-0 fw-bold fs-3 text-center">{{ resource.0 }}</h5>
+            <p class="card-text text-wrap">{{ resource.1 }}</p>
+            <div class="text-center">
+                <a class="btn btn-primary" href="{{ resource.3 }}" target="_blank">Go</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

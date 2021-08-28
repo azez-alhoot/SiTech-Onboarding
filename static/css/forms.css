@@ -1,0 +1,113 @@
+.login-signup-form .card {
+    position: relative;
+    overflow: hidden;
+  }
+  .login-signup-form .card .shape {
+    width: 300px;
+    height: 300px;
+    border-radius: 40px;
+    display: block;
+    position: absolute;
+    top: 0;
+    right: -150px;
+    background: rgba(0,0,0,0.05);
+    transform: rotate(45deg);
+  }
+  
+  .login-signup-form .card .card-header i {
+     font-size: 54px;
+     margin-bottom: 15px;
+  }
+  
+  .login-signup-form .card .card-header h2 {
+     font-size: 25px;
+     font-weight: 700;
+  }
+  
+  .login-signup-form .card .card-body {
+    position: relative;
+  }
+  
+  .login-signup-form .card .card-body label {
+    font-size: 13px;
+  }
+  
+  .login-signup-form .card .card-body input,
+  .login-signup-form .card .card-body textarea {
+    border: 1px solid #aaa;
+    border-radius: 0;
+  }
+  .login-signup-form .card .card-body input:focus,
+  .login-signup-form .card .card-body textarea:focus {
+    border: 1px solid #222;
+  }
+  
+  .login-signup-form .card .card-body .btn {
+    background: #222;
+    color: #fff;
+    border-radius: 0;
+  }
+  .login-signup-form .card .card-body .btn:hover {
+    background: #555;
+    color: #fff;
+  }
+  .login-signup-form .card .card-body .custom-control label {
+    font-size: 16px;
+  }
+  
+  .shadow-az {
+    box-shadow: 0px 0px 10px rgba(139, 205, 234, 0.6);
+  }
+
+  .btn-custom {
+    background: #112849;
+    color: #fff;
+    border-radius: 3px;
+    border: none;
+    width: 100px;
+    height: 50px;
+  }
+
+  .shape-custom {
+    width: 300px;
+    height: 300px;
+    /* border-radius: 62px; */
+    display: block;
+    position: absolute;
+    top: 64px;
+    right: -150px;
+    background: #112849;
+    transform: rotate(45deg);
+  }
+
+  .shape-custom-2 {
+    width: 300px;
+    height: 300px;
+    /* border-radius: 40px; */
+    display: block;
+    position: absolute;
+    top: 534px;
+    right: -150px;
+    background: #124BD8;
+    transform: rotate(45deg);
+  }
+
+  .shape-custom-3 {
+    width: 250px;
+    height: 305px;
+    /* border-radius: 62px; */
+    display: block;
+    position: absolute;
+    top: 0px;
+    right: -150px;
+    background: #112849;
+    transform: rotate(45deg);
+  }
+
+  .form-bg {
+    background-color: #F5F0EB;
+  }
+
+  .h1-text-form-color {
+    color: #124BD8;
+  }
