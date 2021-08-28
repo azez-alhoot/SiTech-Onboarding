@@ -1,12 +1,11 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block cssimport %}
-<link rel="stylesheet" href="{% static 'css/forms.css' %}" type="text/css">
-{% endblock %}
-{% block title %}Edit Profile{% endblock %}
 
+{% load static %}
 {% load crispy_forms_tags %}
-{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/forms.css' %}" type="text/css">
+
+
+
 <div class="login-signup-form py-4">
   <div class="container">
     <div class="row justify-content-center">
@@ -27,6 +26,12 @@
                 {{ form.last_name|as_crispy_field }}
               </div>
               <div class="form-group">
+                {{ form.title|as_crispy_field }}
+              </div>
+              <div class="form-group">
+                {{ form.image|as_crispy_field }}
+              </div>
+              <div class="form-group">
                 <button type="submit" class="btn-custom">Save</button>
               </div>
             </form>
@@ -36,4 +41,3 @@
     </div>
   </div>
 </div>
-{% endblock %}

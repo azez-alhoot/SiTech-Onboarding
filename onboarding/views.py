@@ -1,4 +1,4 @@
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from .forms import CustomUserCreationForm, UserTrackForm, CustomUserChangeForm
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
+# from django.core.urlresolvers import reverse
 
 # Create your views here.
 
@@ -66,10 +67,22 @@ def course_resources_view(request, courseid):
 
 def profile_view(request, userid):
     tracks = UserTrackBridge.objects.filter(user=userid).values_list('track_id','track__name')
+    url_edit_name = reverse('profile_edit', args=[userid], kwargs={})
 
-    return render(request, 'profile.html', {'tracks': tracks})
+    user = CustomUser.objects.get(id=userid)
+    
+    if request.method == "POST":
+        form_edit_user = CustomUserChangeForm(request.POST, instance=user)
+        if form_edit_user.is_valid():
+            form_edit_user.save()
+            return redirect('profile', userid=userid)
+    else:
+        form_edit_user = CustomUserChangeForm(
+            initial={'first_name': user.first_name, 'last_name': user.last_name, 'image': user.image, 'title': user.title})
 
+    return render(request, 'profile.html', {'tracks': tracks, 'url':url_edit_name, 'form_edit_user': form_edit_user})
 
+# old
 def profile_edit_view(request, userid):
 
     user = CustomUser.objects.get(id=userid)
