@@ -6,50 +6,47 @@
 {% block cssimport %}
 <link rel="stylesheet" href="{% static 'css/profile.css' %}" type="text/css">{% endblock %}
 {% block content %}
-
 <div class="container-fluid my-0 side-custom">
-
     <div class="row vh-100">
-
-        <div class="d-flex flex-column flex-shrink-0 p-3 col-2 side-custom">
+        <div class="d-flex flex-column flex-shrink-0 p-3 col-2 side-custom border-profile">
             <div class="d-flex flex-column align-items-center">
                 <div class="change-profile-image">
                 </div>
                 <img class="user-img" src="{{ user.image.url }}" alt="{{ user.first_name }}">
-                <h3 class="my-5">{{ user.first_name }} {{ user.last_name }} </h3>
+                <h3 class="my-2">{{ user.first_name }} {{ user.last_name }} </h3>
             </div>
-            <hr>
-
-            <ul class="nav tabs d-flex flex-column " id="tab" role="tablist">
+            <hr class="hr-bold">
+            <ul class="nav tabs d-flex flex-column text-center" id="tab" role="tablist">
                 <li><a class="nav-link active text-custom" id="home-tab" data-bs-toggle="tab" href="#home" role="tab"
-                        aria-controls="home" aria-selected="true">Tracks</a></li>
+                        aria-controls="home" aria-selected="true">Tracks</a>
+                </li>
+                <hr class="hr-bold">
                 <li>
-
                     <a class="nav-link text-custom" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
                         aria-controls="profile" aria-selected="false">Edit</a>
                 </li>
+                <hr class="hr-bold">
                 <li>
-
                     <a class="nav-link text-custom" id="contact-tab" data-bs-toggle="tab" href="#contact" role="tab"
                         aria-controls="contact" aria-selected="false">Change password</a>
                 </li>
-
+                <hr class="hr-bold">
             </ul>
 
         </div>
 
-        <div class="tab-content bg-profile-tabs col-10  " id="tabContent">
+        <div class="tab-content bg-profile-tabs col-10 " id="tabContent">
 
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <h3>TRACKS</h3>
-                </div>
-                <div class="tab-pane fade-in-up" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    {% include "profile_edit.html" with title="title" link=url form=form_edit_user %}
-                </div>
-                <div class="tab-pane fade-in-up" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                    {% include "change_password.html" with title="title" link=url2 form=form_change_password %}
-                </div>
-            
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <h3>TRACKS</h3>
+            </div>
+            <div class="tab-pane fade-in-up" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                {% include "profile_edit.html" with title="title" link=url form=form_edit_user %}
+            </div>
+            <div class="tab-pane fade-in-up" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                {% include "change_password.html" with title="title" link=url2 form=form_change_password %}
+            </div>
+
         </div>
     </div>
 </div>

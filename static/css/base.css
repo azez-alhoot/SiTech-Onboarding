@@ -12,16 +12,12 @@ body {
     box-sizing: border-box;
     /* display: block; */
     min-height: 100%;
-    /* height: ; */
+    /* height: 100vh; */
 
     font-family: Poppins,sans-serif;
     color: #124bd8;
     font-size: 18px;
     line-height: 26px;
     font-weight: 400;
-
-    padding-bottom:180px;
-
- 
 }
 
