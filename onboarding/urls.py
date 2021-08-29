@@ -6,6 +6,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    path('aboutus', TemplateView.as_view(template_name='aboutus.html'), name='aboutus'),
     path('signup/', SignupView.as_view(), name='signup'),
     path('tracks/', TrackView.as_view(), name='tracks'),
     path('track/<int:trackid>/', track_topic_view, name='track'),
@@ -13,7 +14,7 @@ urlpatterns = [
     path('course/<int:courseid>/', course_resources_view, name='course'),
     path('usertrackbridge/<int:user_id>/<int:track_id>/',
          user_track_view, name='user_track_view'),
-    path('profile/<int:userid>/', profile_view, name='profile'),
+    path('profile/', profile_view, name='profile'),
     path('profile/edit/<int:userid>/', profile_edit_view, name='profile_edit'),
     path('password/', change_password, name='change_password'),
 

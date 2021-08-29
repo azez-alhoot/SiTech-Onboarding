@@ -65,26 +65,44 @@ def course_resources_view(request, courseid):
     return render(request, 'course_resources.html', {'resources': resources})
 
 
-def profile_view(request, userid):
+def profile_view(request):
+    userid = request.user.id
     tracks = UserTrackBridge.objects.filter(user=userid).values_list('track_id','track__name')
     url_edit_name = reverse('profile_edit', args=[userid], kwargs={})
-
+    url_change_password = reverse('change_password', args=[], kwargs={})
+    
     user = CustomUser.objects.get(id=userid)
     
-    if request.method == "POST":
-        form_edit_user = CustomUserChangeForm(request.POST, instance=user)
-        if form_edit_user.is_valid():
-            form_edit_user.save()
-            return redirect('profile', userid=userid)
+    # if request.method == "POST":
+    form_edit_user = CustomUserChangeForm(request.POST or None, request.FILES or None, instance=user)
+    form_change_password = PasswordChangeForm(request.user, request.POST or None)
+    
+    if form_edit_user.is_valid():
+        form_edit_user.save()
+        return redirect('profile')
+    if form_change_password.is_valid():
+        user = form_change_password.save()
+        update_session_auth_hash(request, user)  # Important!
+        messages.success(
+            request, 'Your password was successfully updated!')
+        return redirect('home')
     else:
-        form_edit_user = CustomUserChangeForm(
-            initial={'first_name': user.first_name, 'last_name': user.last_name, 'image': user.image, 'title': user.title})
+        messages.error(request, 'Please correct the error below.')
+    # else:
+        # form_change_password = PasswordChangeForm(request.user)
+        # form_edit_user = CustomUserChangeForm(
+        #     initial={'first_name': user.first_name, 'last_name': user.last_name, 'image': user.image, 'title': user.title})
 
-    return render(request, 'profile.html', {'tracks': tracks, 'url':url_edit_name, 'form_edit_user': form_edit_user})
+    return render(request, 'profile.html', 
+    {'tracks': tracks, 
+    'url1':url_edit_name, 
+    'url2':url_change_password, 
+    'form_edit_user': form_edit_user , 
+    'form_change_password':form_change_password})
 
 # old
 def profile_edit_view(request, userid):
-
+    return True
     user = CustomUser.objects.get(id=userid)
     if request.method == "POST":
         form = CustomUserChangeForm(request.POST, instance=user)
@@ -111,6 +129,7 @@ def change_password(request):
             messages.error(request, 'Please correct the error below.')
     else:
         form = PasswordChangeForm(request.user)
+
     return render(request, 'change_password.html', {
         'form': form
     })
