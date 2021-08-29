@@ -5,6 +5,34 @@
     display: block;
 }
 
-.side-width {
-    width: 280px;
+.side-custom {
+    color: #124BD8;
+    background-color: #112849;
 }
+
+.text-custom {
+    color: #124BD8;
+}
+.text-custom:hover {
+    color: #ebe9e1;
+}
+
+.bg-profile-tabs {
+    /* background-image:url('../images/Icon_MT_3.svg'); */
+    /* background-image:url('../images/Pattern_2.svg'); */
+    /* background: #ebe9e1 url("../images/Pattern_2.svg") top center no-repeat; */
+    /* opacity: 0.5; */
+    background-color: #ebe9e1;
+    /* background-repeat:no-repeat; */
+}
+
+
+.form-div {
+    width: fit-content;
+    height: fit-content;
+}
+
+.con-tabs {
+    z-index: 2;
+}
+

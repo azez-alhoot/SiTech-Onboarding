@@ -20,6 +20,12 @@ class CustomUser(AbstractUser):
     title = models.CharField(max_length=50)
     image = models.ImageField(upload_to='user_photos/',default='default_avatar.png', blank=True)
 
+    @property
+    def image_url(self):
+        if self.image and hasattr(self.image, 'url'):
+            return self.image.url
+
+
     def __str__(self):
         return self.username
 
