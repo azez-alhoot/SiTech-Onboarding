@@ -1,7 +1,10 @@
 #footer {
     /* height: 250px; */
     background-color: #141d25;
-    
+    position:fixed;
+    bottom:0;
+    width:100%;
+    height: 120px;
 }
 
 div a {
@@ -13,6 +16,20 @@ div a {
     margin-left: 10px;
     
     
+    
+}
+
+.logof{
+
+    margin-top:5px; /* */
+    width: 200px;
+    height: 25px;
+    margin-left: 70px;
+    margin-bottom: 20px;
+}
+
+.font{
+    font-size: 15px; 
 }
 
 
@@ -21,7 +38,7 @@ span a,h6 {
     color: #81a2bd; /*color change*/
     font-size: 15px;
     padding: 15px;
-    margin-left: 17px;
+    margin-left: 10px;
 }
 
 
@@ -33,7 +50,7 @@ span a,h6 {
     text-align: center;
     text-decoration: none;
     margin: 5px 2px;
-    border-radius: 50%;
+    border-radius: 20%;
 }
 
 .fa:hover {
@@ -41,21 +58,22 @@ span a,h6 {
 }
 
 .fa-facebook {
-    background: #78b3c7; /*color change*/
-    color: white;
+   
+    font-size: 22px;
+    color: rgba(139,205,234,.75);
 }
 
 .fa-linkedin {
-    background: #78b3c7; /*color change*/
-    color: white;
+    color: rgba(139,205,234,.75);
+    font-size: 22px;
 }
 
 .fa-instagram {
-    background: #78b3c7; /*color change*/
-    color: white;
+    color: rgba(139,205,234,.75);
+    font-size: 22px;
 }
 
 .fa-twitter {
-    background: #78b3c7; 
-    color: white;
+    color: rgba(139,205,234,.75);
+    font-size: 22px;
 }
