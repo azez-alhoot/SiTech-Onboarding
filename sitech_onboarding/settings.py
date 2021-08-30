@@ -11,6 +11,12 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+import environ
+
+
+
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,9 +29,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^fo^9))+v$1iq5c6(b$2qsn8yslp+9+wkhg6j9x9b5$5#93qm7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*','35.193.52.157' ]
 
 
 # Application definition
@@ -85,11 +91,17 @@ WSGI_APPLICATION = 'sitech_onboarding.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': '/etc/mysql/my.cnf',
-            },
+        
+        # Database created on remotemysql.com
+        # The credential should not in this file, its only for testing
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('MYSQL_ROOT_PASSWORD'),
+        'HOST': env('DB_HOST' ),
+        'PORT': '3306'
     }
 }
+
 
 
 # Password validation
