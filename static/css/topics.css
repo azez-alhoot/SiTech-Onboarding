@@ -16,10 +16,20 @@
     border-color: #124bd8;
     font-size: 18px;
     font-weight: 600;
-    width: 120px;
+    width: 140px;
+    height: 50px;
 }
 .btn-primary:hover {
     color: #124bd8;
     background-color: #f4ff66;
     border-color: #f4ff66;
+}
+p {
+    font-size: 15px;
+}
+.d-flex {
+    flex-wrap: wrap;
+}
+.card-text{
+    word-wrap: anywhere;
 }
