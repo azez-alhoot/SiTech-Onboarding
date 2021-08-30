@@ -7,14 +7,21 @@
 
 .side-custom {
     color: #124BD8;
-    background-color: #112849;
+    background-color: #ebe9e1;
 }
 
-.text-custom {
+.border-profile {
+
+    /* border: 1px solid #124BD8; */
+    /* margin-top: 30px; */
+    /* margin-bottom: 30px; */
+}
+
+.text-custom-header {
     color: #124BD8;
 }
 .text-custom:hover {
-    color: #ebe9e1;
+    color: #112849;
 }
 
 .bg-profile-tabs {
@@ -27,12 +34,17 @@
 }
 
 
-.form-div {
+/* .form-div {
     width: fit-content;
     height: fit-content;
-}
+} */
 
 .con-tabs {
     z-index: 2;
+}
+
+.hr-bold {
+    border: 1px solid #124BD8;
+    opacity: 1;
 }
 
