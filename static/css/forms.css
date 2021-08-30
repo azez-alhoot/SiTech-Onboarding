@@ -127,3 +127,12 @@
   .h1-text-form-color {
     color: #124BD8;
   }
+
+
+  .form-group div label {
+    font-size: 20px;
+  }
+
+  .form-label {
+    font-size: 20px;
+  }
