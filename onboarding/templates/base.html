@@ -22,9 +22,10 @@
 <body>
 
     {% include 'layout/header.html' %}
-
-    {% block content %}
-    {% endblock %}
+    <div class="pages-content">
+        {% block content %}
+        {% endblock %}
+    </div>
 
     {% include 'layout/footer.html' %}
 

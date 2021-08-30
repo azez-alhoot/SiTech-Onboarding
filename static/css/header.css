@@ -4,14 +4,23 @@
 }
 
 .logo {
-    width: 133px;
-    padding: 10px 10px;
+    width: 260px;
+    /* padding: 10px 10px; */
+}
+
+.logo img {
+    width: 260px;
+    /* padding: 10px 10px; */
+}
+
+.header-hight {
+    height: 100px;
 }
 
 .text-custom-header {
     color: #124BD8;
     font-size: 22px;
-    font-weight: 500;
+    font-weight: 700;
 }
 
 .text-custom:hover {
@@ -19,7 +28,6 @@
 }
 
 .btn-header {
-    border: 1px solid #124BD8;
     width: 120px;
 }
 

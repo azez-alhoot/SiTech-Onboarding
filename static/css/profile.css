@@ -17,11 +17,15 @@
     /* margin-bottom: 30px; */
 }
 
-.text-custom-header {
+.text-custom-nav {
     color: #124BD8;
+    text-align: left;
+    font-size: 20px;
+    font-weight: 400px;
 }
-.text-custom:hover {
+.text-custom-nav:hover {
     color: #112849;
+    background-color: #F4FF66;
 }
 
 .bg-profile-tabs {
@@ -31,6 +35,11 @@
     /* opacity: 0.5; */
     background-color: #ebe9e1;
     /* background-repeat:no-repeat; */
+}
+
+.user-name {
+    font-weight: 700;
+    font-size: 26px;
 }
 
 
