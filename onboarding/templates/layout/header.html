@@ -1,62 +1,63 @@
-
-
 {% load static %}
 
 <link href="{% static 'css/header.css' %}" rel="stylesheet">
 
-  <nav class="navbar nav-height navbar-expand-lg navbar-light bg-custom sticky-top " style="top: 0px;">
-        <div class="container-fluid px-5">
-            <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'images/logo.jpg' %}" alt=""
-                    height="65"></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <!-- <div> -->
-                <div class="collapse navbar-collapse d-flex flex-row-reverse" id="navbarSupportedContent">
+<nav class="navbar nav-height navbar-expand-lg bg-custom position-sticky top-0 m-0">
+    <div class="container-fluid header-hight">
+        <a class="navbar-brand" href="{% url 'home' %}"><img class="logo"
+                src="{% static 'images/Sitech_SkillHub_Logo.svg' %}" alt="" ></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- <div> -->
+        <div class="collapse navbar-collapse d-flex flex-row-reverse" id="navbarSupportedContent">
 
-                    {% if not user.is_authenticated %}
-                    <a type="button" href="{% url 'login' %}" class="btn btn-outline-secondary text-color-white">Login</a>
-                    <a type="button" href="{% url 'signup' %}" class="btn btn-outline-secondary mx-3">Signup</a>
-                    {% endif %}
-    
-                    {% if user.is_authenticated %}
-                    <div class="d-flex align-items-baseline">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{% url 'tracks'%}">Tracks</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">About Us</a>
-                            </li>
-                        </ul>
-        
-                        <li class="nav dropdown">
-                            <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                <img src="{{ user.image.url }}" style="border-radius: 50%; height: 65px;">
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="right: 5%;
+            {% if not user.is_authenticated %}
+            <a type="button" href="{% url 'login' %}" class="btn btn-header mx-3 text-custom-header">Login</a>
+            <a type="button" href="{% url 'signup' %}" class="btn btn-header mx-3 text-custom-header">Signup</a>
+            {% endif %}
+
+            {% if user.is_authenticated %}
+            <div class="d-flex align-items-baseline">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex flex-row align-items-center justify-content-center">
+                    <li class="nav-item">
+                        <a class="nav-link active text-custom-header btn btn-header mx-3" aria-current="page"
+                            href="{% url 'tracks'%}">Tracks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-custom-header btn btn-header mx-3" href="{% url 'aboutus' %}">About
+                            Us</a>
+                    </li>
+
+                    <li class="nav dropdown nav-item">
+                        <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            {% if user.image %}
+                            <img src="{{ user.image_url }}" style="border-radius: 50%; height: 65px;">
+                            {% endif %}
+                        </a>
+                        <ul class="dropdown-menu dropdown-header-custom" aria-labelledby="navbarDropdown" style="right: 5%;
                                     left: unset;">
-                                <li>
-                                    <h6 class="dropdown-item" href="#">Welcome {{ user.username }}!</h6>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="{% url 'profile' user.id %}">My Profile</a></li>
-                                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
-                            </ul>
-                        </li>
-                    </div>
-                    {% endif %}
-                </div>
-            <!-- </div> -->
-
+                            <li>
+                                <h6 class="dropdown-item dropdown-header-item-custom">Welcome {{ user.username }}!</h6>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item dropdown-header-item-custom" href="{% url 'profile' %}">My
+                                    Profile</a></li>
+                            <li><a class="dropdown-item  dropdown-header-item-custom"
+                                    href="{% url 'logout' %}">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            {% endif %}
         </div>
-    </nav>
-    </header>
-    </div>
+        <!-- </div> -->
 
-  
+    </div>
+</nav>
+</header>
+</div>

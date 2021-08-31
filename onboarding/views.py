@@ -1,4 +1,4 @@
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from .forms import CustomUserCreationForm, UserTrackForm, CustomUserChangeForm
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
+# from django.core.urlresolvers import reverse
 
 # Create your views here.
 
@@ -46,32 +47,64 @@ def user_track_view(request, user_id, track_id):
 
 def track_topic_view(request, trackid):
 
-    topics = TrackTopicBridge.objects.filter(track=trackid).values_list('topic_id', 'topic__name', 'topic__descirption', 'topic__image')
+    topics = TrackTopicBridge.objects.filter(track=trackid).values_list('topic_id', 'topic__name', 'topic__descirption', 'topic__image', 'track__name')
 
     return render(request, 'track_topics.html', {'topics': topics})
 
 
-def topic_course_view(request, topicid):
-
-    courses = TopicCourseBridge.objects.filter(topic=topicid).values_list('course_id', 'course__name', 'course__descirption', 'course__image')
-
-    return render(request, 'topic_courses.html', {'courses': courses})
-
-
-def course_resources_view(request, courseid):
-    resources = Resource.objects.filter(course=courseid).values_list('name', 'descirption', 'image', 'link')
-
-    return render(request, 'course_resources.html', {'resources': resources})
+def topic_course_view(request, track_name, topicid):
+    
+    courses = TopicCourseBridge.objects.filter(topic=topicid).values_list('course_id', 'course__name', 'course__descirption', 'course__image', 'topic__name', 'topic__id')
+    
+    return render(request, 'topic_courses.html', {'courses': courses, 'track_name':track_name, 'topic_id':topicid})
 
 
-def profile_view(request, userid):
-    tracks = UserTrackBridge.objects.filter(user=userid).values_list('track_id','track__name')
+def course_resources_view(request, track_name, topic_name, courseid):
+    resources = Resource.objects.filter(course=courseid).values_list('name', 'descirption', 'image', 'link', 'course__name', 'course__id')
+    topic = Topic.objects.filter(name=topic_name).values_list('id')
+    topic_id = topic[0][0]
+    
+    return render(request, 'course_resources.html', {'resources': resources, 'track_name':track_name, 'topic_name':topic_name, 'topic_id':topic_id})
 
-    return render(request, 'profile.html', {'tracks': tracks})
 
+def profile_view(request):
+    userid = request.user.id
+    tracks = UserTrackBridge.objects.filter(user=userid).values_list('track_id','track__name', 'track__descirption', 'track__image')
+    url_edit_name = reverse('profile_edit', args=[userid], kwargs={})
+    url_change_password = reverse('change_password', args=[], kwargs={})
+    
+    user = CustomUser.objects.get(id=userid)
+    
+    # if request.method == "POST":
+    form_edit_user = CustomUserChangeForm(request.POST or None, request.FILES or None, instance=user)
+    form_change_password = PasswordChangeForm(request.user, request.POST or None)
+    
+    if form_edit_user.is_valid():
+        form_edit_user.save()
+        return redirect('profile')
+    if form_change_password.is_valid():
+        user = form_change_password.save()
+        update_session_auth_hash(request, user)  # Important!
+        messages.success(
+            request, 'Your password was successfully updated!')
+        return redirect('home')
+    else:
+        messages.error(request, 'Please correct the error below.')
+    # else:
+        # form_change_password = PasswordChangeForm(request.user)
+        # form_edit_user = CustomUserChangeForm(
+        #     initial={'first_name': user.first_name, 'last_name': user.last_name, 'image': user.image, 'title': user.title})
 
+    return render(request, 'profile.html', 
+    {'tracks': tracks, 
+    'url1':url_edit_name, 
+    'url2':url_change_password, 
+    'form_edit_user': form_edit_user , 
+    'form_change_password':form_change_password})
+
+# old
 def profile_edit_view(request, userid):
-
+    return True
     user = CustomUser.objects.get(id=userid)
     if request.method == "POST":
         form = CustomUserChangeForm(request.POST, instance=user)
@@ -98,6 +131,7 @@ def change_password(request):
             messages.error(request, 'Please correct the error below.')
     else:
         form = PasswordChangeForm(request.user)
+
     return render(request, 'change_password.html', {
         'form': form
     })
