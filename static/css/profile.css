@@ -101,6 +101,8 @@ p {
 }
 
 .tracks-card {
+    width: 100%;
+    height: fit-content;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -110,4 +112,9 @@ p {
 
 .tracks-card::-webkit-scrollbar {
     display: none;
+  }
+
+  .tracks-card {
+    -ms-overflow-style: none;  
+    scrollbar-width: none;
   }
