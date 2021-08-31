@@ -69,7 +69,7 @@ def course_resources_view(request, track_name, topic_name, courseid):
 
 def profile_view(request):
     userid = request.user.id
-    tracks = UserTrackBridge.objects.filter(user=userid).values_list('track_id','track__name')
+    tracks = UserTrackBridge.objects.filter(user=userid).values_list('track_id','track__name', 'track__descirption', 'track__image')
     url_edit_name = reverse('profile_edit', args=[userid], kwargs={})
     url_change_password = reverse('change_password', args=[], kwargs={})
     
