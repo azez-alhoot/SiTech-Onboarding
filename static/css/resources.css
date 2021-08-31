@@ -33,3 +33,10 @@ p {
 .card-text{
     word-wrap: anywhere;
 }
+a {
+    text-decoration: none;
+    color: #112849;
+}
+a:hover {
+    color: #124bd8;
+}
