@@ -1,10 +1,7 @@
-
 {% load static %}
 {% load crispy_forms_tags %}
 
 <link rel="stylesheet" href="{% static 'css/forms.css' %}" type="text/css">
-
-
 
 <div class="login-signup-form py-4">
   <div class="container">
@@ -14,10 +11,10 @@
           <span class="shape-custom-3 "></span>
           <div class="card-header text-center bg-transparent">
             <i class="fas fa-user-circle"></i>
-            <h2 class="h1-text-form-color">Edit Your Name</h2>
+            <h2 class="h1-text-form-color">Edit Your Info</h2>
           </div>
           <div class="card-body py-4 h1-text-form-color">
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
               {% csrf_token %}
               <div class="form-group">
                 {{ form.first_name|as_crispy_field }}
@@ -31,7 +28,7 @@
               <div class="form-group">
                 {{ form.image|as_crispy_field }}
               </div>
-              <div class="form-group">
+              <div class="form-group float-end">
                 <button type="submit" class="btn-custom">Save</button>
               </div>
             </form>

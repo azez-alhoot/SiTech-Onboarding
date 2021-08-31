@@ -1,87 +1,52 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-{% block cssimport %}
-<link rel="stylesheet" href="{% static 'css/profile.css' %}" type="text/css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-{% endblock %}
+
 {% block title %}Profile{% endblock %}
-
+{% block cssimport %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}" type="text/css">{% endblock %}
 {% block content %}
-
-<!-- <h1>My Profile</h1>
-<ul>
-
-    {% if user.is_authenticated %}
-    <ul>
-        <li>{{user.first_name|title}} {{user.last_name|title}}</li>
-        <li>{{user.username}}</li>
-        <li>{{user.title}}</li>
-        <li>{{user.email}}</li>
-        {% if user.image %}
-            <li><img src="{{ user.image.url }}" alt="image"></li>
-        {% endif %}
-    </ul>
-
-    <button><a href="{% url 'profile_edit' user.id %}">Edit</a></button>
-    <br>
-
-    <button><a href="{% url 'change_password' %}">change password</a></button>
-
-
-    <h2>My Enrolled Tracks:</h2>
-
-    {% for track in tracks %}
-    <li><a href="{% url 'track' track.0 %}">{{track.1}}</a></li>
-    {% endfor %}
-
-    {% endif %}
-
-</ul> -->
-
-<div class="container-fluid my-0">
-
+<div class="container-fluid my-0 side-custom">
     <div class="row vh-100">
-
-        <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark col-2">
+        <div class="d-flex flex-column flex-shrink-0 p-3 col-2 side-custom border-profile">
             <div class="d-flex flex-column align-items-center">
+                <div class="change-profile-image">
+                </div>
                 <img class="user-img" src="{{ user.image.url }}" alt="{{ user.first_name }}">
-                <h3 class="my-5">{{ user.first_name }} {{ user.last_name }} </h3>
+                <h3 class="my-2 user-name">{{ user.first_name }} {{ user.last_name }} </h3>
             </div>
-            <hr>
-            <ul class="nav nav-tabs d-flex flex-column">
-                <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
-                <li><a data-toggle="tab" href="#menu1">Edit Your name</a></li>
-                <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
-                <li><a data-toggle="tab" href="#menu3">Menu 3</a></li>
+            <hr class="hr-bold">
+            <ul class="nav tabs d-flex flex-column text-center" id="tab" role="tablist">
+                <li><a class="nav-link active text-custom-nav" id="home-tab" data-bs-toggle="tab" href="#home" role="tab"
+                        aria-controls="home" aria-selected="true">Tracks</a>
+                </li>
+                <hr class="hr-bold">
+                <li>
+                    <a class="nav-link text-custom-nav" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
+                        aria-controls="profile" aria-selected="false">Edit</a>
+                </li>
+                <hr class="hr-bold">
+                <li>
+                    <a class="nav-link text-custom-nav" id="contact-tab" data-bs-toggle="tab" href="#contact" role="tab"
+                        aria-controls="contact" aria-selected="false">Change password</a>
+                </li>
+                <hr class="hr-bold">
             </ul>
+
         </div>
 
+        <div class="tab-content bg-profile-tabs col-10 " id="tabContent">
 
-        <div class="tab-content col-10 bg-primary">
-            <div id="home" class="tab-pane fade in active">
-                <h3>HOME</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore magna aliqua.</p>
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <h3>TRACKS</h3>
             </div>
-            <div id="menu1" class="tab-pane fade">
-                {% include "profile_edit.html" with title="title" link=url  form=form_edit_user%}
+            <div class="tab-pane fade-in-up" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                {% include "profile_edit.html" with title="title" link=url form=form_edit_user %}
+            </div>
+            <div class="tab-pane fade-in-up" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                {% include "change_password.html" with title="title" link=url2 form=form_change_password %}
             </div>
 
-            <div id="menu2" class="tab-pane fade">
-                <h3>Menu 2</h3>
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-                    totam
-                    rem aperiam.</p>
-            </div>
-            <div id="menu3" class="tab-pane fade">
-                <h3>Menu 3</h3>
-                <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                </p>
-            </div>
         </div>
     </div>
 </div>

@@ -1,32 +1,40 @@
 {% load static %}
 <link href="{% static 'css/footer.css' %}" rel="stylesheet">
 
-<div id="footer">
-   
-    <div style="margin-left: 90px;">
 
-        <a href="https://www.sitech.me/">Sitech</a>
+<div class="container-fluid footer-container lh-lg">
 
-        {% if user.is_authenticated %}
+    <div class="d-block mt-4 mb-4 col-5">
+        <div class="d-flex justify-content-left">
+            <a href="{% url 'home'%}" class="footer__item m-0  p-0">Home</a>
 
-        <a href="{% url 'tracks' %}">Tracks</a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'tracks'%}" class="footer__item  p-0">Tracks</a>
+            {% endif %}
 
-        {% endif %}
+
+
+            <a href="#" class="footer__item p-0">About Us</a>
+        </div>
     </div>
-    <div>
-        <span>
-            
-            <img class="logof" src="{% static 'images/logos.svg' %}">&nbsp;&nbsp; <span class="font"style="color: #81a2bd; ">Copyright ©️ 2021
-                Sitech. All rights reserved.
-            </span>
-            
-            <a href="https://www.sitech.me/privacy-policy" style="color: #81a2bd;font-size:13;">Privacy Policy</a>
-            
-            <a href="https://www.linkedin.com/company/sitechinc/" class="fa fa-linkedin"
-                style="margin-left: 500px;"></a>
-            <a href="https://www.instagram.com/sitechinc/" class="fa fa-instagram"></a>
-            <a href="https://twitter.com/SiTechINC" class="fa fa-twitter"></a>
-            <a href="https://web.facebook.com/sitechfb?_rdc=1&_rdr" class="fa fa-facebook"></a>
-        </span>
+    <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between align-items-center">
+            <img src="{% static 'images/logos.svg' %}" loading="lazy" alt="Sitech logo"
+                class="sitech__footer__logo m-0 p-0" />
+            <div class="small__text footer ms-3 p-0">Copyright © 2021 Sitech. All rights reserved.</div>
+            <!-- <a href="/privacy-policy" class="small__text footer ms-3 p-0">Privacy Policy</a> -->
+        </div>
+        <div class="footer__sm__links__list">
+            <a href="https://www.linkedin.com/company/sitechinc/mycompany" target="_blank"
+                class="footer__icon__sm w-inline-block fa fa-linkedin"></a>
+            <a href="https://www.instagram.com/sitechinc" target="_blank" class="footer__icon__sm fa fa-instagram"">
+            </a>
+            <a href=" https://twitter.com/SiTechINC" target="_blank" class="footer__icon__sm fa fa-twitter-square">
+            </a>
+            <a href="https://www.facebook.com/sitechfb" target="_blank" class="footer__icon__sm fa fa-facebook-square">
+            </a>
+            <a href="https://www.youtube.com/channel/UCZ1Kw-GbDCM1Gk2_VPleV9g?view_as=subscriber" target="_blank"
+                class="footer__icon__sm hide fa fa-youtube"></a>
+        </div>
     </div>
 </div>
