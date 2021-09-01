@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block cssimport %}
+<link rel="stylesheet" href="{% static 'css/topics.css' %}" type="text/css">{% endblock %}
+
+{% block title %}Topics{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid m-2 p-2 text-center ">
+    <nav aria-label="breadcrumb" class="w-50 border border-white bg-white d-flex mx-auto mb-3 rounded-pill">
+        <ol class="breadcrumb p-2 mx-auto m-0">
+            <li class="breadcrumb-item active p-2 " aria-current="page"><a href="{% url 'tracks' %}">{{topics.0.4}}</a></li>
+            <li class="breadcrumb-item active p-2 " aria-current="page">Topics</li>
+        </ol>
+    </nav>
+    <br>
+    <p class="fw-bold fs-5">Topics that cover the track of your interest are previewed here :)</p>
+</div>
+
+<div class=" d-flex justify-content-center p-2 mx-auto">
+    {% for topic in topics %}
+    <div class="card m-4 p-4 col-4 border-1 rounded">
+        <img class=" img-thumbnail track-images d-block" src="/media/{{ topic.3 }}" alt="Card image cap">
+        <div class="card-body d-flex flex-column justify-content-between">
+            <div>
+                <h5 class="card-title mt-2 p-0 fw-bold fs-3">{{ topic.1 }}</h5>
+                <p class="card-text text-wrap p-0 my-4">{{ topic.2 }}</p>
+            </div>
+            <a class="btn btn-primary" href="{% url 'topic' topic.4 topic.0 %}">Start</a>
+        </div>
+        
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block cssimport %}
+<link rel="stylesheet" href="{% static 'css/forms.css' %}" type="text/css">
+{% endblock %}
+{% block title %}Signup{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <div class="login-signup-form py-4">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-5">
+          <div class="card form-bg shadow-az">
+            <span class="shape-custom"></span>
+            <span class="shape-custom-2"></span>
+            <div class="card-header text-center bg-transparent">
+              <i class="fas fa-user-circle"></i>
+              <h2 class="h1-text-form-color">Signup</h2>
+            </div>
+            <div class="card-body py-4 h1-text-form-color">
+              <form method="POST">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-group">
+                  {{ field|as_crispy_field }}
+                </div>
+                {% endfor %}
+                <div class="form-group float-end">
+                  <button type="submit" class="btn-custom">Sign Up</button>
+                </div>
+              </form>
+            </div>
+            <a href="{% url 'login' %}" class="text-decoration-none px-3 py-1">already have an account?</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,42 @@
+.track-images {
+    width: 200px;
+    height: 200px;
+}
+.card {
+    background-color: #ebe9e1;
+    border: 1px solid #124bd8;
+}
+.img-thumbnail {
+    padding: .25rem;
+    background-color: #ebe9e1;
+}
+.btn-primary {
+    color: #ebe9e1;
+    background-color: #124bd8;
+    border-color: #124bd8;
+    font-size: 18px;
+    font-weight: 600;
+    width: 140px;
+    height: 50px;
+}
+.btn-primary:hover {
+    color: #124bd8;
+    background-color: #f4ff66;
+    border-color: #f4ff66;
+}
+p {
+    font-size: 15px;
+}
+.d-flex {
+    flex-wrap: wrap;
+}
+.card-text{
+    word-wrap: anywhere;
+}
+a {
+    text-decoration: none;
+    color: #112849;
+}
+a:hover {
+    color: #124bd8;
+}

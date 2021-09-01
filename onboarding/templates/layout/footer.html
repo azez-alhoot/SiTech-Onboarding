@@ -1,0 +1,40 @@
+{% load static %}
+<link href="{% static 'css/footer.css' %}" rel="stylesheet">
+
+
+<div class="container-fluid footer-container lh-lg">
+
+    <div class="d-block mt-4 mb-4 col-5">
+        <div class="d-flex justify-content-left">
+            <a href="{% url 'home'%}" class="footer__item m-0  p-0">Home</a>
+
+            {% if user.is_authenticated %}
+            <a href="{% url 'tracks'%}" class="footer__item  p-0">Tracks</a>
+            {% endif %}
+
+
+
+            <a href="#" class="footer__item p-0">About Us</a>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between align-items-center">
+            <img src="{% static 'images/logos.svg' %}" loading="lazy" alt="Sitech logo"
+                class="sitech__footer__logo m-0 p-0" />
+            <div class="small__text footer ms-3 p-0">Copyright © 2021 Sitech. All rights reserved.</div>
+            <!-- <a href="/privacy-policy" class="small__text footer ms-3 p-0">Privacy Policy</a> -->
+        </div>
+        <div class="footer__sm__links__list">
+            <a href="https://www.linkedin.com/company/sitechinc/mycompany" target="_blank"
+                class="footer__icon__sm w-inline-block fa fa-linkedin"></a>
+            <a href="https://www.instagram.com/sitechinc" target="_blank" class="footer__icon__sm fa fa-instagram"">
+            </a>
+            <a href=" https://twitter.com/SiTechINC" target="_blank" class="footer__icon__sm fa fa-twitter-square">
+            </a>
+            <a href="https://www.facebook.com/sitechfb" target="_blank" class="footer__icon__sm fa fa-facebook-square">
+            </a>
+            <a href="https://www.youtube.com/channel/UCZ1Kw-GbDCM1Gk2_VPleV9g?view_as=subscriber" target="_blank"
+                class="footer__icon__sm hide fa fa-youtube"></a>
+        </div>
+    </div>
+</div>
