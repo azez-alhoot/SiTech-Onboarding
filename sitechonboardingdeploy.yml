@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: kuberneteswaleed
-        image: waleedalsheyyab/sitechsonboarding:v1.8
+        image: waleedalsheyyab/sitechsonboarding:v2.2
         resources:
           limits:
             memory: "128Mi"
