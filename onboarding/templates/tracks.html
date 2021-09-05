@@ -19,7 +19,9 @@
 </div>
 
 <div class=" d-flex justify-content-center p-2 mx-auto">
-
+    {% if request.user.is_superuser %}
+        <a href="{% url 'add_track_form' %}" class="btn btn-primary">Add</a>
+    {% endif %}
     {% for track in object_list %}
 
     <div class="card m-4 p-4 col-4 border-1 rounded">
@@ -32,7 +34,11 @@
             <form action="{% url 'user_track_view' user.id track.id %}" method="post">
                 {% csrf_token %}
                 <button class="btn btn-primary" type="submit">Enroll</button>
+                
             </form>
+            {% if request.user.is_superuser %}
+                <a href="{% url 'edit_track_form' track.id %}" class="btn btn-primary">Edit</a>
+            {% endif %}
         </div>
     </div>
 
