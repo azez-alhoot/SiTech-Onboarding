@@ -20,6 +20,7 @@ urlpatterns = [
     path('aboutus', TemplateView.as_view(
         template_name='aboutus.html'), name='aboutus'),
     path('signup/', SignupView.as_view(), name='signup'),
+    path('login/', SignupView.as_view(), name='login'),
     path('tracks/', TrackView.as_view(), name='tracks'),
     path('track/<int:trackid>/', track_topic_view, name='track'),
     path('topic/<str:track_name>/<int:topicid>/',

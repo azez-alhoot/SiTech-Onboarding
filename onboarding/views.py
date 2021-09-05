@@ -12,7 +12,7 @@ from django.shortcuts import render, redirect
 from django.db import IntegrityError
 from django.contrib import messages
 from django.contrib.auth import login, update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 # from django.core.urlresolvers import reverse
@@ -24,6 +24,26 @@ class SignupView(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'registration/signup.html'
+
+
+def login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request.POST)
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username,password=password)
+        if user:
+            if user.is_active:
+                login(request,user)
+                return redirect(reverse('your_success_url'))
+        else:
+            messages.error(request,'username or password not correct')
+            return redirect(reverse('your_login_url'))
+        
+                
+    else:
+        form = AuthenticationForm()
+    return render(request,'your_template_name.html',{'form':form})
 
 class TrackView(ListView):
     model = Track
