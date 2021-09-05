@@ -25,9 +25,10 @@ class SignupView(CreateView):
     success_url = reverse_lazy('login')
     template_name = 'registration/signup.html'
 
-class TrackView(ListView):
-    model = Track
-    template_name = 'tracks.html'
+
+def tracks_view(request):
+    tracks = Track.objects.all()
+    return render(request, 'tracks.html', {'tracks': tracks})
 
 @login_required
 def user_track_view(request, user_id=None, track_id=None):

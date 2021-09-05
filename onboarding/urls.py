@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (
     SignupView,
-    TrackView,
+    tracks_view,
     user_track_view,
     track_topic_view,
     topic_course_view,
@@ -20,7 +20,7 @@ urlpatterns = [
     path('aboutus', TemplateView.as_view(
         template_name='aboutus.html'), name='aboutus'),
     path('signup/', SignupView.as_view(), name='signup'),
-    path('tracks/', TrackView.as_view(), name='tracks'),
+    path('tracks/', tracks_view, name='tracks'),
     path('track/<int:trackid>/', track_topic_view, name='track'),
     path('topic/<str:track_name>/<int:topicid>/',
          topic_course_view, name='topic'),
