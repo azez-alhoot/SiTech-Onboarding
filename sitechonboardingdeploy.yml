@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: kuberneteswaleed
-        image: waleedalsheyyab/sitechsonboarding:v2.2
+        image: waleedalsheyyab/sitechsonboarding:v16.1
         resources:
           limits:
             memory: "128Mi"
@@ -21,5 +21,12 @@ spec:
         ports:
         - containerPort: 8080
         env:
-          - name:  name
-            value: ""
+        - name: DATABASE_NAME
+          value: mysql-db
+        - name:  MYSQL_ROOT_PASSWORD
+          value: 123wa
+        - name: DATABASE_USER
+          value: root
+        - name: DB_HOST
+          value: mysql-db
+       
