@@ -16,8 +16,8 @@ spec:
         image: waleedalsheyyab/sitechsonboarding:v16.1
         resources:
           limits:
-            memory: "265Mi"
-            cpu: "1000m"
+            memory: "128Mi"
+            cpu: "500m"
         ports:
         - containerPort: 8080
         env:
