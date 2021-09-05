@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuberneteswaleed
+spec:
+  selector:
+    matchLabels:
+      app: kuberneteswaleed
+  template:
+    metadata:
+      labels:
+        app: kuberneteswaleed
+    spec:
+      containers:
+      - name: kuberneteswaleed
+        image: waleedalsheyyab/sitechsonboarding:v2.2
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+        env:
+          - name:  name
+            value: ""
