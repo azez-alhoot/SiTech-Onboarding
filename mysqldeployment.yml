@@ -19,7 +19,7 @@ spec:
         env:
           # Use secret in real usage
         - name: DATABASE_NAME
-          value: mysqldbon
+          value: mysql-db
         - name:  MYSQL_ROOT_PASSWORD
           value: 123wa
         ports:
