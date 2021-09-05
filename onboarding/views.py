@@ -1,14 +1,20 @@
 from django.urls import reverse_lazy, reverse
-from .forms import CustomUserCreationForm, UserTrackForm, CustomUserChangeForm
+from .forms import (
+    CustomUserCreationForm, 
+    UserTrackForm, 
+    CustomUserChangeForm, 
+    AddTrackForm,
+    )
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from .models import CustomUser, Topic, TopicCourseBridge, Track, Course, Resource, TrackTopicBridge, UserTrackBridge
 from django.shortcuts import render, redirect
 from django.db import IntegrityError
 from django.contrib import messages
-from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth import login, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 # from django.core.urlresolvers import reverse
 
 # Create your views here.
@@ -19,13 +25,13 @@ class SignupView(CreateView):
     success_url = reverse_lazy('login')
     template_name = 'registration/signup.html'
 
-class TrackView(ListView):
-    model = Track
-    template_name = 'tracks.html'
 
+def tracks_view(request):
+    tracks = Track.objects.all()
+    return render(request, 'tracks.html', {'tracks': tracks})
 
-
-def user_track_view(request, user_id, track_id):
+@login_required
+def user_track_view(request, user_id=None, track_id=None):
     if request.method == "POST":
         entry = UserTrackBridge.objects.filter(user=user_id, track=track_id)
         if not entry:
@@ -55,16 +61,20 @@ def track_topic_view(request, trackid):
 def topic_course_view(request, track_name, topicid):
     
     courses = TopicCourseBridge.objects.filter(topic=topicid).values_list('course_id', 'course__name', 'course__descirption', 'course__image', 'topic__name', 'topic__id')
-    
-    return render(request, 'topic_courses.html', {'courses': courses, 'track_name':track_name, 'topic_id':topicid})
+    track = Track.objects.filter(name=track_name).values_list('id')
+    track_id = track[0][0]
+
+    return render(request, 'topic_courses.html', {'courses': courses, 'track_name':track_name, 'topic_id':topicid, 'track_id':track_id})
 
 
 def course_resources_view(request, track_name, topic_name, courseid):
     resources = Resource.objects.filter(course=courseid).values_list('name', 'descirption', 'image', 'link', 'course__name', 'course__id')
     topic = Topic.objects.filter(name=topic_name).values_list('id')
     topic_id = topic[0][0]
+    track = Track.objects.filter(name=track_name).values_list('id')
+    track_id = track[0][0]
     
-    return render(request, 'course_resources.html', {'resources': resources, 'track_name':track_name, 'topic_name':topic_name, 'topic_id':topic_id})
+    return render(request, 'course_resources.html', {'resources': resources, 'track_name':track_name, 'topic_name':topic_name, 'topic_id':topic_id, 'course_id': courseid, 'track_id':track_id})
 
 
 def profile_view(request):
@@ -135,3 +145,18 @@ def change_password(request):
     return render(request, 'change_password.html', {
         'form': form
     })
+
+
+# this for learning and practice
+
+def add_track_form(request, track_id=None):
+    instance = Track()
+    if track_id:
+        instance = Track.objects.get(id=track_id)
+    
+    form = AddTrackForm(request.POST or None, request.FILES or None, instance=instance, user=request.user)
+
+    if form.is_valid():
+        form.save()
+
+    return render(request, 'forms/add-track-form.html', locals())
