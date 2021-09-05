@@ -22,7 +22,7 @@
     {% if request.user.is_superuser %}
         <a href="{% url 'add_track_form' %}" class="btn btn-primary">Add</a>
     {% endif %}
-    {% for track in object_list %}
+    {% for track in tracks %}
 
     <div class="card m-4 p-4 col-4 border-1 rounded">
         <img class=" img-thumbnail track-images d-block" src="{{ track.image.url }}" alt="Card image cap">
@@ -31,11 +31,13 @@
                 <h5 class="card-title mt-2 p-0 fw-bold fs-3">{{ track.name }}</h5>
                 <p class="card-text text-wrap p-0 my-4">{{ track.descirption }}</p>
             </div>
+            {% if track.name not in user_tracks %}
             <form action="{% url 'user_track_view' user.id track.id %}" method="post">
                 {% csrf_token %}
                 <button class="btn btn-primary" type="submit">Enroll</button>
-                
             </form>
+            {% endif %}
+
             {% if request.user.is_superuser %}
                 <a href="{% url 'edit_track_form' track.id %}" class="btn btn-primary">Edit</a>
             {% endif %}

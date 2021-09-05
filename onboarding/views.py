@@ -27,8 +27,12 @@ class SignupView(CreateView):
 
 
 def tracks_view(request):
+
     tracks = Track.objects.all()
-    return render(request, 'tracks.html', {'tracks': tracks})
+    user_tracks = UserTrackBridge.objects.filter(user=request.user).values_list('track__name', flat=True)
+    print(user_tracks)
+
+    return render(request, 'tracks.html', {'tracks': tracks, 'user_tracks': user_tracks})
 
 @login_required
 def user_track_view(request, user_id=None, track_id=None):
