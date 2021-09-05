@@ -9,8 +9,8 @@ from django.views.generic.edit import CreateView
 from .models import CustomUser, Topic, TopicCourseBridge, Track, Resource, TrackTopicBridge, UserTrackBridge
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import login, update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import login, update_session_auth_hash, authenticate
+from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
@@ -18,8 +18,18 @@ from django.contrib.auth.decorators import login_required
 
 class SignupView(CreateView):
     form_class = CustomUserCreationForm
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('home')
     template_name = 'registration/signup.html'
+
+    def form_valid(self, AuthenticationForm):
+
+        to_return = super().form_valid(AuthenticationForm)
+        user = authenticate(
+            username=AuthenticationForm.cleaned_data["username"],
+            password=AuthenticationForm.cleaned_data["password1"],
+        )
+        login(self.request, user)
+        return to_return
 
 
 def tracks_view(request):
