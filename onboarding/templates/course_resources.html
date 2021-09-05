@@ -13,8 +13,8 @@
     <nav aria-label="breadcrumb" class="w-50 border border-white bg-white d-flex mx-auto mb-3 rounded-pill">
         <ol class="breadcrumb p-2 mx-auto m-0">
             <li class="breadcrumb-item active p-2 " aria-current="page"><a href="{% url 'tracks' %}">{{track_name}}</a></li>
-            <li class="breadcrumb-item active p-2 " aria-current="page"><a href="{% url 'topic' track_name topic_id %}">{{topic_name}}</a></li>
-            <li class="breadcrumb-item active p-2 " aria-current="page"><a href="{% url 'course' track_name topic_name resources.0.5 %}">{{resources.0.4}}</a></li>
+            <li class="breadcrumb-item active p-2 " aria-current="page"><a href="{% url 'track' track_id %}">{{topic_name}}</a></li>
+            <li class="breadcrumb-item active p-2 " aria-current="page"><a href="{% url 'topic' track_name topic_id %}">{{resources.0.4}}</a></li>
             <li class="breadcrumb-item active p-2 " aria-current="page">Resources</li>
         </ol>
     </nav>
