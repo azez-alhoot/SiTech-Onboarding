@@ -11,7 +11,7 @@ from .models import CustomUser, Topic, TopicCourseBridge, Track, Course, Resourc
 from django.shortcuts import render, redirect
 from django.db import IntegrityError
 from django.contrib import messages
-from django.contrib.auth import login, update_session_auth_hash
+from django.contrib.auth import login, update_session_auth_hash, authenticate
 from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -22,28 +22,19 @@ from django.contrib.auth.decorators import login_required
 
 class SignupView(CreateView):
     form_class = CustomUserCreationForm
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('home')
     template_name = 'registration/signup.html'
 
-
-def login(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request.POST)
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username,password=password)
-        if user:
-            if user.is_active:
-                login(request,user)
-                return redirect(reverse('your_success_url'))
-        else:
-            messages.error(request,'username or password not correct')
-            return redirect(reverse('your_login_url'))
-        
-                
-    else:
-        form = AuthenticationForm()
-    return render(request,'your_template_name.html',{'form':form})
+    def form_valid(self, AuthenticationForm):
+    
+        to_return = super().form_valid(AuthenticationForm)
+        user = authenticate(
+            username=AuthenticationForm.cleaned_data["username"],
+            password=AuthenticationForm.cleaned_data["password1"],
+        )
+        login(self.request, user)
+        return to_return
+    
 
 class TrackView(ListView):
     model = Track
