@@ -60,16 +60,20 @@ def track_topic_view(request, trackid):
 def topic_course_view(request, track_name, topicid):
     
     courses = TopicCourseBridge.objects.filter(topic=topicid).values_list('course_id', 'course__name', 'course__descirption', 'course__image', 'topic__name', 'topic__id')
-    
-    return render(request, 'topic_courses.html', {'courses': courses, 'track_name':track_name, 'topic_id':topicid})
+    track = Track.objects.filter(name=track_name).values_list('id')
+    track_id = track[0][0]
+
+    return render(request, 'topic_courses.html', {'courses': courses, 'track_name':track_name, 'topic_id':topicid, 'track_id':track_id})
 
 
 def course_resources_view(request, track_name, topic_name, courseid):
     resources = Resource.objects.filter(course=courseid).values_list('name', 'descirption', 'image', 'link', 'course__name', 'course__id')
     topic = Topic.objects.filter(name=topic_name).values_list('id')
     topic_id = topic[0][0]
+    track = Track.objects.filter(name=track_name).values_list('id')
+    track_id = track[0][0]
     
-    return render(request, 'course_resources.html', {'resources': resources, 'track_name':track_name, 'topic_name':topic_name, 'topic_id':topic_id})
+    return render(request, 'course_resources.html', {'resources': resources, 'track_name':track_name, 'topic_name':topic_name, 'topic_id':topic_id, 'course_id': courseid, 'track_id':track_id})
 
 
 def profile_view(request):
