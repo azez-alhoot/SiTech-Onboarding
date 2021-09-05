@@ -1,14 +1,20 @@
 from django.urls import reverse_lazy, reverse
-from .forms import CustomUserCreationForm, UserTrackForm, CustomUserChangeForm
+from .forms import (
+    CustomUserCreationForm, 
+    UserTrackForm, 
+    CustomUserChangeForm, 
+    AddTrackForm,
+    )
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from .models import CustomUser, Topic, TopicCourseBridge, Track, Course, Resource, TrackTopicBridge, UserTrackBridge
 from django.shortcuts import render, redirect
 from django.db import IntegrityError
 from django.contrib import messages
-from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth import login, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 # from django.core.urlresolvers import reverse
 
 # Create your views here.
@@ -23,9 +29,8 @@ class TrackView(ListView):
     model = Track
     template_name = 'tracks.html'
 
-
-
-def user_track_view(request, user_id, track_id):
+@login_required
+def user_track_view(request, user_id=None, track_id=None):
     if request.method == "POST":
         entry = UserTrackBridge.objects.filter(user=user_id, track=track_id)
         if not entry:
@@ -139,3 +144,18 @@ def change_password(request):
     return render(request, 'change_password.html', {
         'form': form
     })
+
+
+# this for learning and practice
+
+def add_track_form(request, track_id=None):
+    instance = Track()
+    if track_id:
+        instance = Track.objects.get(id=track_id)
+    
+    form = AddTrackForm(request.POST or None, request.FILES or None, instance=instance, user=request.user)
+
+    if form.is_valid():
+        form.save()
+
+    return render(request, 'forms/add-track-form.html', locals())
