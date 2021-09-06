@@ -42,6 +42,14 @@ INSTALLED_APPS = [
     'crispy_forms',
     "crispy_bootstrap5",
 ]
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'sitech.skillhub@gmail.com'
+EMAIL_HOST_PASSWORD = 'sitech2021'
+DEFAULT_FROM_EMAIL = 'SiTech-Skill-Hub'
+DEFAULT_TO_EMAIL = 'sitech.skillhub@gmail.com'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
