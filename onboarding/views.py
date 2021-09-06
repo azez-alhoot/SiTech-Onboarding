@@ -1,20 +1,27 @@
-from django.urls import reverse_lazy, reverse
 from .forms import (
     CustomUserCreationForm,
     UserTrackForm,
     CustomUserChangeForm,
     AddTrackForm,
 )
+from .models import (
+    CustomUser, 
+    Topic, 
+    TopicCourseBridge, 
+    Track, 
+    Resource, 
+    TrackTopicBridge, 
+    UserTrackBridge
+)
+from django.urls import reverse_lazy, reverse
 from django.views.generic.edit import CreateView
-from .models import CustomUser, Topic, TopicCourseBridge, Track, Resource, TrackTopicBridge, UserTrackBridge
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, update_session_auth_hash, authenticate
 from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
+from .helper import send_email
 
 
 class SignupView(CreateView):
@@ -23,18 +30,20 @@ class SignupView(CreateView):
     template_name = 'registration/signup.html'
 
     def form_valid(self, AuthenticationForm):
-        html_message = render_to_string('registration/welcome-email.html')
-        data = "Hi "
 
         to_return = super().form_valid(AuthenticationForm)
         user = authenticate(
-            username=AuthenticationForm.cleaned_data["username"],
-            password=AuthenticationForm.cleaned_data["password1"],
+            username=AuthenticationForm.cleaned_data.get("username",None),
+            password=AuthenticationForm.cleaned_data.get("password1", None),
         )
         login(self.request, user)
-
-        to_email = AuthenticationForm.cleaned_data.get('email')
-        send_mail('Welcome! ', data, 'sitech.skillhub@gmail.com', [to_email], fail_silently=False, html_message=html_message)
+        context = {
+            'username': AuthenticationForm.cleaned_data.get('username', None),
+            'user_email': AuthenticationForm.cleaned_data.get('email', None),
+            'template': 'registration/welcome-email.html',
+        }
+        
+        send_email(context)
         return to_return
 
 
@@ -50,8 +59,9 @@ def tracks_view(request):
 
 @login_required
 def user_track_view(request, user_id=None, track_id=None):
+    
     if request.method == "POST":
-        entry = UserTrackBridge.objects.filter(user=user_id, track=track_id)
+        entry = UserTrackBridge.objects.filter(user=user_id, track=track_id).exists()
         if not entry:
             user = CustomUser.objects.get(id=user_id)
             track = Track.objects.get(id=track_id)
@@ -61,6 +71,15 @@ def user_track_view(request, user_id=None, track_id=None):
                 entry.user = user
                 entry.track = track
                 entry.save()
+
+                context = {
+                'track': track,
+                'username': request.user.username,
+                'user_email': request.user.email,
+                'template': 'congrats-email.html',
+                }
+                send_email(context)
+
                 return redirect('track', trackid=track_id)
         else:
             return redirect('track', trackid=track_id)
