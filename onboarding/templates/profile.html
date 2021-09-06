@@ -15,7 +15,9 @@
     <div class="row vh-100">
         <div class="d-flex flex-column flex-shrink-0 p-3 col-2 side-custom border-profile">
             <div class="d-flex flex-column align-items-center">
-                <div class="change-profile-image">
+                <div class="nav tabs d-flex flex-column text-center" id="tab" role="tablist">
+                    <a href="#image" class="nav-link text-custom-nav" id="image-tab" data-bs-toggle="tab" role="tab"
+                    aria-controls="image" aria-selected="false"><i class="fa fa-edit"></i></a>
                 </div>
                 <img class="user-img" src="{{ user.image.url }}" alt="{{ user.first_name }}">
                 <h3 class="my-2 user-name">{{ user.first_name }} {{ user.last_name }} </h3>
@@ -57,6 +59,10 @@
 
             <div class="tab-pane fade-in-up" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                 {% include "change_password.html" with link=url2 form=form_change_password %}
+            </div>
+
+            <div class="tab-pane fade-in-up" id="image" role="tabpanel" aria-labelledby="image-tab">
+                {% include "image_edit.html" with form=form_edit_user %}
             </div>
 
         </div>
