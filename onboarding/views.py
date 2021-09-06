@@ -33,13 +33,13 @@ class SignupView(CreateView):
 
         to_return = super().form_valid(AuthenticationForm)
         user = authenticate(
-            username=AuthenticationForm.cleaned_data["username"],
-            password=AuthenticationForm.cleaned_data["password1"],
+            username=AuthenticationForm.cleaned_data.get("username",None),
+            password=AuthenticationForm.cleaned_data.get("password1", None),
         )
         login(self.request, user)
         context = {
-            'username': AuthenticationForm.cleaned_data["username"],
-            'user_email': AuthenticationForm.cleaned_data.get('email'),
+            'username': AuthenticationForm.cleaned_data.get('username', None),
+            'user_email': AuthenticationForm.cleaned_data.get('email', None),
             'template': 'registration/welcome-email.html',
         }
         
@@ -61,7 +61,7 @@ def tracks_view(request):
 def user_track_view(request, user_id=None, track_id=None):
     
     if request.method == "POST":
-        entry = UserTrackBridge.objects.filter(user=user_id, track=track_id)
+        entry = UserTrackBridge.objects.filter(user=user_id, track=track_id).exists()
         if not entry:
             user = CustomUser.objects.get(id=user_id)
             track = Track.objects.get(id=track_id)
