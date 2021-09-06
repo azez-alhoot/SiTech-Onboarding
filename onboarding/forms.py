@@ -17,7 +17,13 @@ class CustomUserCreationForm(UserCreationForm):
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
-        fields = ('first_name', 'last_name', 'title', 'image',)
+        fields = ('first_name', 'last_name', 'title')
+
+
+class CustomUserImageChangeForm(UserChangeForm):
+    class Meta:
+        model = CustomUser
+        fields = ('image',)
 
 
 class UserTrackForm(models.ModelForm):
