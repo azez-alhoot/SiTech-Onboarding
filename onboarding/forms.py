@@ -1,8 +1,8 @@
 from crispy_forms.layout import HTML, Div, Layout, Submit
-from django.contrib.auth import forms
-# from django import forms
+# from django.contrib.auth import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.forms import models
+from django import forms
 from .models import CustomUser, Track, UserTrackBridge
 
 from crispy_forms.helper import FormHelper
@@ -17,13 +17,21 @@ class CustomUserCreationForm(UserCreationForm):
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
-        fields = ('first_name', 'last_name', 'title', 'image',)
+        fields = ('first_name', 'last_name', 'title')
 
 
 class UserTrackForm(models.ModelForm):
     class Meta:
         model = UserTrackBridge
         fields = ('user', 'track')
+
+
+class EditImageForm(forms.ModelForm):
+    image = forms.ImageField(required = False, error_messages = {'invalid':("Image files only")}, widget=forms.FileInput)
+
+    class Meta:
+        model = CustomUser
+        fields = ('image',)
 
 
 class AddTrackForm(models.ModelForm):

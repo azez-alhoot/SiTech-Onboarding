@@ -15,25 +15,30 @@
     <div class="row vh-100">
         <div class="d-flex flex-column flex-shrink-0 p-3 col-2 side-custom border-profile">
             <div class="d-flex flex-column align-items-center">
-                <div class="change-profile-image">
+                <div class="nav tabs d-flex flex-column text-center" id="tab" role="tablist">
+                    <a href="#image" class="nav-link text-custom-nav" id="image-tab" data-bs-toggle="tab" role="tab"
+                        aria-controls="image" aria-selected="false"><i class="fa fa-edit"></i></a>
                 </div>
                 <img class="user-img" src="{{ user.image.url }}" alt="{{ user.first_name }}">
                 <h3 class="my-2 user-name">{{ user.first_name }} {{ user.last_name }} </h3>
+                <h6 class="my-2">{{ user.title }}</h6>
             </div>
             <hr class="hr-bold">
             <ul class="nav tabs d-flex flex-column text-center" id="tab" role="tablist">
-                <li><a class="nav-link text-custom-nav" id="home-tab" data-bs-toggle="tab" href="#home"
-                        role="tab" aria-controls="home" aria-selected="false">My Tracks</a>
+                <!-- <li><a href="#image" class="nav-link text-custom-nav" id="image-tab" data-bs-toggle="tab" role="tab"
+                    aria-controls="image" aria-selected="false"><i class="fa fa-edit"></i></a></li> -->
+                <li><a class="nav-link text-custom-nav" id="home-tab" data-bs-toggle="tab" href="#home" role="tab"
+                        aria-controls="home" aria-selected="false">My Tracks</a>
                 </li>
                 <hr class="hr-bold">
-                <li>
-                    <a class="nav-link text-custom-nav" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
-                        aria-controls="profile" aria-selected="false">Edit Profile Info</a>
+
+                <a class="nav-link text-custom-nav" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
+                    aria-controls="profile" aria-selected="false">Edit Profile Info</a>
                 </li>
                 <hr class="hr-bold">
                 <li>
                     <a class="nav-link text-custom-nav" id="contact-tab" data-bs-toggle="tab" href="#contact" role="tab"
-                        aria-controls="contact" aria-selected="false">Change password</a>
+                        aria-controls="contact" aria-selected="false">Change Password</a>
                 </li>
                 <hr class="hr-bold">
             </ul>
@@ -44,7 +49,7 @@
 
             <div>
                 <h2>Welcome to your profile {{user.username}}!</h2>
-          
+
             </div>
 
             <div class="tab-pane tracks-container fade-in-up" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -57,6 +62,10 @@
 
             <div class="tab-pane fade-in-up" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                 {% include "change_password.html" with link=url2 form=form_change_password %}
+            </div>
+
+            <div class="tab-pane fade-in-up" id="image" role="tabpanel" aria-labelledby="image-tab">
+                {% include "image_edit.html" with form=form_edit_image %}
             </div>
 
         </div>

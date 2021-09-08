@@ -1,7 +1,8 @@
 from .forms import (
-    CustomUserCreationForm,
-    UserTrackForm,
-    CustomUserChangeForm,
+    CustomUserCreationForm, 
+    UserTrackForm, 
+    CustomUserChangeForm, 
+    EditImageForm,
     AddTrackForm,
 )
 from .models import (
@@ -125,12 +126,16 @@ def profile_view(request):
         'track_id', 'track__name', 'track__descirption', 'track__image')
 
     user = CustomUser.objects.get(id=userid)
+    
+    form_edit_user = CustomUserChangeForm(request.POST or None, instance=user)
 
-    form_edit_user = CustomUserChangeForm(
-        request.POST or None, request.FILES or None, instance=user)
+    form_edit_image = EditImageForm(request.POST or None, request.FILES or None, instance=user)
 
-    form_change_password = PasswordChangeForm(
-        request.user, request.POST or None)
+    form_change_password = PasswordChangeForm(request.user, request.POST or None)
+
+    if form_edit_image.is_valid():
+        form_edit_image.save()
+        return redirect('profile')
 
     if form_edit_user.is_valid():
         form_edit_user.save()
@@ -143,11 +148,13 @@ def profile_view(request):
         return redirect('home')
     else:
         messages.error(request, 'Please correct the error below.')
-
-    return render(request, 'profile.html',
-                  {'tracks': tracks,
-                   'form_edit_user': form_edit_user,
-                   'form_change_password': form_change_password})
+        
+    
+    return render(request, 'profile.html', 
+    {'tracks': tracks, 
+    'form_edit_user': form_edit_user , 
+    'form_edit_image': form_edit_image,
+    'form_change_password': form_change_password})
 
 
 # this is for learning and practice
