@@ -3,7 +3,7 @@ from .forms import (
     CustomUserCreationForm, 
     UserTrackForm, 
     CustomUserChangeForm, 
-    CustomUserImageChangeForm,
+    EditImageForm,
     AddTrackForm,
     )
 from django.views.generic.edit import CreateView
@@ -98,16 +98,16 @@ def profile_view(request):
     
     form_edit_user = CustomUserChangeForm(request.POST or None, instance=user)
 
-    form_edit_image = CustomUserImageChangeForm(request.POST or None, request.FILES or None, instance=user)
+    form_edit_image = EditImageForm(request.POST or None, request.FILES or None, instance=user)
 
     form_change_password = PasswordChangeForm(request.user, request.POST or None)
-    
-    if form_edit_user.is_valid():
-        form_edit_user.save()
-        return redirect('profile')
 
     if form_edit_image.is_valid():
         form_edit_image.save()
+        return redirect('profile')
+
+    if form_edit_user.is_valid():
+        form_edit_user.save()
         return redirect('profile')
 
     if form_change_password.is_valid():

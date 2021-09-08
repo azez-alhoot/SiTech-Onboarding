@@ -17,7 +17,7 @@
             <div class="d-flex flex-column align-items-center">
                 <div class="nav tabs d-flex flex-column text-center" id="tab" role="tablist">
                     <a href="#image" class="nav-link text-custom-nav" id="image-tab" data-bs-toggle="tab" role="tab"
-                    aria-controls="image" aria-selected="false"><i class="fa fa-edit"></i></a>
+                        aria-controls="image" aria-selected="false"><i class="fa fa-edit"></i></a>
                 </div>
                 <img class="user-img" src="{{ user.image.url }}" alt="{{ user.first_name }}">
                 <h3 class="my-2 user-name">{{ user.first_name }} {{ user.last_name }} </h3>
@@ -25,18 +25,20 @@
             </div>
             <hr class="hr-bold">
             <ul class="nav tabs d-flex flex-column text-center" id="tab" role="tablist">
-                <li><a class="nav-link text-custom-nav" id="home-tab" data-bs-toggle="tab" href="#home"
-                        role="tab" aria-controls="home" aria-selected="false">My Tracks</a>
+                <!-- <li><a href="#image" class="nav-link text-custom-nav" id="image-tab" data-bs-toggle="tab" role="tab"
+                    aria-controls="image" aria-selected="false"><i class="fa fa-edit"></i></a></li> -->
+                <li><a class="nav-link text-custom-nav" id="home-tab" data-bs-toggle="tab" href="#home" role="tab"
+                        aria-controls="home" aria-selected="false">My Tracks</a>
                 </li>
                 <hr class="hr-bold">
 
-                    <a class="nav-link text-custom-nav" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
-                        aria-controls="profile" aria-selected="false">Edit Profile Info</a>
+                <a class="nav-link text-custom-nav" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
+                    aria-controls="profile" aria-selected="false">Edit Profile Info</a>
                 </li>
                 <hr class="hr-bold">
                 <li>
                     <a class="nav-link text-custom-nav" id="contact-tab" data-bs-toggle="tab" href="#contact" role="tab"
-                        aria-controls="contact" aria-selected="false">Change password</a>
+                        aria-controls="contact" aria-selected="false">Change Password</a>
                 </li>
                 <hr class="hr-bold">
             </ul>
@@ -47,7 +49,7 @@
 
             <div>
                 <h2>Welcome to your profile {{user.username}}!</h2>
-          
+
             </div>
 
             <div class="tab-pane tracks-container fade-in-up" id="home" role="tabpanel" aria-labelledby="home-tab">
