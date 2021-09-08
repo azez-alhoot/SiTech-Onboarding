@@ -12,9 +12,12 @@
 <div class="container-fluid m-2 p-2 text-center ">
     <nav aria-label="breadcrumb" class="w-50 border border-white bg-white d-flex mx-auto mb-3 rounded-pill">
         <ol class="breadcrumb p-2 mx-auto m-0">
-            <li class="breadcrumb-item active p-2 " aria-current="page"><a href="{% url 'tracks' %}">{{track_name}}</a></li>
-            <li class="breadcrumb-item active p-2 " aria-current="page"><a href="{% url 'track' track_id %}">{{topic_name}}</a></li>
-            <li class="breadcrumb-item active p-2 " aria-current="page"><a href="{% url 'topic' track_name topic_id %}">{{resources.0.4}}</a></li>
+            <li class="breadcrumb-item active p-2 " aria-current="page"><a href="{% url 'tracks' %}">{{track_name}}</a>
+            </li>
+            <li class="breadcrumb-item active p-2 " aria-current="page"><a
+                    href="{% url 'track' track_id %}">{{topic_name}}</a></li>
+            <li class="breadcrumb-item active p-2 " aria-current="page"><a
+                    href="{% url 'topic' track_name topic_id %}">{{resources.0.4}}</a></li>
             <li class="breadcrumb-item active p-2 " aria-current="page">Resources</li>
         </ol>
     </nav>
@@ -31,6 +34,16 @@
                 <h5 class="card-title mt-2 p-0 fw-bold fs-3">{{ resource.0 }}</h5>
                 <p class="card-text text-wrap p-0 my-4">{{ resource.1 }}</p>
             </div>
+            <form action="{% url 'add_to_progress_view' user.id resource.6 track_name topic_name resource.5%}"
+                method="POST">
+                {% csrf_token %}
+                {{ exist }}
+                {% if exist %}
+                <input type="checkbox" name="Done" id="Done" checked>
+                {% else %}
+                <input type="checkbox" onchange="this.form.submit();" name="Done" id="Done">
+                {% endif %}
+            </form>
             <a class="btn btn-primary" href="{{ resource.3 }}" target="_blank">Go</a>
 
         </div>

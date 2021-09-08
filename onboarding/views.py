@@ -4,6 +4,7 @@ from .forms import (
     CustomUserChangeForm, 
     EditImageForm,
     AddTrackForm,
+    UserProgressForm,
 )
 from .models import (
     CustomUser, 
@@ -12,7 +13,8 @@ from .models import (
     Track, 
     Resource, 
     TrackTopicBridge, 
-    UserTrackBridge
+    UserTrackBridge,
+    UserProgress,
 )
 from django.urls import reverse_lazy, reverse
 from django.views.generic.edit import CreateView
@@ -86,7 +88,7 @@ def user_track_view(request, user_id=None, track_id=None):
             return redirect('track', trackid=track_id)
     else:
         form = UserTrackForm()
-    return render(request, 'tracks.html', {'form': form})
+    return render(request, 'tracks.html')
 
 
 def track_topic_view(request, trackid):
@@ -109,11 +111,12 @@ def topic_course_view(request, track_name, topicid):
 
 def course_resources_view(request, track_name, topic_name, courseid):
     resources = Resource.objects.filter(course=courseid).values_list(
-        'name', 'descirption', 'image', 'link', 'course__name', 'course__id')
+        'name', 'descirption', 'image', 'link', 'course__name', 'course__id', 'id')
     topic = Topic.objects.filter(name=topic_name).values_list('id')
     topic_id = topic[0][0]
     track = Track.objects.filter(name=track_name).values_list('id')
     track_id = track[0][0]
+
 
     return render(request, 'course_resources.html', {'resources': resources, 'track_name': track_name, 'topic_name': topic_name, 'topic_id': topic_id, 'course_id': courseid, 'track_id': track_id})
 
@@ -158,7 +161,6 @@ def profile_view(request):
 
 
 # this is for learning and practice
-
 def add_track_form(request, track_id=None):
     instance = Track()
 
@@ -172,3 +174,29 @@ def add_track_form(request, track_id=None):
         form.save()
 
     return render(request, 'forms/add-track-form.html', locals())
+
+
+def add_to_progress_view(request, user_id, resource_id, track_name, topic_name, courseid):
+
+    user = CustomUser.objects.get(id=user_id)
+    resource = Resource.objects.get(id=resource_id)
+
+    form = UserProgressForm(request.POST or None)
+
+    exist = UserProgress.objects.filter(user= user_id, resource=resource_id)
+
+
+    if form.is_valid():
+        entry = form.save(commit=False)
+        entry.user = user
+        entry.resource = resource
+        entry.save()
+        context = {
+            'exist': exist,
+            
+        }
+        return render(request, 'course_resources.html', context)
+
+    else:
+        
+        return render(request, 'course_resources.html', {'exist':exist}, track_name=track_name, topic_name=topic_name, courseid=courseid)
