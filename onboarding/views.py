@@ -24,7 +24,7 @@ from django.contrib.auth import login, update_session_auth_hash, authenticate
 from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .helper import send_email
+from .helper import send_email, calculate_progress
 
 
 class SignupView(CreateView):
@@ -151,10 +151,16 @@ def profile_view(request):
         return redirect('home')
     else:
         messages.error(request, 'Please correct the error below.')
-        
-    
+
+
+    progress = calculate_progress(userid)
+
+    print(progress)
+
+
     return render(request, 'profile.html', 
     {'tracks': tracks, 
+    'progress': progress,
     'form_edit_user': form_edit_user , 
     'form_edit_image': form_edit_image,
     'form_change_password': form_change_password})
@@ -183,20 +189,13 @@ def add_to_progress_view(request, user_id, resource_id, track_name, topic_name, 
 
     form = UserProgressForm(request.POST or None)
 
-    exist = UserProgress.objects.filter(user= user_id, resource=resource_id)
-
-
     if form.is_valid():
         entry = form.save(commit=False)
         entry.user = user
         entry.resource = resource
         entry.save()
-        context = {
-            'exist': exist,
-            
-        }
-        return render(request, 'course_resources.html', context)
+        return redirect('course', track_name=track_name, topic_name=topic_name, courseid=courseid)
 
     else:
         
-        return render(request, 'course_resources.html', {'exist':exist}, track_name=track_name, topic_name=topic_name, courseid=courseid)
+        return redirect('course', track_name=track_name, topic_name=topic_name, courseid=courseid)
