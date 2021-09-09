@@ -82,6 +82,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 # 'sitech_onboarding.context_processors.get_first_track',
+                'sitech_onboarding.context_processors.get_user_progress',
             ],
         },
     },
