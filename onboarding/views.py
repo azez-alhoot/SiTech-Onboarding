@@ -161,6 +161,7 @@ def profile_view(request):
 
 
 # this is for learning and practice
+
 def add_track_form(request, track_id=None):
     instance = Track()
 
@@ -182,21 +183,15 @@ def add_to_progress_view(request, user_id, resource_id, track_name, topic_name, 
     resource = Resource.objects.get(id=resource_id)
 
     form = UserProgressForm(request.POST or None)
-
-    exist = UserProgress.objects.filter(user= user_id, resource=resource_id)
-
+    
 
     if form.is_valid():
         entry = form.save(commit=False)
         entry.user = user
         entry.resource = resource
         entry.save()
-        context = {
-            'exist': exist,
-            
-        }
-        return render(request, 'course_resources.html', context)
+        return redirect('course', track_name=track_name, topic_name=topic_name, courseid=courseid)
 
     else:
         
-        return render(request, 'course_resources.html', {'exist':exist}, track_name=track_name, topic_name=topic_name, courseid=courseid)
+        return redirect('course', track_name=track_name, topic_name=topic_name, courseid=courseid)

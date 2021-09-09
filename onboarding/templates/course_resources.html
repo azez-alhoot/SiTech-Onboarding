@@ -37,11 +37,11 @@
             <form action="{% url 'add_to_progress_view' user.id resource.6 track_name topic_name resource.5%}"
                 method="POST">
                 {% csrf_token %}
-                {{ exist }}
-                {% if exist %}
-                <input type="checkbox" name="Done" id="Done" checked>
+                
+                {% if  resource.6 in progress %}
+                    <input type="checkbox" name="Done" id="Done" checked>
                 {% else %}
-                <input type="checkbox" onchange="this.form.submit();" name="Done" id="Done">
+                    <input type="checkbox" onchange="this.form.submit();" name="Done" id="Done">
                 {% endif %}
             </form>
             <a class="btn btn-primary" href="{{ resource.3 }}" target="_blank">Go</a>
