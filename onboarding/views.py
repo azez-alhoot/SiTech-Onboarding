@@ -24,7 +24,7 @@ from django.contrib.auth import login, update_session_auth_hash, authenticate
 from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .helper import send_email
+from .helper import send_email, calculate_progress
 
 
 class SignupView(CreateView):
@@ -151,10 +151,14 @@ def profile_view(request):
         return redirect('home')
     else:
         messages.error(request, 'Please correct the error below.')
-        
-    
+
+
+    progress = calculate_progress(userid)
+
+
     return render(request, 'profile.html', 
     {'tracks': tracks, 
+    'progress': progress,
     'form_edit_user': form_edit_user , 
     'form_edit_image': form_edit_image,
     'form_change_password': form_change_password})
@@ -183,7 +187,6 @@ def add_to_progress_view(request, user_id, resource_id, track_name, topic_name, 
     resource = Resource.objects.get(id=resource_id)
 
     form = UserProgressForm(request.POST or None)
-    
 
     if form.is_valid():
         entry = form.save(commit=False)
