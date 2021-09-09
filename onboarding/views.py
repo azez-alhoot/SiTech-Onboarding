@@ -155,8 +155,6 @@ def profile_view(request):
 
     progress = calculate_progress(userid)
 
-    print(progress)
-
 
     return render(request, 'profile.html', 
     {'tracks': tracks, 
