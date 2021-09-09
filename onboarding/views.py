@@ -165,6 +165,7 @@ def profile_view(request):
 
 
 # this is for learning and practice
+
 def add_track_form(request, track_id=None):
     instance = Track()
 
