@@ -87,3 +87,14 @@ class TopicCourseBridge(models.Model):
 
     def __str__(self):
         return f'topic: {self.topic}, course: {self.course}'
+
+
+class UserProgress(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True)
+    resource = models.ForeignKey(Resource, on_delete=models.CASCADE, blank=True)
+
+    class Meta:
+        unique_together = ('user', 'resource')
+
+    def __str__(self):
+        return f'user: {self.user}, resource: {self.resource}'

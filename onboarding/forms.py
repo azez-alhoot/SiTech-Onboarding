@@ -3,7 +3,7 @@ from crispy_forms.layout import HTML, Div, Layout, Submit
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.forms import models
 from django import forms
-from .models import CustomUser, Track, UserTrackBridge
+from .models import CustomUser, Track, UserTrackBridge, UserProgress
 
 from crispy_forms.helper import FormHelper
 
@@ -92,4 +92,10 @@ class AddTrackForm(models.ModelForm):
 
     class Meta:
         model = Track
+        fields = '__all__'
+
+
+class UserProgressForm(models.ModelForm):
+    class Meta:
+        model = UserProgress
         fields = '__all__'

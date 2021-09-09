@@ -8,6 +8,7 @@ from .views import (
     profile_view,
     course_resources_view,
     add_track_form,
+    add_to_progress_view,
 )
 from django.views.generic.base import TemplateView
 from django.conf.urls.static import static
@@ -25,5 +26,6 @@ urlpatterns = [
     path('profile/', profile_view, name='profile'),
     path('add-track-form/', add_track_form, name='add_track_form'),
     path('edit-track-form/<int:track_id>', add_track_form, name='edit_track_form'),
+    path('add_to_progress_view/<int:user_id>/<int:resource_id>/<str:track_name>/<str:topic_name>/<int:courseid>/', add_to_progress_view, name='add_to_progress_view'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
