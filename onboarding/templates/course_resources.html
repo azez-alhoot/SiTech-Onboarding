@@ -34,16 +34,23 @@
                 <h5 class="card-title mt-2 p-0 fw-bold fs-3">{{ resource.0 }}</h5>
                 <p class="card-text text-wrap p-0 my-4">{{ resource.1 }}</p>
             </div>
-            <form action="{% url 'add_to_progress_view' user.id resource.6 track_name topic_name resource.5%}"
+
+            {% if resource.6 in progress %}
+            <form action="{% url 'delete_from_progress_view' user.id resource.6 track_name topic_name resource.5 %}"
                 method="POST">
                 {% csrf_token %}
-                
-                {% if  resource.6 in progress %}
-                    <input type="checkbox" name="Done" id="Done" checked>
-                {% else %}
-                    <input type="checkbox" onchange="this.form.submit();" name="Done" id="Done">
-                {% endif %}
+                <input type="checkbox" onchange="this.form.submit();" name="Done" id="Done" checked>
             </form>
+
+            {% else %}
+
+            <form action="{% url 'add_to_progress_view' user.id resource.6 track_name topic_name resource.5 %}"
+                method="POST">
+                {% csrf_token %}
+                <input type="checkbox" onchange="this.form.submit();" name="Done" id="Done">
+            </form>
+            {% endif %}
+
             <a class="btn btn-primary" href="{{ resource.3 }}" target="_blank">Go</a>
 
         </div>
