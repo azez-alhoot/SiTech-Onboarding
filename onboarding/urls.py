@@ -14,11 +14,13 @@ from .views import (
 from django.views.generic.base import TemplateView
 from django.conf.urls.static import static
 from django.conf import settings
+from .views import LoginView, SignupView
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('what-the-hell', TemplateView.as_view(template_name='what-the-hell.html'),name='what-the-hell'),
     path('signup/', SignupView.as_view(), name='signup'),
+    path('login/', LoginView.as_view(), name='login'),
     path('tracks/', tracks_view, name='tracks'),
     path('track/<int:trackid>/', track_topic_view, name='track'),
     path('topic/<str:track_name>/<int:topicid>/',topic_course_view, name='topic'),

@@ -4,8 +4,10 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.forms import models
 from django import forms
 from .models import CustomUser, Track, UserTrackBridge, UserProgress
-
+from django.contrib.auth.forms import AuthenticationForm
 from crispy_forms.helper import FormHelper
+from django.contrib.auth import authenticate
+from django.utils.translation import gettext_lazy as _
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -19,6 +21,8 @@ class CustomUserChangeForm(UserChangeForm):
         model = CustomUser
         fields = ('first_name', 'last_name', 'title')
 
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(label='Email')
 
 class UserTrackForm(models.ModelForm):
     class Meta:

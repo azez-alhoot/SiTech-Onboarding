@@ -5,6 +5,7 @@ from .forms import (
     EditImageForm,
     AddTrackForm,
     UserProgressForm,
+    LoginForm,
 )
 from .models import (
     CustomUser, 
@@ -25,6 +26,12 @@ from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .helper import send_email, calculate_progress
+from django.contrib.auth import views as auth_views
+
+from django.template.response import TemplateResponse
+from django.utils.translation import gettext_lazy
+from contextlib import contextmanager
+
 
 
 class SignupView(CreateView):
@@ -36,7 +43,7 @@ class SignupView(CreateView):
 
         to_return = super().form_valid(AuthenticationForm)
         user = authenticate(
-            username=AuthenticationForm.cleaned_data.get("username",None),
+            username=AuthenticationForm.cleaned_data.get("email",None),
             password=AuthenticationForm.cleaned_data.get("password1", None),
         )
         login(self.request, user)
@@ -48,6 +55,30 @@ class SignupView(CreateView):
         
         send_email(context)
         return to_return
+
+
+class LoginView(auth_views.LoginView):
+    form_class = LoginForm
+    template_name = 'registration/login.html'
+    
+    error_messages = {
+        'invalid_login': gettext_lazy('Incorrect password or confirmation code entered. Please try again.'),
+        'inactive': gettext_lazy("..."),
+    }
+
+    def post(self, request, *args, **kwargs):
+        with self.handle_msg():
+            rtn_response: TemplateResponse = super(LoginView, self).post(request, *args, **kwargs)
+        return rtn_response
+
+    @contextmanager
+    def handle_msg(self):
+        org_msg = AuthenticationForm.error_messages
+        AuthenticationForm.error_messages = self.error_messages
+        try:
+            yield self.error_messages
+        finally:
+            AuthenticationForm.error_messages = org_msg
 
 
 def tracks_view(request):
