@@ -1,11 +1,12 @@
 .sitech-container{
     background-color: #ffecce;
+    color: black;
 }
 .about-img{
     width: 550px;
     background-size:contain;
 }
-#superheros{
+.superheros{
     background-color: #141d25;
     color:white;
 }
@@ -19,7 +20,7 @@
 .tech_image{
     width: 200px;
     height: 200px;
-    margin:30px 20px 10px 20px;
+    margin:30px 20px 10px 5px;
     background-color: gray;
     border-radius: 5px;
 }
@@ -33,8 +34,10 @@
 .superhero-department{
     margin-left: 25px;
 }
-.f-python{
-    background-color: green;
-    width: 200px;
-    height: 200px;
+.tech_logo{
+    width: 150px;
+    height: 150px;
+    margin:30px 20px 10px 20px;
+    background-color: gray;
+    border-radius: 50%;
 }
