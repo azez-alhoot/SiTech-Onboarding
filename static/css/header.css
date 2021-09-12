@@ -19,7 +19,7 @@
 
 .text-custom-header {
     color: #124BD8;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 700;
 }
 
@@ -28,7 +28,7 @@
 }
 
 .btn-header {
-    width: 120px;
+    width: 200px;
 }
 
 .btn-header:hover {
