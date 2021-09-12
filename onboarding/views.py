@@ -165,15 +165,13 @@ def profile_view(request):
 
 
 # this is for learning and practice
-
 def add_track_form(request, track_id=None):
     instance = Track()
 
     if track_id:
         instance = Track.objects.get(id=track_id)
 
-    form = AddTrackForm(request.POST or None, request.FILES or None,
-                        instance=instance, user=request.user)
+    form = AddTrackForm(request.POST or None, request.FILES or None, instance=instance, user=request.user)
 
     if form.is_valid():
         form.save()
@@ -198,3 +196,12 @@ def add_to_progress_view(request, user_id, resource_id, track_name, topic_name, 
     else:
         
         return redirect('course', track_name=track_name, topic_name=topic_name, courseid=courseid)
+
+
+def delete_from_progress_view(request, user_id, resource_id, track_name, topic_name, courseid):
+    user = CustomUser.objects.get(id=user_id)
+    resource = Resource.objects.get(id=resource_id)
+
+    UserProgress.objects.filter(user= user, resource=resource).delete()
+        
+    return redirect('course', track_name=track_name, topic_name=topic_name, courseid=courseid)
