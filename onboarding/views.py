@@ -80,8 +80,7 @@ class LoginView(auth_views.LoginView):
         finally:
             AuthenticationForm.error_messages = org_msg
 
-        print(org_msg)
-        
+
 def tracks_view(request):
 
     tracks = Track.objects.all()
