@@ -36,6 +36,8 @@
                 {% csrf_token %}
                 <button class="btn btn-primary" type="submit">Enroll</button>
             </form>
+            {% else %}
+            <a class="btn btn-primary" href="{% url 'track' track.id %}">View Track</a>
             {% endif %}
 
             {% if request.user.is_superuser %}
