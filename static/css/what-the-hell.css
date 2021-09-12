@@ -1,0 +1,40 @@
+.sitech-container{
+    background-color: #ffecce;
+}
+.about-img{
+    width: 550px;
+    background-size:contain;
+}
+#superheros{
+    background-color: #141d25;
+    color:white;
+}
+.heros_image{
+    width: 200px;
+    height: 200px;
+    margin:30px 20px 10px 20px;
+    background-color: gray;
+    border-radius: 5px;
+}
+.tech_image{
+    width: 200px;
+    height: 200px;
+    margin:30px 20px 10px 20px;
+    background-color: gray;
+    border-radius: 5px;
+}
+.superhero-name{
+    margin-left: 20px;
+    position: absolute;
+    bottom: 45px;
+    left: 5px;
+    
+}
+.superhero-department{
+    margin-left: 25px;
+}
+.f-python{
+    background-color: green;
+    width: 200px;
+    height: 200px;
+}
