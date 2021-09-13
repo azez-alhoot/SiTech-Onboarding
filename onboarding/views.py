@@ -17,7 +17,7 @@ from .models import (
     UserTrackBridge,
     UserProgress,
 )
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -62,7 +62,7 @@ class LoginView(auth_views.LoginView):
     template_name = 'registration/login.html'
     
     error_messages = {
-        'invalid_login': gettext_lazy('Incorrect password or confirmation code entered. Please try again.'),
+        'invalid_login': gettext_lazy('Please enter a correct email and password. Note that both fields may be case-sensitive.'),
         'inactive': gettext_lazy("..."),
     }
 
@@ -80,6 +80,7 @@ class LoginView(auth_views.LoginView):
         finally:
             AuthenticationForm.error_messages = org_msg
 
+    print(LoginForm())
 
 def tracks_view(request):
 

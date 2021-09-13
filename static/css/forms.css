@@ -42,15 +42,6 @@
     border: 1px solid #222;
   }
   
-  .login-signup-form .card .card-body .btn {
-    background: #222;
-    color: #fff;
-    border-radius: 0;
-  }
-  .login-signup-form .card .card-body .btn:hover {
-    background: #555;
-    color: #fff;
-  }
   .login-signup-form .card .card-body .custom-control label {
     font-size: 16px;
   }
@@ -59,15 +50,16 @@
     box-shadow: 0px 0px 10px rgba(139, 205, 234, 0.6);
   }
 
-  .btn-custom {
+  .login-signup-form .card .card-body .btn-custom {
     width: 120px;
     height: 50px;
     border: 1px solid #124BD8;
-    color: #124BD8;
     border-radius: 3px;
+    color: #124BD8;
+    background-color: #EBE9E1;
   }
 
-  .btn-custom:hover {
+  .login-signup-form .card .card-body .btn-custom:hover {
     background-color: #F4FF66;
     border: 1px solid #F4FF66;
     color: #124BD8;
@@ -76,7 +68,6 @@
   .shape-custom {
     width: 300px;
     height: 300px;
-    /* border-radius: 62px; */
     display: block;
     position: absolute;
     top: 64px;
@@ -88,7 +79,6 @@
   .shape-custom-2 {
     width: 300px;
     height: 300px;
-    /* border-radius: 40px; */
     display: block;
     position: absolute;
     top: 534px;
@@ -100,7 +90,6 @@
   .shape-custom-3 {
     width: 250px;
     height: 305px;
-    /* border-radius: 62px; */
     display: block;
     position: absolute;
     top: 0px;

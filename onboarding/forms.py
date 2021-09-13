@@ -6,7 +6,6 @@ from django import forms
 from .models import CustomUser, Track, UserTrackBridge, UserProgress
 from django.contrib.auth.forms import AuthenticationForm
 from crispy_forms.helper import FormHelper
-from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
 
 
@@ -23,6 +22,25 @@ class CustomUserChangeForm(UserChangeForm):
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(label='Email')
+
+    def __init__(self, *args, **kwargs):
+        super(LoginForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_show_labels = True
+        self.helper.form_id = 'login-form'
+        self.helper.form_class = 'uniForm'
+        self.helper.form_method = 'POST'
+        self.helper.form_action = 'login'
+
+        self.helper.layout = Layout(
+
+            Div('username', css_class='form-group'),
+            Div('password', css_class='form-group'),
+            Div(
+                Submit('submit', 'Log In',css_class='btn-custom'),
+                css_class='form-group float-end'
+                )
+        )
 
 class UserTrackForm(models.ModelForm):
     class Meta:
