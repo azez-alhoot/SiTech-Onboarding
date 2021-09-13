@@ -17,8 +17,9 @@
             <h2 class="h1-text-form-color">Login</h2>
           </div>
           <div class="card-body py-4 h1-text-form-color">
-            <form method="POST">
-              {% csrf_token %}
+            {% csrf_token %}
+            {% crispy form %}
+            <!-- <form method="POST">
               <div class="form-group">
                 {{ form.username|as_crispy_field }}
               </div>
@@ -28,7 +29,7 @@
               <div class="form-group float-end">
                 <button type="submit" class="btn-custom">Log In</button>
               </div>
-            </form>
+            </form> -->
           </div>
           <a href="{% url 'signup' %}" class="text-decoration-none px-3 py-1">create an account?</a>
         </div>
@@ -37,3 +38,5 @@
   </div>
 </div>
 {% endblock %}
+
+
