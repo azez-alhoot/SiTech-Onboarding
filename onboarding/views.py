@@ -143,7 +143,7 @@ def topic_course_view(request, track_name, topicid):
 
 def course_resources_view(request, track_name, topic_name, courseid):
     resources = Resource.objects.filter(course=courseid).values_list(
-        'name', 'descirption', 'image', 'link', 'course__name', 'course__id', 'id')
+        'name', 'descirption', 'image', 'link', 'course__name', 'course__id', 'id', 'prerequisite')
     topic = Topic.objects.filter(name=topic_name).values_list('id')
     topic_id = topic[0][0]
     track = Track.objects.filter(name=track_name).values_list('id')

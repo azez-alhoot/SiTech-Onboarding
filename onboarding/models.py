@@ -58,6 +58,7 @@ class Resource(models.Model):
     descirption = models.TextField()
     link = models.TextField()
     image = models.FileField(upload_to='resources_photos', validators=[FileExtensionValidator(['png', 'jpg', 'svg'])])
+    prerequisite = models.CharField(max_length=50)
 
 
     def __str__(self):
