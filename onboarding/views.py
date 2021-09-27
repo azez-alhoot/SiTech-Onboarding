@@ -6,7 +6,6 @@ from .forms import (
     AddTrackForm,
     UserProgressForm,
     LoginForm,
-    ProfileForm,
 )
 from .models import (
     CustomUser, 
@@ -39,13 +38,12 @@ class SignupView(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('home')
     template_name = 'registration/signup.html'
-    print(CustomUserCreationForm())
 
     def form_valid(self, AuthenticationForm):
 
         to_return = super().form_valid(AuthenticationForm)
         user = authenticate(
-            username=AuthenticationForm.cleaned_data.get("email", None),
+            username=AuthenticationForm.cleaned_data.get("email",None),
             password=AuthenticationForm.cleaned_data.get("password1", None),
         )
         login(self.request, user)
@@ -54,7 +52,7 @@ class SignupView(CreateView):
             'user_email': AuthenticationForm.cleaned_data.get('email', None),
             'template': 'registration/welcome-email.html',
         }
-
+        
         send_email(context)
         return to_return
 
@@ -82,6 +80,7 @@ class LoginView(auth_views.LoginView):
         finally:
             AuthenticationForm.error_messages = org_msg
 
+    print(LoginForm())
 
 def tracks_view(request):
 
@@ -135,7 +134,7 @@ def track_topic_view(request, trackid):
 def topic_course_view(request, track_name, topicid):
 
     courses = TopicCourseBridge.objects.filter(topic=topicid).values_list(
-        'course_id', 'course__name', 'course__descirption', 'course__image', 'topic__name', 'topic__id')
+        'course_id', 'course__name', 'course__descirption', 'course__image', 'topic__name', 'topic__id', 'course__prerequisite')
     track = Track.objects.filter(name=track_name).values_list('id')
     track_id = track[0][0]
 
@@ -144,7 +143,7 @@ def topic_course_view(request, track_name, topicid):
 
 def course_resources_view(request, track_name, topic_name, courseid):
     resources = Resource.objects.filter(course=courseid).values_list(
-        'name', 'descirption', 'image', 'link', 'course__name', 'course__id', 'id', 'prerequisite')
+        'name', 'descirption', 'image', 'link', 'course__name', 'course__id', 'id')
     topic = Topic.objects.filter(name=topic_name).values_list('id')
     topic_id = topic[0][0]
     track = Track.objects.filter(name=track_name).values_list('id')
@@ -158,8 +157,10 @@ def profile_view(request):
 
     userid = request.user.id
 
+    calculate_progress(userid)
+
     tracks = UserTrackBridge.objects.filter(user=userid).values_list(
-        'track_id', 'track__name', 'track__descirption', 'track__image')
+        'track_id', 'track__name', 'track__descirption', 'track__image', 'progress')
 
     user = CustomUser.objects.get(id=userid)
     
@@ -185,10 +186,9 @@ def profile_view(request):
     else:
         messages.error(request, 'Please correct the error below.')
 
-    progress = calculate_progress(userid)
 
-    return render(request, 'profile.html', {'tracks': tracks,
-    'progress': progress,
+    return render(request, 'profile.html', 
+    {'tracks': tracks,
     'form_edit_user': form_edit_user,
     'form_edit_image': form_edit_image,
     'form_change_password': form_change_password})

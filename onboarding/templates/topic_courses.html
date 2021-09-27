@@ -29,6 +29,7 @@
             <div>
                 <h5 class="card-title mt-2 p-0 fw-bold fs-3">{{ course.1 }}</h5>
                 <p class="card-text text-wrap p-0 my-4">{{ course.2 }}</p>
+                <p class="card-text text-wrap p-0 my-4">Prerequisites: {{ course.6 }}</p>
             </div>
             <a class="btn btn-primary" href="{% url 'course' track_name course.4 course.0 %}">Start</a>
 
