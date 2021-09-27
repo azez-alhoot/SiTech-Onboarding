@@ -11,13 +11,14 @@
             <div>
                 <h5 class="card-title mt-2 p-0 fw-bold fs-3">{{ track.1 }}</h5>
                 <p class="card-text text-wrap p-0 my-4">{{ track.2 }}</p>
+                <h3>Your progress: {{ track.4 }} %</h3>
             </div>
 
-            {% for entry in progress %}
-                {% if entry.0 == track.0 %}
-                <h3>Your progress: {{ entry.1 }} %</h3>
-                {% endif %}
-            {% endfor %}
+<!--            {% for entry in progress %}-->
+<!--                {% if entry.0 == track.0 %}-->
+
+<!--                {% endif %}-->
+<!--            {% endfor %}-->
             <a class="btn btn-primary" href="{% url 'track' track.0 %}">View Track</a>
 
         </div>

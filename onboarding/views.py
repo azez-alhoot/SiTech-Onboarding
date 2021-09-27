@@ -157,8 +157,10 @@ def profile_view(request):
 
     userid = request.user.id
 
+    calculate_progress(userid)
+
     tracks = UserTrackBridge.objects.filter(user=userid).values_list(
-        'track_id', 'track__name', 'track__descirption', 'track__image')
+        'track_id', 'track__name', 'track__descirption', 'track__image', 'progress')
 
     user = CustomUser.objects.get(id=userid)
     
@@ -185,13 +187,9 @@ def profile_view(request):
         messages.error(request, 'Please correct the error below.')
 
 
-    progress = calculate_progress(userid)
-
-
     return render(request, 'profile.html', 
-    {'tracks': tracks, 
-    'progress': progress,
-    'form_edit_user': form_edit_user , 
+    {'tracks': tracks,
+    'form_edit_user': form_edit_user,
     'form_edit_image': form_edit_image,
     'form_change_password': form_change_password})
 

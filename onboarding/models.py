@@ -68,6 +68,7 @@ class Resource(models.Model):
 class UserTrackBridge(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True)
     track = models.ForeignKey(Track, on_delete=models.CASCADE, blank=True)
+    progress = models.FloatField(default = 0.0)
 
     class Meta:
         unique_together = ('user', 'track')
