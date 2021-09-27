@@ -1,6 +1,6 @@
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-from .models import UserTrackBridge, TrackTopicBridge, TopicCourseBridge, Resource, UserProgress
+from .models import UserTrackBridge, TrackTopicBridge, TopicCourseBridge, Resource, UserProgress, CustomUser, Track
 from django.shortcuts import get_object_or_404
 
 
@@ -22,13 +22,10 @@ def send_email(context):
 
 def calculate_progress(userid):
 
-    progress = []
-
     tracks = UserTrackBridge.objects.filter(user=userid).values_list('track__id', flat=True)
     tracks_user_enrolled = [item for item in tracks]
 
     for track in tracks_user_enrolled:
-        topics_user_enrolled = []
         courses_user_enrolled = []
         resources_user_enrolled = []
         resources_user_finished = []
@@ -39,21 +36,26 @@ def calculate_progress(userid):
 
         for topic in topics_user_enrolled:
             courses = TopicCourseBridge.objects.filter(topic=topic).values_list('course__id', flat=True)
-            courses_user_enrolled = [item for item in courses]
+            for item in courses:
+                courses_user_enrolled.append(item)
 
 
         for course in courses_user_enrolled:
             resources = Resource.objects.filter(course=course).values_list('id', flat=True)
-            resources_user_enrolled = [item for item in resources]
+            for item in resources:
+                resources_user_enrolled.append(item)
 
 
         for resource in resources_user_enrolled:
-            resources_done = UserProgress.objects.filter(user=userid, resource_id=resource).values_list('resource_id', flat=True).first()
-            if resources_done:
+            try:
+                resources_done = UserProgress.objects.get(user=userid, resource_id=resource)
                 resources_user_finished.append(resources_done)
+            except:
+                continue
+
+
            
 
-      
         number_of_resources_user_enrolled = len(resources_user_enrolled)
 
         number_of_done_user_resources = len(resources_user_finished)
@@ -62,6 +64,18 @@ def calculate_progress(userid):
 
         progress_percentage = progress_float * 100
 
-        progress.append([track, round(progress_percentage, 3)])
+        progress_percentage_rounded = round(progress_percentage, 3)
 
-    return progress
+        print(progress_percentage_rounded)
+
+
+        ################ Saving to Database ####################
+
+        user = CustomUser.objects.get(id=userid)
+        track_object = Track.objects.get(id=track)
+
+        p = UserTrackBridge.objects.get(user=user, track=track_object)
+        p.progress = progress_percentage_rounded
+        print("###########################")
+        print(progress_percentage_rounded)
+        p.save()
