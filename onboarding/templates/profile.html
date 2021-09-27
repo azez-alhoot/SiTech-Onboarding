@@ -19,7 +19,7 @@
                     <a href="#image" class="nav-link text-custom-nav" id="image-tab" data-bs-toggle="tab" role="tab"
                         aria-controls="image" aria-selected="false"><i class="fa fa-edit"></i></a>
                 </div>
-                <img class="user-img" src="{{ user.image.url }}" alt="{{ user.first_name }}">
+                <img class="user-img" src="{{ user.profile.image.url }}" alt="{{ user.first_name }}">
                 <h3 class="my-2 user-name">{{ user.first_name }} {{ user.last_name }} </h3>
                 <h6 class="my-2">{{ user.title }}</h6>
             </div>

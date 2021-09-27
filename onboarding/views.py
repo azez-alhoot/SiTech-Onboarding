@@ -6,6 +6,7 @@ from .forms import (
     AddTrackForm,
     UserProgressForm,
     LoginForm,
+    ProfileForm,
 )
 from .models import (
     CustomUser, 
@@ -38,12 +39,13 @@ class SignupView(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('home')
     template_name = 'registration/signup.html'
+    print(CustomUserCreationForm())
 
     def form_valid(self, AuthenticationForm):
 
         to_return = super().form_valid(AuthenticationForm)
         user = authenticate(
-            username=AuthenticationForm.cleaned_data.get("email",None),
+            username=AuthenticationForm.cleaned_data.get("email", None),
             password=AuthenticationForm.cleaned_data.get("password1", None),
         )
         login(self.request, user)
@@ -52,7 +54,7 @@ class SignupView(CreateView):
             'user_email': AuthenticationForm.cleaned_data.get('email', None),
             'template': 'registration/welcome-email.html',
         }
-        
+
         send_email(context)
         return to_return
 
@@ -80,7 +82,6 @@ class LoginView(auth_views.LoginView):
         finally:
             AuthenticationForm.error_messages = org_msg
 
-    print(LoginForm())
 
 def tracks_view(request):
 
@@ -184,14 +185,11 @@ def profile_view(request):
     else:
         messages.error(request, 'Please correct the error below.')
 
-
     progress = calculate_progress(userid)
 
-
-    return render(request, 'profile.html', 
-    {'tracks': tracks, 
+    return render(request, 'profile.html', {'tracks': tracks,
     'progress': progress,
-    'form_edit_user': form_edit_user , 
+    'form_edit_user': form_edit_user,
     'form_edit_image': form_edit_image,
     'form_change_password': form_change_password})
 

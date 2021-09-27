@@ -18,7 +18,7 @@
               {% csrf_token %}
               <div class="form-group">
                 
-                <img style="height: 300px; width: 300px;" src="{{ user.image.url }}" alt="{{ user.first_name }}">
+                <img style="height: 300px; width: 300px;" src="{{ user.profile.image.url }}" alt="{{ user.first_name }}">
             
                 {{ form.image|as_crispy_field }}
                 
