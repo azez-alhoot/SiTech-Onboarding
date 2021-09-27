@@ -30,15 +30,16 @@
             <div>
                 <h5 class="card-title mt-2 p-0 fw-bold fs-3">{{ track.name }}</h5>
                 <p class="card-text text-wrap p-0 my-4">{{ track.descirption }}</p>
+                <a class="btn btn-primary" href="{% url 'track' track.id %}">View Track</a>
             </div>
-            {% if track.name not in user_tracks %}
+            <!-- {% if track.name not in user_tracks %} -->
             <form action="{% url 'user_track_view' user.id track.id %}" method="post">
                 {% csrf_token %}
                 <button class="btn btn-primary" type="submit">Enroll</button>
             </form>
-            {% else %}
-            <a class="btn btn-primary" href="{% url 'track' track.id %}">View Track</a>
-            {% endif %}
+            <!-- {% else %} -->
+            
+            <!-- {% endif %} -->
 
             {% if request.user.is_superuser %}
                 <a href="{% url 'edit_track_form' track.id %}" class="btn btn-primary">Edit</a>
