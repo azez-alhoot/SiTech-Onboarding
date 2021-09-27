@@ -46,7 +46,7 @@ class Course(models.Model):
     name = models.CharField(max_length=50)
     descirption = models.TextField()
     image = models.FileField(upload_to='courses_photos', validators=[FileExtensionValidator(['png', 'jpg', 'svg'])])
-
+    prerequisite = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
@@ -58,7 +58,7 @@ class Resource(models.Model):
     descirption = models.TextField()
     link = models.TextField()
     image = models.FileField(upload_to='resources_photos', validators=[FileExtensionValidator(['png', 'jpg', 'svg'])])
-    prerequisite = models.CharField(max_length=50)
+    
 
 
     def __str__(self):
