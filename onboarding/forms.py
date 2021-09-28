@@ -3,22 +3,30 @@ from crispy_forms.layout import HTML, Div, Layout, Submit
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.forms import models
 from django import forms
-from .models import CustomUser, Track, UserTrackBridge, UserProgress
+from .models import CustomUser, Track, UserTrackBridge, UserProgress, Profile
 from django.contrib.auth.forms import AuthenticationForm
 from crispy_forms.helper import FormHelper
 from django.utils.translation import gettext_lazy as _
 
 
 class CustomUserCreationForm(UserCreationForm):
+
     class Meta:
         model = CustomUser
-        fields = ('first_name', 'last_name', 'title', 'username', 'email',)
+        fields = ('first_name', 'last_name', 'username', 'email',)
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('title',)
 
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
-        fields = ('first_name', 'last_name', 'title')
+        fields = ('first_name', 'last_name',)
+
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(label='Email')
@@ -37,10 +45,11 @@ class LoginForm(AuthenticationForm):
             Div('username', css_class='form-group'),
             Div('password', css_class='form-group'),
             Div(
-                Submit('submit', 'Log In',css_class='btn-custom'),
+                Submit('submit', 'Log In', css_class='btn-custom'),
                 css_class='form-group float-end'
                 )
         )
+
 
 class UserTrackForm(models.ModelForm):
     class Meta:
@@ -49,10 +58,10 @@ class UserTrackForm(models.ModelForm):
 
 
 class EditImageForm(forms.ModelForm):
-    image = forms.ImageField(required = False, error_messages = {'invalid':("Image files only")}, widget=forms.FileInput)
+    image = forms.ImageField(required=False, error_messages={'invalid':("Image files only")}, widget=forms.FileInput)
 
     class Meta:
-        model = CustomUser
+        model = Profile
         fields = ('image',)
 
 

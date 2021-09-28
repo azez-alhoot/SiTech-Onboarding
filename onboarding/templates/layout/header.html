@@ -34,8 +34,8 @@
                     <li class="nav dropdown nav-item">
                         <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            {% if user.image %}
-                            <img src="{{ user.image_url }}" style="border-radius: 50%; height: 65px;">
+                            {% if user.profile.image %}
+                            <img src="{{ user.profile.image_url }}" style="border-radius: 50%; height: 65px;">
                             {% endif %}
                         </a>
                         <ul class="dropdown-menu dropdown-header-custom" aria-labelledby="navbarDropdown" style="right: 5%;
