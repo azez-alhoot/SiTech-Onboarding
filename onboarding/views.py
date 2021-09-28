@@ -151,7 +151,7 @@ def course_resources_view(request, track_name, topic_name, courseid):
     return render(request, 'course_resources.html', {'resources': resources, 'track_name': track_name, 'topic_name': topic_name, 'topic_id': topic_id, 'course_id': courseid, 'track_id': track_id})
 
 
-def profile_view(request):
+def profile_view(request, pass_edit=None, img_edit=None):
 
     userid = request.user.id
 
@@ -168,21 +168,21 @@ def profile_view(request):
 
     form_change_password = PasswordChangeForm(request.user, request.POST or None)
 
-    if form_edit_image.is_valid():
+    if form_edit_image.is_valid() and img_edit:
         form_edit_image.save()
         return redirect('profile')
 
-    if form_edit_user.is_valid():
-        form_edit_user.save()
-        return redirect('profile')
-
-    if form_change_password.is_valid():
+    if form_change_password.is_valid() and pass_edit:
         user = form_change_password.save()
         update_session_auth_hash(request, user)
         messages.success(request, 'Your password was successfully updated!')
         return redirect('home')
     else:
         messages.error(request, 'Please correct the error below.')
+
+    if form_edit_user.is_valid():
+        form_edit_user.save()
+        return redirect('profile')
 
 
     return render(request, 'profile.html', 
