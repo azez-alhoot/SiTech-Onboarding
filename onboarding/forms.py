@@ -10,7 +10,9 @@ from django.utils.translation import gettext_lazy as _
 
 
 class CustomUserCreationForm(UserCreationForm):
+
     title = forms.CharField(label='Title')
+
 
     class Meta:
         model = CustomUser
@@ -20,13 +22,13 @@ class CustomUserCreationForm(UserCreationForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('title',)
+        fields = ('title', 'image')
 
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
-        fields = ('first_name', 'last_name',)
+        fields = ('first_name', 'last_name',`)
 
 
 class LoginForm(AuthenticationForm):
@@ -116,7 +118,7 @@ class AddTrackForm(models.ModelForm):
         )
 
     def clean_name(self):
-        name=self.cleaned_data.get('name')
+        name = self.cleaned_data.get('name')
 
         if '1' in name:
             raise forms.ValidationError('name cant contain integers', code='adsa')

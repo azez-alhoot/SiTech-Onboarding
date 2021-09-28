@@ -5,12 +5,11 @@ from django.utils.translation import gettext_lazy as _
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-# Create your models here.
 
 
 class Track(models.Model):
     name = models.CharField(max_length=50)
-    descirption = models.TextField()
+    description = models.TextField()
     image = models.FileField(upload_to='tracks_photos', validators=[FileExtensionValidator(['png', 'jpg', 'svg'])])
 
     def __str__(self):
@@ -49,7 +48,7 @@ class Profile(models.Model):
 
 class Topic(models.Model):
     name = models.CharField(max_length=50)
-    descirption = models.TextField()
+    description = models.TextField()
     image = models.FileField(upload_to='topics_photos', validators=[FileExtensionValidator(['png', 'jpg', 'svg'])])
 
     def __str__(self):
@@ -58,8 +57,9 @@ class Topic(models.Model):
 
 class Course(models.Model):
     name = models.CharField(max_length=50)
-    descirption = models.TextField()
+    description = models.TextField()
     image = models.FileField(upload_to='courses_photos', validators=[FileExtensionValidator(['png', 'jpg', 'svg'])])
+    prerequisite = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
@@ -68,10 +68,9 @@ class Course(models.Model):
 class Resource(models.Model):
     name = models.CharField(max_length=50)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    descirption = models.TextField()
+    description = models.TextField()
     link = models.TextField()
     image = models.FileField(upload_to='resources_photos', validators=[FileExtensionValidator(['png', 'jpg', 'svg'])])
-    prerequisite = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
@@ -80,6 +79,7 @@ class Resource(models.Model):
 class UserTrackBridge(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True)
     track = models.ForeignKey(Track, on_delete=models.CASCADE, blank=True)
+    progress = models.FloatField(default=0.0)
 
     class Meta:
         unique_together = ('user', 'track')

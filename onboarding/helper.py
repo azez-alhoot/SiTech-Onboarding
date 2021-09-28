@@ -76,6 +76,4 @@ def calculate_progress(userid):
 
         p = UserTrackBridge.objects.get(user=user, track=track_object)
         p.progress = progress_percentage_rounded
-        print("###########################")
-        print(progress_percentage_rounded)
         p.save()
