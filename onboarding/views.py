@@ -27,11 +27,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .helper import send_email, calculate_progress
 from django.contrib.auth import views as auth_views
-
 from django.template.response import TemplateResponse
 from django.utils.translation import gettext_lazy
 from contextlib import contextmanager
-
 
 
 class SignupView(CreateView):
@@ -81,6 +79,7 @@ class LoginView(auth_views.LoginView):
             AuthenticationForm.error_messages = org_msg
 
     print(LoginForm())
+
 
 def tracks_view(request):
 
@@ -134,7 +133,7 @@ def track_topic_view(request, trackid):
 def topic_course_view(request, track_name, topicid):
 
     courses = TopicCourseBridge.objects.filter(topic=topicid).values_list(
-        'course_id', 'course__name', 'course__descirption', 'course__image', 'topic__name', 'topic__id', 'course__prerequisite')
+        'course_id', 'course__name', 'course__description', 'course__image', 'topic__name', 'topic__id', 'course__prerequisite')
     track = Track.objects.filter(name=track_name).values_list('id')
     track_id = track[0][0]
 
@@ -143,12 +142,11 @@ def topic_course_view(request, track_name, topicid):
 
 def course_resources_view(request, track_name, topic_name, courseid):
     resources = Resource.objects.filter(course=courseid).values_list(
-        'name', 'descirption', 'image', 'link', 'course__name', 'course__id', 'id')
+        'name', 'description', 'image', 'link', 'course__name', 'course__id', 'id')
     topic = Topic.objects.filter(name=topic_name).values_list('id')
     topic_id = topic[0][0]
     track = Track.objects.filter(name=track_name).values_list('id')
     track_id = track[0][0]
-
 
     return render(request, 'course_resources.html', {'resources': resources, 'track_name': track_name, 'topic_name': topic_name, 'topic_id': topic_id, 'course_id': courseid, 'track_id': track_id})
 
@@ -160,7 +158,7 @@ def profile_view(request):
     calculate_progress(userid)
 
     tracks = UserTrackBridge.objects.filter(user=userid).values_list(
-        'track_id', 'track__name', 'track__descirption', 'track__image', 'progress')
+        'track_id', 'track__name', 'track__description', 'track__image', 'progress')
 
     user = CustomUser.objects.get(id=userid)
     
@@ -222,9 +220,7 @@ def add_to_progress_view(request, user_id, resource_id, track_name, topic_name, 
         entry.resource = resource
         entry.save()
         return redirect('course', track_name=track_name, topic_name=topic_name, courseid=courseid)
-
     else:
-        
         return redirect('course', track_name=track_name, topic_name=topic_name, courseid=courseid)
 
 
@@ -232,6 +228,6 @@ def delete_from_progress_view(request, user_id, resource_id, track_name, topic_n
     user = CustomUser.objects.get(id=user_id)
     resource = Resource.objects.get(id=resource_id)
 
-    UserProgress.objects.filter(user= user, resource=resource).delete()
+    UserProgress.objects.filter(user=user, resource=resource).delete()
         
     return redirect('course', track_name=track_name, topic_name=topic_name, courseid=courseid)
