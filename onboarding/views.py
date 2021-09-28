@@ -16,6 +16,7 @@ from .models import (
     TrackTopicBridge, 
     UserTrackBridge,
     UserProgress,
+    Profile,
 )
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
@@ -38,19 +39,22 @@ class SignupView(CreateView):
     template_name = 'registration/signup.html'
 
     def form_valid(self, AuthenticationForm):
+        title = AuthenticationForm.cleaned_data["title"]
 
         to_return = super().form_valid(AuthenticationForm)
-        user = authenticate(
-            username=AuthenticationForm.cleaned_data.get("email",None),
-            password=AuthenticationForm.cleaned_data.get("password1", None),
-        )
-        login(self.request, user)
+
+        profile = Profile.objects.get(user__email=AuthenticationForm.cleaned_data.get('email'))
+        profile.title = title
+        profile.save()
+
+        login(self.request, profile.user)
+
         context = {
             'username': AuthenticationForm.cleaned_data.get('username', None),
             'user_email': AuthenticationForm.cleaned_data.get('email', None),
             'template': 'registration/welcome-email.html',
         }
-        
+
         send_email(context)
         return to_return
 
@@ -78,7 +82,6 @@ class LoginView(auth_views.LoginView):
         finally:
             AuthenticationForm.error_messages = org_msg
 
-    print(LoginForm())
 
 
 def tracks_view(request):
