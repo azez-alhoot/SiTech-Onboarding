@@ -19,9 +19,11 @@
 </div>
 
 <div class=" d-flex justify-content-center p-2 mx-auto">
+
     {% if request.user.is_superuser %}
-        <a href="{% url 'add_track_form' %}" class="btn btn-primary">Add</a>
+        <a href="{% url 'add_track_form' %}" class="btn btn-primary">Add Track</a>
     {% endif %}
+
     {% for track in tracks %}
 
     <div class="card m-4 p-4 col-4 border-1 rounded">
@@ -32,17 +34,16 @@
                 <p class="card-text text-wrap p-0 my-4">{{ track.description }}</p>
                 <a class="btn btn-primary" href="{% url 'track' track.id %}">View Track</a>
             </div>
-            <!-- {% if track.name not in user_tracks %} -->
-            <form action="{% url 'user_track_view' user.id track.id %}" method="post">
+          
+            {% if track.name not in user_tracks_list %}
+            <form action="{% url 'user_track_view' user.id track.id %}" method="POST">
                 {% csrf_token %}
-                <button class="btn btn-primary" type="submit">Enroll</button>
+                <button class="btn btn-primary" id='extra' type="submit">Enroll</button>
             </form>
-            <!-- {% else %} -->
-            
-            <!-- {% endif %} -->
+            {% endif %}
 
             {% if request.user.is_superuser %}
-                <a href="{% url 'edit_track_form' track.id %}" class="btn btn-primary">Edit</a>
+                <a href="{% url 'edit_track_form' track.id %}" class="btn btn-primary">Edit Track</a>
             {% endif %}
         </div>
     </div>

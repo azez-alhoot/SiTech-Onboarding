@@ -10,12 +10,27 @@
         <div class="content-box d-flex flex-column justify-content-center pt-5">
             <div class="home-hero-image">
                 <h1 class="ps-5">Welcome to</h1>
-                <img src="{% static 'images/Sitech_Logo_Blue.svg' %}" alt="">
+                <a href="https://www.sitech.me/"><img src="{% static 'images/Sitech_Logo_Blue.svg' %}" alt="sitech-logo"></a>
+                  
             </div>
-            <div class="home-headers content-box d-flex flex-column pt-1">
-                <h2>Congratulations on joining the team!</h2>
+            <div class="home-headers content-box d-flex flex-column pt-1 ">
+                <h2>Congratulations on joining our team!</h2>
                 <h3>This is where you can start your journey...</h3>
+
+                {% if user.is_authenticated %}
+                <div class="home-headers content-box d-flex flex-column pt-1">
+                    <h4>Go ahead and checkout our <a class="text-decoration-none" href="{% url 'tracks'%}"><b>Tracks</b></a></h4>
+                    <h4>or click <a class="text-decoration-none" href="{% url 'about_us' %}"><b>About Us</b></a> to learn more on what you can do here :)</h4>
+                </div>
+                {% else %}
+                <div class="home-headers content-box d-flex flex-column pt-1">
+                    <h4>Go ahead and  <a class="text-decoration-none" href="{% url 'signup'%}"><b>create an account</b></a> to start</h4>
+                    <h4>or <a class="text-decoration-none" href="{% url 'login' %}"><b>login</b></a> if you already have one :)</h4>
+                </div>
+                {% endif %}
+
             </div>
+            
         </div>
     </div>
 </div>

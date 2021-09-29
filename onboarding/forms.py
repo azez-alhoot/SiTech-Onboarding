@@ -1,5 +1,4 @@
 from crispy_forms.layout import HTML, Div, Layout, Submit
-# from django.contrib.auth import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.forms import models
 from django import forms
@@ -14,7 +13,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ('first_name', 'last_name', 'username', 'email',)
+        fields = ('first_name', 'last_name', 'email',)
 
 
 class ProfileForm(forms.ModelForm):
@@ -54,7 +53,7 @@ class LoginForm(AuthenticationForm):
             Div('username', css_class='form-group'),
             Div('password', css_class='form-group'),
             Div(
-                Submit('submit', 'Log In', css_class='btn-custom'),
+                Submit('submit', 'Login', css_class='btn-custom'),
                 css_class='form-group float-end'
                 )
         )
