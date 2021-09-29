@@ -18,7 +18,7 @@ from .views import LoginView, SignupView
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
-    path('what-the-hell', TemplateView.as_view(template_name='what-the-hell.html'),name='what-the-hell'),
+    path('about_us/', TemplateView.as_view(template_name='about_us.html'),name='about_us'),
     path('signup/', SignupView.as_view(), name='signup'),
     path('login/', LoginView.as_view(), name='login'),
     path('tracks/', tracks_view, name='tracks'),

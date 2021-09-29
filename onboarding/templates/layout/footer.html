@@ -14,15 +14,16 @@
 
 
 
-            <a href="#" class="footer__item p-0">About Us</a>
+            <a href="{% url 'about_us' %}" class="footer__item p-0">About Us</a>
         </div>
     </div>
     <div class="d-flex justify-content-between">
         <div class="d-flex justify-content-between align-items-center">
-            <img src="{% static 'images/logos.svg' %}" loading="lazy" alt="Sitech logo"
-                class="sitech__footer__logo m-0 p-0" />
+            <a href="https://www.sitech.me/"><img src="{% static 'images/logos.svg' %}" loading="lazy" alt="Sitech logo"
+                class="sitech__footer__logo m-0 p-0" /></a>
+            
             <div class="small__text footer ms-3 p-0">Copyright © 2021 Sitech. All rights reserved.</div>
-            <!-- <a href="/privacy-policy" class="small__text footer ms-3 p-0">Privacy Policy</a> -->
+
         </div>
         <div class="footer__sm__links__list">
             <a href="https://www.linkedin.com/company/sitechinc/mycompany" target="_blank"

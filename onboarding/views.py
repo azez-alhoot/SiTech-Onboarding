@@ -87,11 +87,10 @@ class LoginView(auth_views.LoginView):
 def tracks_view(request):
 
     tracks = Track.objects.all()
-    user_tracks = UserTrackBridge.objects.filter(
-        user=request.user).values_list('track__name', flat=True)
-    print(user_tracks)
-
-    return render(request, 'tracks.html', {'tracks': tracks, 'user_tracks': user_tracks})
+    user_tracks = UserTrackBridge.objects.filter(user=request.user).values_list('track__name', flat=True)
+    user_tracks_list = [track for track in user_tracks]
+   
+    return render(request, 'tracks.html', {'tracks': tracks, 'user_tracks_list': user_tracks_list})
 
 
 @login_required
@@ -128,7 +127,7 @@ def user_track_view(request, user_id=None, track_id=None):
 def track_topic_view(request, trackid):
 
     topics = TrackTopicBridge.objects.filter(track=trackid).values_list(
-        'topic_id', 'topic__name', 'topic__descirption', 'topic__image', 'track__name')
+        'topic_id', 'topic__name', 'topic__description', 'topic__image', 'track__name')
 
     return render(request, 'track_topics.html', {'topics': topics})
 
@@ -173,12 +172,10 @@ def profile_view(request, pass_edit=None, img_edit=None):
     print("ana mawjoodeh bel view")
 
     if form_edit_image.is_valid() and img_edit:
-        print("ana mawjoodeh be image")
         form_edit_image.save()
         return redirect('profile')
 
     if form_change_password.is_valid() and pass_edit:
-        print("ana mawjoodeh be password")
         user = form_change_password.save()
         update_session_auth_hash(request, user)
         messages.success(request, 'Your password was successfully updated!')
