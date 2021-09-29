@@ -66,8 +66,6 @@ def calculate_progress(userid):
 
         progress_percentage_rounded = round(progress_percentage, 3)
 
-        print(progress_percentage_rounded)
-
 
         ################ Saving to Database ####################
 
