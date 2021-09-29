@@ -14,7 +14,7 @@
             <h2 class="h1-text-form-color">Change Your Image</h2>
           </div>
           <div class="card-body py-4 h1-text-form-color">
-            <form method="POST" enctype="multipart/form-data">
+            <form action="{% url 'img_edit_profile' 0 1 %}"  method="POST" enctype="multipart/form-data">
               {% csrf_token %}
               <div class="form-group">
                 

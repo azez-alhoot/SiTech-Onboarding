@@ -170,12 +170,15 @@ def profile_view(request, pass_edit=None, img_edit=None):
     form_edit_image = EditImageForm(request.POST or None, request.FILES or None, instance=user)
 
     form_change_password = PasswordChangeForm(request.user, request.POST or None)
+    print("ana mawjoodeh bel view")
 
     if form_edit_image.is_valid() and img_edit:
+        print("ana mawjoodeh be image")
         form_edit_image.save()
         return redirect('profile')
 
     if form_change_password.is_valid() and pass_edit:
+        print("ana mawjoodeh be password")
         user = form_change_password.save()
         update_session_auth_hash(request, user)
         messages.success(request, 'Your password was successfully updated!')

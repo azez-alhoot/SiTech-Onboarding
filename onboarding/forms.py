@@ -28,7 +28,7 @@ class ProfileForm(forms.ModelForm):
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
-        fields = ('first_name', 'last_name',`)
+        fields = ('first_name', 'last_name',)
 
 
 class LoginForm(AuthenticationForm):
