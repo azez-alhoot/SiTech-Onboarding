@@ -10,9 +10,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class CustomUserCreationForm(UserCreationForm):
-
     title = forms.CharField(label='Title')
-
 
     class Meta:
         model = CustomUser
@@ -26,6 +24,14 @@ class ProfileForm(forms.ModelForm):
 
 
 class CustomUserChangeForm(UserChangeForm):
+
+    title = forms.CharField(label='Title')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['title'].initial = self.instance.profile.title
+
     class Meta:
         model = CustomUser
         fields = ('first_name', 'last_name',)
@@ -61,8 +67,6 @@ class UserTrackForm(models.ModelForm):
 
 
 class EditImageForm(forms.ModelForm):
-    image = forms.ImageField(required=False, error_messages={'invalid':("Image files only")}, widget=forms.FileInput)
-
     class Meta:
         model = Profile
         fields = ('image',)

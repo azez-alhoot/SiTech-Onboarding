@@ -167,7 +167,7 @@ def profile_view(request, pass_edit=None, img_edit=None):
     
     form_edit_user = CustomUserChangeForm(request.POST or None, instance=user)
 
-    form_edit_image = EditImageForm(request.POST or None, request.FILES or None, instance=user)
+    form_edit_image = EditImageForm(request.POST or None, request.FILES or None, instance=user.profile)
 
     form_change_password = PasswordChangeForm(request.user, request.POST or None)
     print("ana mawjoodeh bel view")
@@ -188,6 +188,10 @@ def profile_view(request, pass_edit=None, img_edit=None):
 
     if form_edit_user.is_valid():
         form_edit_user.save()
+        profile = Profile.objects.get(user=user)
+        title = form_edit_user.cleaned_data['title']
+        profile.title = title
+        profile.save()
         return redirect('profile')
 
 
