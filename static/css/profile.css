@@ -118,3 +118,7 @@ p {
     -ms-overflow-style: none;  
     scrollbar-width: none;
   }
+
+#id_image {
+    display: none;
+}

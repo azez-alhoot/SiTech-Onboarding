@@ -67,6 +67,9 @@ class UserTrackForm(models.ModelForm):
 
 
 class EditImageForm(forms.ModelForm):
+    image = forms.ImageField(label='Change Avatar', widget=forms.FileInput,required=False)
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
     class Meta:
         model = Profile
         fields = ('image',)
