@@ -118,3 +118,15 @@ p {
     -ms-overflow-style: none;  
     scrollbar-width: none;
   }
+
+#id_image {
+    display: none;
+}
+
+.form-label {
+    cursor: pointer;
+}
+
+.form-label:hover {
+    background-color: #f4ff66;
+}

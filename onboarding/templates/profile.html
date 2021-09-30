@@ -17,9 +17,18 @@
             <div class="d-flex flex-column align-items-center">
                 <div class="nav tabs d-flex flex-column text-center" id="tab" role="tablist">
                     <a href="#image" class="nav-link text-custom-nav" id="image-tab" data-bs-toggle="tab" role="tab"
-                        aria-controls="image" aria-selected="false"><i class="fa fa-edit"></i></a>
+                        aria-controls="image" aria-selected="false"></a>
                 </div>
                 <img class="user-img" src="{{ user.profile.image.url }}" alt="{{ user.first_name }}">
+
+                <form action="{% url 'img_edit_profile' 0 1 %}" method="POST" id="change_image"
+                enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {{ form_edit_image.image|as_crispy_field }}
+                    </div>
+                </form>
+
                 <h3 class="my-2 user-name">{{ user.first_name }} {{ user.last_name }} </h3>
                 <h6 class="my-2">{{ user.profile.title }}</h6>
             </div>
@@ -51,7 +60,7 @@
             </div>
 
             <div class="tab-pane tracks-container fade-in-up" id="home" role="tabpanel" aria-labelledby="home-tab">
-                {% include "profile_tracks.html" with  progress=progress %}
+                {% include "profile_tracks.html" with progress=progress %}
             </div>
 
             <div class="tab-pane fade-in-up" id="profile" role="tabpanel" aria-labelledby="profile-tab">
@@ -62,12 +71,20 @@
                 {% include "change_password.html" with form=form_change_password %}
             </div>
 
-            <div class="tab-pane fade-in-up" id="image" role="tabpanel" aria-labelledby="image-tab">
-                {% include "image_edit.html" with form=form_edit_image %}
-            </div>
+        
 
         </div>
 
     </div>
 </div>
+{% endblock %}
+{% block js %}
+
+<script>
+    $(document).ready(function(){
+        $('#id_image').on('change', function () {
+            $('#change_image').submit()
+        });
+    })
+    </script>
 {% endblock %}
