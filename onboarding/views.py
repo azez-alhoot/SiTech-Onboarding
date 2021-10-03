@@ -129,6 +129,8 @@ def track_topic_view(request, trackid):
     topics = TrackTopicBridge.objects.filter(track=trackid).values_list(
         'topic_id', 'topic__name', 'topic__description', 'topic__image', 'track__name')
 
+    
+
     return render(request, 'track_topics.html', {'topics': topics})
 
 
