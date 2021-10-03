@@ -59,7 +59,7 @@ class Course(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField()
     image = models.FileField(upload_to='courses_photos', validators=[FileExtensionValidator(['png', 'jpg', 'svg'])])
-    prerequisite = models.CharField(max_length=50)
+    prerequisite = models.CharField(max_length=60)
 
     def __str__(self):
         return self.name
