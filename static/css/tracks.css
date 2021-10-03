@@ -26,7 +26,7 @@
 }
 
 .card .card-body form #extra {
-    color: #ebe9e1;
+    color: #124bd8;
     background-color: #f4ff66;
     border-color: #f4ff66;
     font-size: 18px;
@@ -35,8 +35,8 @@
     height: 50px;
 }
 
-#extra:hover {
-    color: #f4ff66;
+.card .card-body form #extra:hover {
+    color: #ebe9e1;
     background-color: #124bd8;
     border-color: #124bd8;
 }
