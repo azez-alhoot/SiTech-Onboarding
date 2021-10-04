@@ -8,6 +8,7 @@ from .forms import (
     LoginForm,
 )
 from .models import (
+    Course,
     CustomUser, 
     Topic, 
     TopicCourseBridge, 
@@ -129,7 +130,14 @@ def track_topic_view(request, trackid):
     topics = TrackTopicBridge.objects.filter(track=trackid).values_list(
         'topic_id', 'topic__name', 'topic__description', 'topic__image', 'track__name')
 
-    return render(request, 'track_topics.html', {'topics': topics})
+    courses_msh = TopicCourseBridge.objects.filter().values_list('course__name', 'topic__id' )
+
+    courses = [course for course in courses_msh ]
+    
+
+    print(courses)
+
+    return render(request, 'track_topics.html', {'topics': topics, 'courses':courses})
 
 
 def topic_course_view(request, track_name, topicid):
