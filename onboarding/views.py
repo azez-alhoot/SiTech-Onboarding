@@ -8,9 +8,7 @@ from .forms import (
     LoginForm,
 )
 from .models import (
-    Course,
     CustomUser, 
-    Topic, 
     TopicCourseBridge, 
     Track, 
     Resource, 
@@ -84,7 +82,6 @@ class LoginView(auth_views.LoginView):
             AuthenticationForm.error_messages = org_msg
 
 
-
 def tracks_view(request):
 
     tracks = Track.objects.all()
@@ -127,38 +124,21 @@ def user_track_view(request, user_id=None, track_id=None):
 
 def track_topic_view(request, trackid):
 
-    topics = TrackTopicBridge.objects.filter(track=trackid).values_list(
-        'topic_id', 'topic__name', 'topic__description', 'topic__image', 'track__name')
+    topics = TrackTopicBridge.objects.filter(track=trackid).values_list('topic_id', 'topic__name', 'topic__description', 'topic__image', 'track__name')
 
-    courses_msh = TopicCourseBridge.objects.filter().values_list('course__name', 'topic__id' )
+    courses_query = TopicCourseBridge.objects.filter().values_list('course__name', 'topic__id', 'course__description', 'course__prerequisite', 'course_id')
 
-    courses = [course for course in courses_msh ]
+    courses = [course for course in courses_query ]
     
-
-    print(courses)
-
     return render(request, 'track_topics.html', {'topics': topics, 'courses':courses})
 
 
-def topic_course_view(request, track_name, topicid):
-
-    courses = TopicCourseBridge.objects.filter(topic=topicid).values_list(
-        'course_id', 'course__name', 'course__description', 'course__image', 'topic__name', 'topic__id', 'course__prerequisite')
-    track = Track.objects.filter(name=track_name).values_list('id')
-    track_id = track[0][0]
-
-    return render(request, 'topic_courses.html', {'courses': courses, 'track_name': track_name, 'topic_id': topicid, 'track_id': track_id})
-
-
 def course_resources_view(request, track_name, topic_name, courseid):
-    resources = Resource.objects.filter(course=courseid).values_list(
-        'name', 'description', 'image', 'link', 'course__name', 'course__id', 'id')
-    topic = Topic.objects.filter(name=topic_name).values_list('id')
-    topic_id = topic[0][0]
+    resources = Resource.objects.filter(course=courseid).values_list('name', 'description', 'image', 'link', 'course__name', 'course__id', 'id')
     track = Track.objects.filter(name=track_name).values_list('id')
     track_id = track[0][0]
 
-    return render(request, 'course_resources.html', {'resources': resources, 'track_name': track_name, 'topic_name': topic_name, 'topic_id': topic_id, 'course_id': courseid, 'track_id': track_id})
+    return render(request, 'course_resources.html', {'resources': resources, 'track_name': track_name, 'topic_name': topic_name, 'course_id': courseid, 'track_id': track_id, 'course_name':resources[0][4]})
 
 
 def profile_view(request, pass_edit=None, img_edit=None):
