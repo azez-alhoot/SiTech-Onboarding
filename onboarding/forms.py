@@ -6,10 +6,21 @@ from .models import CustomUser, Track, UserTrackBridge, UserProgress, Profile
 from django.contrib.auth.forms import AuthenticationForm
 from crispy_forms.helper import FormHelper
 from django.utils.translation import gettext_lazy as _
-
+import re
 
 class CustomUserCreationForm(UserCreationForm):
     title = forms.CharField(label='Title')
+
+    def __init__(self, *args, **kwargs):
+        super(CustomUserCreationForm, self).__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs['placeholder'] = 'example@sitech.me'
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+
+        if re.match('\w+(\.)*\w+@(sitech.me|sit-mena.com)', email) != None:
+            return email
+        raise forms.ValidationError('email should be sitech email', code='adsa')
 
     class Meta:
         model = CustomUser
