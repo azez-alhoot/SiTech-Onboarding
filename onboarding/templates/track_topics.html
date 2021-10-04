@@ -9,7 +9,7 @@
 
 {% block content %}
 
-<div class="container-fluid m-2 p-2 text-center ">
+<div class="container-fluid m-2 p-2 text-center">
     <nav aria-label="breadcrumb" class="w-50 border border-white bg-white d-flex mx-auto mb-3 rounded-pill">
         <ol class="breadcrumb p-2 mx-auto m-0">
             <li class="breadcrumb-item active p-2 " aria-current="page"><a href="{% url 'tracks' %}">{{topics.0.4}}</a>
@@ -21,33 +21,39 @@
     <p class="fw-bold fs-5">Topics that cover the track of your interest are previewed here :)</p>
 </div>
 
+<div class="container-fluid m-2 p-2 text-center w-50 d-flex mx-auto mb-3">
 
-<button class="btn btn-primary w-100" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
-    aria-expanded="false" aria-controls="collapseExample">
-    Topics
-</button>
+    <button id="big-collapse" class="btn btn-primary w-100" type="button" data-bs-toggle="collapse"
+        data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        Topics
+    </button>
 
-<div class="collapse" id="collapseExample">
-    <div class="card card-body">
-        {% for topic in topics %}
-        <button class="btn btn-primary my-3 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#{{topic.1}}"
-            aria-expanded="false" aria-controls="#{{topic.1}}">
-            {{ topic.1 }}
-        </button>
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+            {% for topic in topics %}
+            <button class="btn btn-primary my-3 w-100" type="button" data-bs-toggle="collapse"
+                data-bs-target="#courses{{ topic.0 }}" aria-expanded="false" aria-controls="#courses{{ topic.0 }}">
+                {{ topic.1 }}
+            </button>
 
-        <div class="collapse" id="{{ topic.1 }}">
-            <div class="card card-body">
-                {% for course in courses %}
-                {% if topic.0 == course.1 %}
-                <div class="my-3">
-                    <h5 class="card-title mt-2 p-0 fw-bold fs-3">Course name: {{ course.0 }}</h5>
-                    <p class="card-text text-wrap p-0 my-4">topic id : {{ course.1 }}</p>
+            <div class="collapse" id="courses{{ topic.0 }}">
+                <div class="card card-body">
+                    {% for course in courses %}
+                    {% if topic.0 == course.1 %}
+                    <div class="my-3">
+                        <h5 class="card-title mt-2 p-0 fw-bold fs-3"><a
+                                href="{% url 'course' topic.4 topic.1 course.4 %}">{{ course.0 }}</a></h5>
+                        <h6 class="card-text text-wrap p-0 my-4">{{ course.2 }}</h6>
+                        <p class="card-text text-wrap p-0 my-4"><b>Prerequisite:</b> {{ course.3 }}</p>
+                        <!-- <a class="btn btn-primary" href="{% url 'course' topic.4 topic.1 course.4 %}">Start</a> -->
+                    </div>
+                    {% endif %}
+                    {% endfor %}
                 </div>
-                {% endif %}
-                {% endfor %}
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
+
 </div>
 {% endblock %}
