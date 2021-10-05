@@ -1,18 +1,18 @@
 from .forms import (
-    CustomUserCreationForm, 
-    UserTrackForm, 
-    CustomUserChangeForm, 
+    CustomUserCreationForm,
+    UserTrackForm,
+    CustomUserChangeForm,
     EditImageForm,
     AddTrackForm,
     UserProgressForm,
     LoginForm,
 )
 from .models import (
-    CustomUser, 
-    TopicCourseBridge, 
-    Track, 
-    Resource, 
-    TrackTopicBridge, 
+    CustomUser,
+    TopicCourseBridge,
+    Track,
+    Resource,
+    TrackTopicBridge,
     UserTrackBridge,
     UserProgress,
     Profile,
@@ -31,6 +31,14 @@ from django.template.response import TemplateResponse
 from django.utils.translation import gettext_lazy
 from contextlib import contextmanager
 
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from .tokens import account_activation_token
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+
 
 class SignupView(CreateView):
     form_class = CustomUserCreationForm
@@ -39,29 +47,31 @@ class SignupView(CreateView):
 
     def form_valid(self, AuthenticationForm):
         title = AuthenticationForm.cleaned_data["title"]
-
-        to_return = super().form_valid(AuthenticationForm)
-
-        profile = Profile.objects.get(user__email=AuthenticationForm.cleaned_data.get('email'))
-        profile.title = title
-        profile.save()
-
-        login(self.request, profile.user)
-
-        context = {
-            'username': AuthenticationForm.cleaned_data.get('username', None),
-            'user_email': AuthenticationForm.cleaned_data.get('email', None),
-            'template': 'registration/welcome-email.html',
-        }
-
-        send_email(context)
-        return to_return
+        user = AuthenticationForm.save(commit=False)
+        user.is_active = False
+        user.save()
+        current_site = get_current_site(self.request)
+        mail_subject = 'Activate your blog account.'
+        message = render_to_string('registration/welcome-email.html', {
+            'user': user,
+            'domain': current_site.domain,
+            'uid': urlsafe_base64_encode(force_bytes(user.id)),
+            'token': account_activation_token.make_token(user),
+            'title':title,
+        })
+        to_email = AuthenticationForm.cleaned_data.get('email')
+        email = EmailMessage(
+            mail_subject, message, to=[to_email]
+        )
+        email.send()
+        msg = 'Please confirm your email address to complete the registration'
+        return render(self.request, 'home.html', {'msg':msg})
 
 
 class LoginView(auth_views.LoginView):
     form_class = LoginForm
     template_name = 'registration/login.html'
-    
+
     error_messages = {
         'invalid_login': gettext_lazy('Please enter a correct email and password. Note that both fields may be case-sensitive.'),
         'inactive': gettext_lazy("..."),
@@ -69,7 +79,8 @@ class LoginView(auth_views.LoginView):
 
     def post(self, request, *args, **kwargs):
         with self.handle_msg():
-            rtn_response: TemplateResponse = super(LoginView, self).post(request, *args, **kwargs)
+            rtn_response: TemplateResponse = super(
+                LoginView, self).post(request, *args, **kwargs)
         return rtn_response
 
     @contextmanager
@@ -85,17 +96,19 @@ class LoginView(auth_views.LoginView):
 def tracks_view(request):
 
     tracks = Track.objects.all()
-    user_tracks = UserTrackBridge.objects.filter(user=request.user).values_list('track__name', flat=True)
+    user_tracks = UserTrackBridge.objects.filter(
+        user=request.user).values_list('track__name', flat=True)
     user_tracks_list = [track for track in user_tracks]
-   
+
     return render(request, 'tracks.html', {'tracks': tracks, 'user_tracks_list': user_tracks_list})
 
 
 @login_required
 def user_track_view(request, user_id=None, track_id=None):
-    
+
     if request.method == "POST":
-        entry = UserTrackBridge.objects.filter(user=user_id, track=track_id).exists()
+        entry = UserTrackBridge.objects.filter(
+            user=user_id, track=track_id).exists()
         if not entry:
             user = CustomUser.objects.get(id=user_id)
             track = Track.objects.get(id=track_id)
@@ -107,10 +120,10 @@ def user_track_view(request, user_id=None, track_id=None):
                 entry.save()
 
                 context = {
-                'track': track,
-                'username': request.user.username,
-                'user_email': request.user.email,
-                'template': 'congrats-email.html',
+                    'track': track,
+                    'username': request.user.username,
+                    'user_email': request.user.email,
+                    'template': 'congrats-email.html',
                 }
                 send_email(context)
 
@@ -124,22 +137,27 @@ def user_track_view(request, user_id=None, track_id=None):
 
 def track_topic_view(request, trackid):
 
-    topics = TrackTopicBridge.objects.filter(track=trackid).values_list('topic_id', 'topic__name', 'topic__description', 'topic__image', 'track__name')
+    topics = TrackTopicBridge.objects.filter(track=trackid).values_list(
+        'topic_id', 'topic__name', 'topic__description', 'topic__image', 'track__name')
 
-    courses_query = TopicCourseBridge.objects.filter().values_list('course__name', 'topic__id', 'course__description', 'course__prerequisite', 'course_id')
+    courses_query = TopicCourseBridge.objects.filter().values_list('course__name',
+                                                                   'topic__id', 'course__description', 'course__prerequisite', 'course_id')
 
-    courses = [course for course in courses_query ]
-    
-    return render(request, 'track_topics.html', {'topics': topics, 'courses':courses})
+    courses = [course for course in courses_query]
+
+    return render(request, 'track_topics.html', {'topics': topics, 'courses': courses})
 
 
 def course_resources_view(request, track_name, topic_name, courseid):
-    resources = Resource.objects.filter(course=courseid).values_list('name', 'description', 'image', 'link', 'course__name', 'course__id', 'id')
+    resources = Resource.objects.filter(course=courseid).values_list(
+        'name', 'description', 'image', 'link', 'course__name', 'course__id', 'id')
     track = Track.objects.filter(name=track_name).values_list('id')
     track_id = track[0][0]
     enrolled_tracks = UserTrackBridge.objects.filter(user=request.user).values_list('track__name', flat=True)
 
+
     return render(request, 'course_resources.html', {'resources': resources, 'track_name': track_name, 'topic_name': topic_name, 'course_id': courseid, 'track_id': track_id, 'course_name':resources[0][4], 'enrolled_tracks':enrolled_tracks})
+
 
 
 def profile_view(request, pass_edit=None, img_edit=None):
@@ -152,13 +170,14 @@ def profile_view(request, pass_edit=None, img_edit=None):
         'track_id', 'track__name', 'track__description', 'track__image', 'progress')
 
     user = CustomUser.objects.get(id=userid)
-    
+
     form_edit_user = CustomUserChangeForm(request.POST or None, instance=user)
 
-    form_edit_image = EditImageForm(request.POST or None, request.FILES or None, instance=user.profile)
+    form_edit_image = EditImageForm(
+        request.POST or None, request.FILES or None, instance=user.profile)
 
-    form_change_password = PasswordChangeForm(request.user, request.POST or None)
-    print("ana mawjoodeh bel view")
+    form_change_password = PasswordChangeForm(
+        request.user, request.POST or None)
 
     if form_edit_image.is_valid() and img_edit:
         form_edit_image.save()
@@ -180,12 +199,11 @@ def profile_view(request, pass_edit=None, img_edit=None):
         profile.save()
         return redirect('profile')
 
-
-    return render(request, 'profile.html', 
-    {'tracks': tracks,
-    'form_edit_user': form_edit_user,
-    'form_edit_image': form_edit_image,
-    'form_change_password': form_change_password})
+    return render(request, 'profile.html',
+                  {'tracks': tracks,
+                   'form_edit_user': form_edit_user,
+                   'form_edit_image': form_edit_image,
+                   'form_change_password': form_change_password})
 
 
 # this is for learning and practice
@@ -195,7 +213,8 @@ def add_track_form(request, track_id=None):
     if track_id:
         instance = Track.objects.get(id=track_id)
 
-    form = AddTrackForm(request.POST or None, request.FILES or None, instance=instance, user=request.user)
+    form = AddTrackForm(request.POST or None, request.FILES or None,
+                        instance=instance, user=request.user)
 
     if form.is_valid():
         form.save()
@@ -225,5 +244,22 @@ def delete_from_progress_view(request, user_id, resource_id, track_name, topic_n
     resource = Resource.objects.get(id=resource_id)
 
     UserProgress.objects.filter(user=user, resource=resource).delete()
-        
+
     return redirect('course', track_name=track_name, topic_name=topic_name, courseid=courseid)
+
+
+def activate(request, uidb64, token, title):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = CustomUser.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.profile.title = title
+        user.save()
+        msg = 'Thank you for your email confirmation. Now you can login your account.'
+        form = LoginForm()
+        return render(request, 'registration/login.html',{'msg': msg, 'form':form})
+    else:
+        return HttpResponse('Activation link is invalid!')
