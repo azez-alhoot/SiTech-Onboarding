@@ -9,11 +9,13 @@ from .views import (
     add_track_form,
     add_to_progress_view,
     delete_from_progress_view,
+    activate,
 )
 from django.views.generic.base import TemplateView
 from django.conf.urls.static import static
 from django.conf import settings
 from .views import LoginView, SignupView
+from django.conf.urls import url
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
@@ -31,5 +33,6 @@ urlpatterns = [
     path('edit-track-form/<int:track_id>',add_track_form, name='edit_track_form'),
     path('add_to_progress_view/<int:user_id>/<int:resource_id>/<str:track_name>/<str:topic_name>/<int:courseid>/',add_to_progress_view, name='add_to_progress_view'),
     path('delete_from_progress_view/<int:user_id>/<int:resource_id>/<str:track_name>/<str:topic_name>/<int:courseid>/',delete_from_progress_view, name='delete_from_progress_view'),
-
+    path('activate/<uidb64>/<token>/<str:title>',activate, name='activate'),
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -5,6 +5,12 @@
 {% endblock %}
 {% block title %}Home{% endblock %}
 {% block content %}
+    {% if msg %}
+        <div class="alert alert-success alert-dismissible fade show">
+            <strong>Success!</strong> {{ msg }}.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endif %}
 <div class="container-fluid div-custom">
     <div class="content">
         <div class="content-box d-flex flex-column justify-content-center pt-5">
