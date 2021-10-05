@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block cssimport %}{% endblock %}
+
+{% block title %}Project Details{% endblock %}
+
+{% block content %}
+    <h1>{{ project.name }}</h1>
+    <p>{{ project.description }}</p>
+    {% for pos, name in project.members.items %}
+        {% if pos == 'devs' %}
+            {% for dev in name %}
+            <li>Developer: {{ dev }}</li>
+            {% endfor %}
+        {% else %}
+        <li>{{ pos }}: {{ name }}</li>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

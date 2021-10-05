@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block cssimport %}{% endblock %}
+
+{% block title %}Projects{% endblock %}
+
+{% block content %}
+    {% for project in projects %}
+        <a href="{% url 'projects_details_view' project.id %}">{{ project.name }}</a>
+        <br>
+        {{ project.description }}
+    {% endfor %}
+{% endblock %}

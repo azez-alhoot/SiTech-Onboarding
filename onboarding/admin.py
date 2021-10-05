@@ -9,7 +9,9 @@ from .models import (
     TrackTopicBridge,
     TopicCourseBridge,
     UserProgress,
-    Profile,)
+    Profile,
+    Project,
+)
 
 # Register your models here.
 
@@ -23,6 +25,7 @@ admin.site.register(TrackTopicBridge)
 admin.site.register(TopicCourseBridge)
 admin.site.register(UserProgress)
 admin.site.register(Profile)
+admin.site.register(Project)
 
 
 
