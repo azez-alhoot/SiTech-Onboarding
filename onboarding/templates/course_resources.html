@@ -12,7 +12,8 @@
 <div class="container-fluid m-2 p-2 text-center ">
     <nav aria-label="breadcrumb" class="w-50 border border-white bg-white d-flex mx-auto mb-3 rounded-pill">
         <ol class="breadcrumb p-2 mx-auto m-0">
-            <li class="breadcrumb-item active p-2 " aria-current="page"><a href="{% url 'tracks' %}">{{track_name}}</a></li>
+            <li class="breadcrumb-item active p-2 " aria-current="page"><a href="{% url 'tracks' %}">{{track_name}}</a>
+            </li>
             <li class="breadcrumb-item active p-2 " aria-current="page"><a href="{% url 'track' track_id %}">{{ topic_name }}-{{ course_name }}</a></li>
             <li class="breadcrumb-item active p-2 " aria-current="page">Resources</li>
         </ol>
@@ -31,6 +32,8 @@
                 <p class="card-text text-wrap p-0 my-4">{{ resource.1 }}</p>
             </div>
 
+            {% if track_name in enrolled_tracks %}
+
             {% if resource.6 in progress %}
             <form action="{% url 'delete_from_progress_view' user.id resource.6 track_name topic_name resource.5 %}"
                 method="POST">
@@ -45,6 +48,7 @@
                 {% csrf_token %}
                 <input type="checkbox" onchange="this.form.submit();" name="Done" id="Done">
             </form>
+            {% endif %}
             {% endif %}
 
             <a class="btn btn-primary" href="{{ resource.3 }}" target="_blank">Go</a>
