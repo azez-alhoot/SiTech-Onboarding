@@ -153,8 +153,11 @@ def course_resources_view(request, track_name, topic_name, courseid):
         'name', 'description', 'image', 'link', 'course__name', 'course__id', 'id')
     track = Track.objects.filter(name=track_name).values_list('id')
     track_id = track[0][0]
+    enrolled_tracks = UserTrackBridge.objects.filter(user=request.user).values_list('track__name', flat=True)
 
-    return render(request, 'course_resources.html', {'resources': resources, 'track_name': track_name, 'topic_name': topic_name, 'course_id': courseid, 'track_id': track_id, 'course_name': resources[0][4]})
+
+    return render(request, 'course_resources.html', {'resources': resources, 'track_name': track_name, 'topic_name': topic_name, 'course_id': courseid, 'track_id': track_id, 'course_name':resources[0][4], 'enrolled_tracks':enrolled_tracks})
+
 
 
 def profile_view(request, pass_edit=None, img_edit=None):
