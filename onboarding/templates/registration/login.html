@@ -6,6 +6,13 @@
 {% block title %}Login{% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
+  {% if msg %}
+      <div class="alert alert-success alert-dismissible fade show">
+          <strong>Success!</strong> {{ msg }}.
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+  {% endif %}
+  
 <div class="login-signup-form py-4">
   <div class="container">
     <div class="row justify-content-center">
