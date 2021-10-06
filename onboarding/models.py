@@ -1,3 +1,4 @@
+# from typing_extensions import Required
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import FileExtensionValidator
@@ -113,3 +114,13 @@ class UserProgress(models.Model):
 
     def __str__(self):
         return f'user: {self.user}, resource: {self.resource}'
+
+class Project(models.Model):
+    name = models.CharField(max_length=66)
+    description = models.TextField()
+    members = models.JSONField()
+    business_document =models.FileField()
+    technical_document =models.FileField()
+
+    def __str__(self):
+        return self.name

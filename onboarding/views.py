@@ -9,6 +9,7 @@ from .forms import (
 )
 from .models import (
     CustomUser,
+    Project,
     TopicCourseBridge,
     Track,
     Resource,
@@ -263,3 +264,16 @@ def activate(request, uidb64, token, title):
         return render(request, 'registration/login.html',{'msg': msg, 'form':form})
     else:
         return HttpResponse('Activation link is invalid!')
+
+
+
+def projects_view(request):
+    projects = Project.objects.all()
+
+    return render(request, 'projects.html', {'projects':projects})
+
+def projects_details_view(request, project_id):
+    project = Project.objects.get(id=project_id)
+    
+
+    return render(request, 'project_details.html', {'project':project})
