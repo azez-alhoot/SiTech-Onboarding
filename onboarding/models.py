@@ -119,8 +119,9 @@ class Project(models.Model):
     name = models.CharField(max_length=66)
     description = models.TextField()
     members = models.JSONField()
-    business_document =models.FileField()
-    technical_document =models.FileField()
+    business_document =models.TextField()
+    technical_document =models.TextField()
+    image = models.FileField(upload_to='projects_photos', validators=[FileExtensionValidator(['png', 'jpg', 'svg'])], default='Icon_MT_4.svg')
 
     def __str__(self):
         return self.name
