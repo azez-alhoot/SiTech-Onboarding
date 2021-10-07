@@ -15,16 +15,13 @@
     <div class="row vh-100">
         <div class="d-flex flex-column flex-shrink-0 p-3 col-2 side-custom border-profile">
             <div class="d-flex flex-column align-items-center">
-                <div class="nav tabs d-flex flex-column text-center" id="tab" role="tablist">
-                    <a href="#image" class="nav-link text-custom-nav" id="image-tab" data-bs-toggle="tab" role="tab"
-                        aria-controls="image" aria-selected="false"></a>
-                </div>
-                <img class="user-img" src="{{ user.profile.image.url }}" alt="{{ user.first_name }}">
+               
+                <img id="image" class="user-img" src="{{ user.profile.image.url }}" alt="{{ user.first_name }}">
 
                 <form action="{% url 'img_edit_profile' 0 1 %}" method="POST" id="change_image"
-                enctype="multipart/form-data">
+                    enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div class="form-group">
+                    <div class="form-group hidden">
                         {{ form_edit_image.image|as_crispy_field }}
                     </div>
                 </form>
@@ -34,57 +31,95 @@
             </div>
             <hr class="hr-bold">
             <ul class="nav tabs d-flex flex-column text-center" id="tab" role="tablist">
-              
-                <li><a class="nav-link text-custom-nav" id="home-tab" data-bs-toggle="tab" href="#home" role="tab"
-                        aria-controls="home" aria-selected="false">My Tracks</a>
-                </li>
-                <hr class="hr-bold">
-
-                <a class="nav-link text-custom-nav" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
-                    aria-controls="profile" aria-selected="false">Edit Profile Info</a>
+                <li>
+                    <a class="nav-link text-custom-nav" id="profile-tab" data-bs-toggle="modal" href="#profile"
+                        role="tab" data-bs-target="#staticBackdrop" aria-selected="false">Edit Profile Info</a>
                 </li>
                 <hr class="hr-bold">
                 <li>
-                    <a class="nav-link text-custom-nav" id="contact-tab" data-bs-toggle="tab" href="#contact" role="tab"
-                        aria-controls="contact" aria-selected="false">Change Password</a>
+                    <a class="nav-link text-custom-nav" id="contact-tab" data-bs-toggle="modal" href="#contact"
+                        role="tab" data-bs-target="#staticBackdrop2" aria-selected="false">Change Password</a>
                 </li>
                 <hr class="hr-bold">
             </ul>
-
         </div>
 
         <div class="tab-content bg-profile-tabs col-10 " id="tabContent">
 
-            <div>
-                <h2>Welcome to your profile {{user.first_name}}!</h2>
+            <div class="mx-5">
+                <br>
+                <h4><b>Welcome {{user.first_name}}, these are your tracks :)</b></h4>
+                <br>
             </div>
 
-            <div class="tab-pane tracks-container fade-in-up" id="home" role="tabpanel" aria-labelledby="home-tab">
-                {% include "profile_tracks.html" with progress=progress %}
+            <div class=" d-flex justify-content-center p-2 mx-auto">
+
+                {% for track in tracks %}
+
+                <div class="card m-4 p-4 col-4 border-1 rounded shadow-lg">
+                    <img class=" img-thumbnail track-images d-block" src="/media/{{ track.3 }}" alt="Card image cap">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
+                            <h5 class="card-title mt-2 p-0 fw-bold fs-3">{{ track.1 }}</h5>
+                            <p class="card-text text-wrap p-0 my-4">{{ track.2 }}</p>
+                            <h3>Your progress: {{ track.4 }} %</h3>
+                        </div>
+                        <a class="btn btn-primary" href="{% url 'track' track.0 %}">View Track</a>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
-
-            <div class="tab-pane fade-in-up" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                {% include "profile_edit.html" with form=form_edit_user %}
-            </div>
-
-            <div class="tab-pane fade-in-up" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                {% include "change_password.html" with form=form_change_password %}
-            </div>
-
-        
-
         </div>
+    </div>
+</div>
 
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="tab-pane fade-in-up" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    {% include "profile_edit.html" with form=form_edit_user %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="tab-pane fade-in-up" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                    {% include "change_password.html" with form=form_change_password %}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
-{% block js %}
 
+{% block js %}
 <script>
-    $(document).ready(function(){
+        $(document).ready(function () {
+        $('#image').on('click', function () {
+            $('#id_image').click()
+        });
+    })
+
+    $(document).ready(function () {
         $('#id_image').on('change', function () {
             $('#change_image').submit()
         });
     })
-    </script>
+
+   
+
+</script>
 {% endblock %}
