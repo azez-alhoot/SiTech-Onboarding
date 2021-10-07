@@ -24,7 +24,7 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('about_us/', TemplateView.as_view(template_name='about_us.html'),name='about_us'),
     path('signup/', SignupView.as_view(), name='signup'),
-    path('login/', LoginView.as_view(), name='login'),
+    path('login/', LoginView.as_view(), name='signin'),
     path('tracks/', tracks_view, name='tracks'),
     path('track/<int:trackid>/', track_topic_view, name='track'),
     path('course/<str:track_name>/<str:topic_name>/<int:courseid>/',course_resources_view, name='course'),
