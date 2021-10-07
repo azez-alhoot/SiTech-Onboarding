@@ -15,7 +15,7 @@
     <div class="row vh-100">
         <div class="d-flex flex-column flex-shrink-0 p-3 col-2 side-custom border-profile">
             <div class="d-flex flex-column align-items-center">
-               
+
                 <img id="image" class="user-img" src="{{ user.profile.image.url }}" alt="{{ user.first_name }}">
 
                 <form action="{% url 'img_edit_profile' 0 1 %}" method="POST" id="change_image"
@@ -107,7 +107,11 @@
 
 {% block js %}
 <script>
-        $(document).ready(function () {
+    $(document).ready(function () {
+        $('#image').on('hover', function () {}).css({'cursor': 'pointer'});
+    })
+
+    $(document).ready(function () {
         $('#image').on('click', function () {
             $('#id_image').click()
         });
@@ -119,7 +123,7 @@
         });
     })
 
-   
+
 
 </script>
 {% endblock %}
