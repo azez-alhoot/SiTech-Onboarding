@@ -128,9 +128,9 @@ def user_track_view(request, user_id=None, track_id=None):
                 }
                 send_email(context)
 
-                return redirect('track', trackid=track_id)
+                return redirect('tracks')
         else:
-            return redirect('track', trackid=track_id)
+            return redirect('tracks')
     else:
         form = UserTrackForm()
     return render(request, 'tracks.html')
