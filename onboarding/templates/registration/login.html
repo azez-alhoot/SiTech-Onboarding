@@ -27,7 +27,8 @@
             {% csrf_token %}
             {% crispy form %}
           </div>
-          <a href="{% url 'signup' %}" class="text-decoration-none px-3 py-1">create an account?</a>
+          <a href="{% url 'signup' %}" class="text-decoration-none px-3 py-1">Create an account?</a>
+          <a href="{% url 'password_reset' %}" class="text-decoration-none px-3 py-1">Forgot your password?</a>
         </div>
       </div>
     </div>

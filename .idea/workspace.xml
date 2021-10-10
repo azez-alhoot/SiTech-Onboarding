@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="add4d3f1-7b51-4c77-94bb-63180b2c7919" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/SiTech-Onboarding.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SiTech-Onboarding.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/onboarding/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/onboarding/migrations/0002_auto_20210928_1041.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/onboarding/migrations/0003_usertrackbridge_progress.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/onboarding/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/onboarding/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/tracks.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/tracks.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sitech_onboarding/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/sitech_onboarding/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +57,8 @@
       <updated>1632729411175</updated>
       <workItem from="1632729417326" duration="16940000" />
       <workItem from="1633251154787" duration="1975000" />
+      <workItem from="1633606340914" duration="14000" />
+      <workItem from="1633606355854" duration="953000" />
     </task>
     <servers />
   </component>
