@@ -6,6 +6,7 @@ from .forms import (
     AddTrackForm,
     UserProgressForm,
     LoginForm,
+    AddEditProjectForm,
 )
 from .models import (
     CustomUser,
@@ -223,6 +224,21 @@ def add_track_form(request, track_id=None):
     return render(request, 'forms/add-track-form.html', locals())
 
 
+def add_edit_project_form_view(request, project_id=None):
+    instance = Project()
+
+    if project_id:
+        instance = Project.objects.get(id=project_id)
+
+    form = AddEditProjectForm(request.POST or None, request.FILES or None,
+                        instance=instance, user=request.user)
+
+    if form.is_valid():
+        form.save()
+
+    return render(request, 'forms/add-edit-project-form.html', locals())
+
+
 def add_to_progress_view(request, user_id, resource_id, track_name, topic_name, courseid):
 
     user = CustomUser.objects.get(id=user_id)
@@ -277,3 +293,7 @@ def projects_details_view(request, project_id):
     
 
     return render(request, 'project_details.html', {'project':project})
+
+
+def dashboard_view(request):
+    return render(request, 'admin_dashboard.html')

@@ -21,10 +21,6 @@
 
 <div class=" d-flex justify-content-center p-2 mx-auto">
 
-    {% if request.user.is_superuser %}
-    <a href="{% url 'add_track_form' %}" class="btn btn-primary">Add Track</a>
-    {% endif %}
-
     {% for track in tracks %}
 
     <div class="card m-4 p-4 col-4 border-1 rounded shadow-lg">

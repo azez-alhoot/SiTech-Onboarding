@@ -1,6 +1,12 @@
+:root {
+    --main-background: #ebe9e1;
+  }
+
+
+
 .bg-custom {
-    background-color: #ebe9e1;
-    z-index: 999;
+    background-color: var(--main-background);
+    /* z-index: 999; */
 }
 
 .logo {
@@ -13,9 +19,9 @@
     /* padding: 10px 10px; */
 }
 
-.header-hight {
+/* .header-hight {
     height: 100px;
-}
+} */
 
 .text-custom-header {
     color: #124BD8;

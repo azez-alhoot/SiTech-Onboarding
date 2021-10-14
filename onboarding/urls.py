@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (
     SignupView,
+    dashboard_view,
     tracks_view,
     user_track_view,
     track_topic_view,
@@ -12,6 +13,7 @@ from .views import (
     activate,
     projects_view,
     projects_details_view,
+    add_edit_project_form_view
 
 )
 from django.views.generic.base import TemplateView
@@ -39,5 +41,8 @@ urlpatterns = [
     path('activate/<uidb64>/<token>/<str:title>',activate, name='activate'),
     path('projects/',projects_view, name='projects_view'),
     path('projects/<int:project_id>',projects_details_view, name='projects_details_view'),
+    path('admin_dashboard/', dashboard_view, name='admin_dashboard'),
+    path('add-project-form/', add_edit_project_form_view, name='add_project_form'),
+    path('edit-project-form/<int:track_id>/', add_edit_project_form_view, name='edit_project_form'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
