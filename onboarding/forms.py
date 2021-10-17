@@ -1,12 +1,13 @@
 from crispy_forms.layout import HTML, Div, Layout, Submit
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.forms import models
+from django.forms import models, formset_factory, BaseFormSet
 from django import forms
-from .models import CustomUser, Track, UserTrackBridge, UserProgress, Profile
+from .models import CustomUser, Track, UserTrackBridge, UserProgress, Profile, Project
 from django.contrib.auth.forms import AuthenticationForm
 from crispy_forms.helper import FormHelper
 from django.utils.translation import gettext_lazy as _
 import re
+# from django.forms import formset_factory
 
 class CustomUserCreationForm(UserCreationForm):
     title = forms.CharField(label='Title')
@@ -148,3 +149,26 @@ class UserProgressForm(models.ModelForm):
     class Meta:
         model = UserProgress
         fields = '__all__'
+
+
+class AddProjectForm(forms.ModelForm):
+        
+    class Meta:
+        model = Project
+        exclude = ['members']
+        fields = '__all__'
+        # fields = ['name']
+        # widgets = {
+        #     'name': forms.TextInput(attrs={
+        #         'id': 'post-name', 
+        #         'required': True, 
+        #         'placeholder': 'Say something...'
+        #     }),
+        # }
+
+class AddProjectMembersForm(forms.Form):
+
+    member_position = forms.CharField(label='member_position', max_length=66)
+    member_name = forms.CharField(label='member_name', max_length=66)
+    member_linkedIn = forms.CharField(label='member_linkedIn', max_length=66)
+

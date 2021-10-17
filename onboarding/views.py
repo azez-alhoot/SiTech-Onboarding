@@ -1,3 +1,8 @@
+from django.db.transaction import commit
+from django.forms.formsets import formset_factory
+from django.template import context
+from django.core import serializers
+
 from .forms import (
     CustomUserCreationForm,
     UserTrackForm,
@@ -6,6 +11,8 @@ from .forms import (
     AddTrackForm,
     UserProgressForm,
     LoginForm,
+    AddProjectForm,
+    AddProjectMembersForm,
 )
 from .models import (
     CustomUser,
@@ -34,11 +41,13 @@ from contextlib import contextmanager
 
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+
+from django.forms import formset_factory, modelformset_factory
 
 
 class SignupView(CreateView):
@@ -58,7 +67,7 @@ class SignupView(CreateView):
             'domain': current_site.domain,
             'uid': urlsafe_base64_encode(force_bytes(user.id)),
             'token': account_activation_token.make_token(user),
-            'title':title,
+            'title': title,
         })
         to_email = AuthenticationForm.cleaned_data.get('email')
         email = EmailMessage(
@@ -66,7 +75,7 @@ class SignupView(CreateView):
         )
         email.send()
         msg = 'Please confirm your email address to complete the registration'
-        return render(self.request, 'home.html', {'msg':msg})
+        return render(self.request, 'home.html', {'msg': msg})
 
 
 class LoginView(auth_views.LoginView):
@@ -154,11 +163,10 @@ def course_resources_view(request, track_name, topic_name, courseid):
         'name', 'description', 'image', 'link', 'course__name', 'course__id', 'id')
     track = Track.objects.filter(name=track_name).values_list('id')
     track_id = track[0][0]
-    enrolled_tracks = UserTrackBridge.objects.filter(user=request.user).values_list('track__name', flat=True)
+    enrolled_tracks = UserTrackBridge.objects.filter(
+        user=request.user).values_list('track__name', flat=True)
 
-
-    return render(request, 'course_resources.html', {'resources': resources, 'track_name': track_name, 'topic_name': topic_name, 'course_id': courseid, 'track_id': track_id, 'course_name':resources[0][4], 'enrolled_tracks':enrolled_tracks})
-
+    return render(request, 'course_resources.html', {'resources': resources, 'track_name': track_name, 'topic_name': topic_name, 'course_id': courseid, 'track_id': track_id, 'course_name': resources[0][4], 'enrolled_tracks': enrolled_tracks})
 
 
 def profile_view(request, pass_edit=None, img_edit=None):
@@ -261,19 +269,48 @@ def activate(request, uidb64, token, title):
         user.save()
         msg = 'Thank you for your email confirmation. Now you can login your account.'
         form = LoginForm()
-        return render(request, 'registration/login.html',{'msg': msg, 'form':form})
+        return render(request, 'registration/login.html', {'msg': msg, 'form': form})
     else:
         return HttpResponse('Activation link is invalid!')
-
 
 
 def projects_view(request):
     projects = Project.objects.all()
 
-    return render(request, 'projects.html', {'projects':projects})
+    return render(request, 'projects.html', {'projects': projects})
+
 
 def projects_details_view(request, project_id):
     project = Project.objects.get(id=project_id)
-    
 
-    return render(request, 'project_details.html', {'project':project})
+    return render(request, 'project_details.html', {'project': project})
+
+
+def add_project_view(request, project_id=None):
+    
+    instance = AddProjectForm()
+
+    if project_id:
+        instance = Project.objects.get(id=project_id)
+        members = Project.objects.filter(id=project_id).values_list('members')
+        form = AddProjectForm(request.POST or None, instance=instance)
+        form_set_t = formset_factory(AddProjectMembersForm, can_delete=True)
+        formset = form_set_t(request.POST or None,members)
+        print(members)
+    else:
+        form = AddProjectForm(request.POST or None, request.FILES or None)
+        form_set_t = formset_factory(AddProjectMembersForm,extra=1, can_delete=True)
+        formset = form_set_t(request.POST or None)
+
+        data = request.POST
+        print(data)
+        if form.is_valid() and formset.is_valid():
+            print('*************************************')
+            print('*************************************')
+            print('All Good')
+            print('*************************************')
+            print('*************************************')
+            return redirect('projects_view')
+
+
+    return render(request, 'add_project.html', {'form':form, 'formset':formset})
