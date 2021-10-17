@@ -137,68 +137,7 @@ class AddTrackForm(models.ModelForm):
 
         if '1' in name:
             raise forms.ValidationError('name cant contain integers', code='adsa')
-        return self.cleaned_data()
-
-    class Meta:
-        model = Track
-        fields = '__all__'
-
-
-class AddEditProjectForm(models.ModelForm):
-    def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user')
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.form_tag=True
-        self.helper.layout = Layout(
-            Div(
-                Div(
-                    'name',
-                    css_class='col-5'
-                ),
-                css_class='row'
-
-            ),
-            Div(
-                Div(
-                    HTML('<h3>Add New Project</h3>'),
-                    css_class='col-5'
-                ),
-                css_class='row'
-
-            ),
-            Div(
-                Div(
-                    'descirption',
-                    css_class='col-5'
-                ),
-                css_class='row'
-            ),
-            Div(
-                Div(
-                    'image',
-                    css_class='col-5'
-                ),
-                css_class='row'
-            ),
-            Div(
-                Div(
-                    Submit('submit', 'save',
-                    css_class='btn-danger'
-                    ),
-                    css_class='col-5'
-                ),
-                css_class='row'
-            ),
-
-        )
-
-    def clean_name(self):
-        name = self.cleaned_data.get('name')
-
-        if '1' in name:
-            raise forms.ValidationError('name cant contain integers', code='adsa')
-        return self.cleaned_data()
+        return self.cleaned_data
 
     class Meta:
         model = Track
