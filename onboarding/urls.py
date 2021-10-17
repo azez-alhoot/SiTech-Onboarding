@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (
     SignupView,
+    dashboard_view,
     tracks_view,
     user_track_view,
     track_topic_view,
@@ -39,5 +40,6 @@ urlpatterns = [
     path('activate/<uidb64>/<token>/<str:title>',activate, name='activate'),
     path('projects/',projects_view, name='projects_view'),
     path('projects/<int:project_id>',projects_details_view, name='projects_details_view'),
+    path('admin_dashboard/', dashboard_view, name='admin_dashboard'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

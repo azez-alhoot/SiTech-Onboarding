@@ -2,7 +2,67 @@
 
 <link href="{% static 'css/header.css' %}" rel="stylesheet">
 
-<nav class="navbar nav-height navbar-expand-lg bg-custom position-sticky top-0 m-0">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-custom position-sticky top-0">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'home' %}"><img class="logo"
+        src="{% static 'images/Sitech_SkillHub_Logo.svg' %}" alt=""></a>
+  
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+
+        {% if not user.is_authenticated %}
+        <a type="button" href="{% url 'login' %}" class="btn btn-header mx-3 text-custom-header">Login</a>
+        <a type="button" href="{% url 'signup' %}" class="btn btn-header mx-3 text-custom-header">Sign Up</a>
+        {% endif %}   
+        
+        {% if user.is_authenticated %}
+
+        <a class="nav-link active text-custom-header btn btn-header me-3" aria-current="page"
+        href="{% url 'tracks' %}">Tracks</a>
+
+        <a class="nav-link active text-custom-header btn btn-header me-3" aria-current="page"
+                        href="{% url 'projects_view' %}">Projects</a>
+
+        <a class="nav-link text-custom-header btn btn-header me-3" href="{% url 'about_us' %}">About Us</a>
+
+        <li class="nav dropdown nav-item d-none d-md-block">
+            <a class="nav-link" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                {% if user.profile.image %}
+                <img src="{{ user.profile.image_url }}" style="border-radius: 50%; height: 65px;">
+                {% endif %}
+            </a>
+            <ul class="dropdown-menu dropdown-header-custom" aria-labelledby="navbarDropdown" style="right: 5%;
+                        left: unset;">
+                <li>
+                    <h6 class="dropdown-item dropdown-header-item-custom">Welcome {{ user.first_name }}!</h6>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item dropdown-header-item-custom" href="{% url 'profile' %}">My
+                        Profile</a></li>
+                <li><a class="dropdown-item  dropdown-header-item-custom"
+                        href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </li>
+
+        <div class="d-block d-md-none">
+            <a class="nav-link active text-custom-header btn btn-header me-3" href="{% url 'profile' %}">My Profile</a>
+            <a class="nav-link active text-custom-header btn btn-header me-3" href="{% url 'logout' %}">Logout</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+
+
+<nav class="navbar nav-height navbar-expand-lg bg-custom position-sticky top-0 m-0 d-none">
     <div class="container-fluid header-hight">
         <a class="navbar-brand" href="{% url 'home' %}"><img class="logo"
                 src="{% static 'images/Sitech_SkillHub_Logo.svg' %}" alt=""></a>
@@ -23,7 +83,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex flex-row align-items-center justify-content-center">
                     <li class="nav-item">
                         <a class="nav-link active text-custom-header btn btn-header me-3" aria-current="page"
-                            href="{% url 'tracks'%}">Tracks</a>
+                            href="{% url 'tracks' %}">Tracks</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active text-custom-header btn btn-header me-3" aria-current="page"

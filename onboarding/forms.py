@@ -137,7 +137,7 @@ class AddTrackForm(models.ModelForm):
 
         if '1' in name:
             raise forms.ValidationError('name cant contain integers', code='adsa')
-        return self.cleaned_data()
+        return self.cleaned_data
 
     class Meta:
         model = Track

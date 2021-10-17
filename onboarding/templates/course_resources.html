@@ -32,11 +32,13 @@
                 <p class="card-text text-wrap p-0 my-4">{{ resource.1 }}</p>
             </div>
 
+            
+
             {% if track_name in enrolled_tracks %}
 
             {% if resource.6 in progress %}
             <form action="{% url 'delete_from_progress_view' user.id resource.6 track_name topic_name resource.5 %}"
-                method="POST">
+                method="POST" >
                 {% csrf_token %}
                 <input type="checkbox" onchange="this.form.submit();" name="Done" id="Done" checked>
             </form>
@@ -44,17 +46,57 @@
             {% else %}
 
             <form action="{% url 'add_to_progress_view' user.id resource.6 track_name topic_name resource.5 %}"
-                method="POST">
+                method="POST" id="zaform">
                 {% csrf_token %}
-                <input type="checkbox" onchange="this.form.submit();" name="Done" id="Done">
+                Have you finished this resource? <input type="checkbox" data-bs-toggle="modal" data-bs-target="#staticBackdrop" name="Done" id="Done">
+
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel"><b>Finishing A Resource</b></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                               <b>Holy guacamole!</b>  
+                                <br> 
+                                You have finished this entire <b>{{ resource.0 }}</b> resource! That's awesome dude :D Keep up the great work ;)
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Not yet</button>
+                                <button type="button" class="btn btn-primary" style="width: max-content;" id="yes">Yup, all done! Checked!</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
             </form>
             {% endif %}
             {% endif %}
-
+      
             <a class="btn btn-primary" href="{{ resource.3 }}" target="_blank">Go</a>
 
         </div>
     </div>
     {% endfor %}
 </div>
+{% endblock %}
+
+{% block js %}
+<script>
+
+$('#done').on("change",function(e){
+    e.preventDefault();
+});
+
+$('#yes').on("click",function(){
+    $('#zaform').submit()
+});
+
+
+</script>
 {% endblock %}
