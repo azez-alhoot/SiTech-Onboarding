@@ -318,7 +318,6 @@ def add_project_view(request, project_id=None):
 
 
     return render(request, 'add_project.html', {'form':form, 'formset':formset})
-    return render(request, 'project_details.html', {'project':project})
 
 
 def dashboard_view(request):
