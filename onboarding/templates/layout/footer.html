@@ -9,7 +9,7 @@
             <a href="{% url 'home'%}" class="footer__item m-0  p-0">Home</a>
 
             {% if user.is_authenticated %}
-            <a href="{% url 'tracks'%}" class="footer__item  p-0">Tracks</a>
+            <a href="{% url 'tracks' %}" class="footer__item  p-0">Tracks</a>
             {% endif %}
 
 

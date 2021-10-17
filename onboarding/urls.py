@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (
     SignupView,
+    dashboard_view,
     tracks_view,
     user_track_view,
     track_topic_view,
@@ -43,5 +44,6 @@ urlpatterns = [
     path('projects/<int:project_id>',projects_details_view, name='projects_details_view'),
     path('add/project/',add_project_view, name='add_project'),
     path('edit/project/<int:project_id>/',add_project_view, name='edit_project_view'),
+    path('admin_dashboard/', dashboard_view, name='admin_dashboard'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

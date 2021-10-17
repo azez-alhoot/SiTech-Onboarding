@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block cssimport %}
+<link rel="stylesheet" href="{% static 'css/admin_dashboard.css' %}" type="text/css">{% endblock %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+{% if request.user.is_superuser %}
+
+<div class="container my-5">
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Discription</th>
+            <th scope="col">Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Add A New Track</th>
+            <td><a href="{% url 'add_track_form' %}" class="btn btn-primary">Add Track</a></td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Larry the Bird</td>
+          </tr>
+        </tbody>
+      </table>
+
+
+</div>
+
+
+
+
+{% endif %}
+
+{% endblock %}
