@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<form method="POST" action="{% url 'add_project' %}" enctype="multipart/form-data" id="project-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <hr>
+
+    <h3>Add Members</h3>
+    <div id="members-container">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        <table>
+
+            {% for form in formset %}
+            {{ form }}
+            {% endfor %}
+        </table>
+        <div id="empty_form" style="display:none">
+            <table class='no_error'>
+                {{ formset.empty_form.as_table }}
+            </table>
+        </div>
+</form>
+</div>
+
+<button id="add_member"> + <button>
+        <br />
+        <button id="submit-forms">Submit<button>
+
+
+                {% endblock %}
+
+                {% block js %}
+                <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}";</script>
+                <script>
+
+                    $(document).ready(function () {
+
+                        $('#add_member').click(function () {
+                            var form_idx = $('#id_form-TOTAL_FORMS').val();
+                            $('#project-form').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
+                            $('#id_form-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+                        });
+
+                        $('#submit-forms').on('click', function (event) {
+                            event.preventDefault();
+                            console.log("forms submitted!")
+                            var data = $('#project-form').serializeArray()
+                            console.log(data)
+                            $('#project-form').submit();
+                            // create_post();
+                        });
+
+                        function create_post() {
+                            console.log("create post is working!")
+
+                            var formsData = {
+                                'name': $('#id_name').val(),
+                                'description': $('#id_description').val(),
+                                'business_document': $('#id_business_document').val(),
+                                'technical_document': $('#id_technical_document').val(),
+                                'image': $('#id_image').val(),
+                            };
+                            // var formsData = $('#project-form').serializeArray()
+                            // var members = $('#members-form').serializeArray()
+                            var members = $('#members-form').serializeArray()
+                            // console.log(formsData)
+                            console.log('***************')
+                            console.log(members)
+                            console.log('***************')
+                            $.ajax({
+                                type: "POST",
+                                headers: { "X-CSRFTOKEN": "{{ csrf_token }}" },
+                                url: "{% url 'add_project' %}",
+                                data: formsData,
+
+                                success: function (json) {
+                                    $('#post-name').val('');
+                                    console.log(json);
+                                    console.log("success");
+                                },
+
+                                error: function (xhr, errmsg, err) {
+                                    // $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: " + errmsg +
+                                    //     " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                                    // console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                                    console.log('faild');
+                                }
+                            });
+                        };
+                    })
+
+
+                </script>
+                {% endblock %}

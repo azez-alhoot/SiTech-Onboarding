@@ -13,6 +13,7 @@ from .views import (
     activate,
     projects_view,
     projects_details_view,
+    add_project_view,
 
 )
 from django.views.generic.base import TemplateView
@@ -38,8 +39,11 @@ urlpatterns = [
     path('add_to_progress_view/<int:user_id>/<int:resource_id>/<str:track_name>/<str:topic_name>/<int:courseid>/',add_to_progress_view, name='add_to_progress_view'),
     path('delete_from_progress_view/<int:user_id>/<int:resource_id>/<str:track_name>/<str:topic_name>/<int:courseid>/',delete_from_progress_view, name='delete_from_progress_view'),
     path('activate/<uidb64>/<token>/<str:title>',activate, name='activate'),
+
     path('projects/',projects_view, name='projects_view'),
     path('projects/<int:project_id>',projects_details_view, name='projects_details_view'),
+    path('add/project/',add_project_view, name='add_project'),
+    path('edit/project/<int:project_id>/',add_project_view, name='edit_project_view'),
     path('admin_dashboard/', dashboard_view, name='admin_dashboard'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
