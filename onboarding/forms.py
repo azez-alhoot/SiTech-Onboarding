@@ -170,7 +170,8 @@ class AddProjectForm(forms.ModelForm):
 
 class AddProjectMembersForm(forms.Form):
     
-    member_position = forms.ChoiceField(choices=[(x,x) for x in roles])
-    member_name = forms.CharField(label='member_name', max_length=66)
-    member_linkedIn = forms.CharField(label='member_linkedIn', max_length=66)
+    position = forms.ChoiceField(choices=[(x,x) for x in roles])
+    name = forms.CharField(label='Name', max_length=66)
+    linkedin = forms.CharField(label='LinkedIn', max_length=66)
+    image = forms.ImageField(label='Image', max_length=66)
 
