@@ -8,56 +8,45 @@
 {% block title %}Topics{% endblock %}
 
 {% block content %}
-
-<div class="container-fluid m-2 p-2 text-center">
-    <nav aria-label="breadcrumb" class="w-50 border border-white bg-white d-flex mx-auto mb-3 rounded-pill">
-        <ol class="breadcrumb p-2 mx-auto m-0">
-            <li class="breadcrumb-item active p-2 " aria-current="page"><a href="{% url 'tracks' %}">{{topics.0.4}}</a>
-            </li>
-            <li class="breadcrumb-item active p-2 " aria-current="page">Topics</li>
-        </ol>
-    </nav>
-    <br>
-    <p class="fw-bold fs-5">Topics that cover the track of your interest are previewed here :)</p>
+<div class="row">
+    <div class="col-3 offset-1">
+<nav id="navbar-example2" class="navbar navbar-light bg-light px-3">
+    <a class="navbar-brand" href="#">Topics</a>
+    <ul class="nav nav-pills">
+        {% for topic in topics %}
+        <li class="nav-item w-100">
+            <a class="nav-link" href="#scrollspyHeading{{ topic.0 }}">{{ topic.1 }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</nav>
 </div>
-
-<div class="container-fluid m-2 p-2 text-center w-50 d-flex mx-auto mb-3">
-
-    <button id="big-collapse" class="btn btn-primary w-100" type="button" data-bs-toggle="collapse"
-        data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-        Topics
-    </button>
-
-    <div class="collapse w-100 " id="collapseExample">
-       
-            <div class="card card-body ">
-                
-                {% for topic in topics %}
-                <button class="btn btn-primary my-3 w-100" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#courses{{ topic.0 }}" aria-expanded="false" aria-controls="#courses{{ topic.0 }}">
-                    {{ topic.1 }}
-                </button>
-
-                <div class="collapse" id="courses{{ topic.0 }}">
-                    <div class="card card-body">
-                        {% for course in courses %}
-                        {% if topic.0 == course.1 %}
-                        <div class="my-3">
-                            <h5 class="card-title mt-2 p-0 fw-bold fs-3 " ><a
-                                    href="{% url 'course' topic.4 topic.1 course.4 %}">{{ course.0 }}</a></h5>
-                            <h6 class="card-text text-wrap p-0 my-4">{{ course.2 }}</h6>
-                            <p class="card-text text-wrap p-0 my-4"><b>Prerequisite:</b> {{ course.3 }}</p>
-                            <!-- <a class="btn btn-primary" href="{% url 'course' topic.4 topic.1 course.4 %}">Start</a> -->
-                        </div>
-                        <hr>
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        
+<div class="col-7">
+<div data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-offset="0" class="scrollspy-example" tabindex="0">
+    {% for topic in topics %}
+    <h4 id="scrollspyHeading{{ topic.0 }}">{{ topic.1 }} </h4>
+    <div class="card card-body">
+        {% for course in courses %}
+        {% if topic.0 == course.1 %}
+        <div class="my-3">
+            <h5 class="card-title mt-2 p-0 fw-bold fs-3 "><a href="{% url 'course' topic.4 topic.1 course.4 %}">{{ course.0 }}</a></h5>
+            <h6 class="card-text text-wrap p-0 my-4">{{ course.2 }}</h6>
+            <p class="card-text text-wrap p-0 my-4"><b>Prerequisite:</b> {{ course.3 }}</p>
+            <!-- <a class="btn btn-primary" href="{% url 'course' topic.4 topic.1 course.4 %}">Start</a> -->
+        </div>
+        <hr>
+        {% endif %}
+        {% endfor %}
     </div>
-
+    {% endfor %}
+</div></div>
 </div>
+{% endblock %}
+{% block js %}
+<script>
+    var scrollSpy = new bootstrap.ScrollSpy(document.body, {
+  target: '#navbar-example2'
+})
+
+</script>
 {% endblock %}

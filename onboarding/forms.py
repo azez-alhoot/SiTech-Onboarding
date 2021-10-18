@@ -7,6 +7,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from crispy_forms.helper import FormHelper
 from django.utils.translation import gettext_lazy as _
 import re
+from .helper import roles
+
 # from django.forms import formset_factory
 
 class CustomUserCreationForm(UserCreationForm):
@@ -167,8 +169,8 @@ class AddProjectForm(forms.ModelForm):
         # }
 
 class AddProjectMembersForm(forms.Form):
-
-    member_position = forms.CharField(label='member_position', max_length=66)
+    
+    member_position = forms.ChoiceField(choices=[(x,x) for x in roles])
     member_name = forms.CharField(label='member_name', max_length=66)
     member_linkedIn = forms.CharField(label='member_linkedIn', max_length=66)
 

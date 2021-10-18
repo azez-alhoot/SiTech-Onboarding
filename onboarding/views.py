@@ -49,6 +49,10 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from django.forms import formset_factory, modelformset_factory
 
+from .helper import roles
+
+dictionary = { x:[] for x in roles}           
+
 
 class SignupView(CreateView):
     form_class = CustomUserCreationForm
@@ -306,14 +310,46 @@ def add_project_view(request, project_id=None):
         form_set_t = formset_factory(AddProjectMembersForm,extra=1, can_delete=True)
         formset = form_set_t(request.POST or None)
 
-        data = request.POST
+        data = request.POST.get('name')
         print(data)
         if form.is_valid() and formset.is_valid():
-            print('*************************************')
-            print('*************************************')
-            print('All Good')
-            print('*************************************')
-            print('*************************************')
+
+            instance = form.save(commit=False)
+
+            # instance = Project()
+            
+            project_name = request.POST.get('name')
+            instance.name = project_name
+
+            project_description = request.POST.get('description')
+            instance.description = project_description
+
+
+            project_business_document = request.POST.get('business_document')
+            instance.business_document = project_business_document
+
+            project_technical_document = request.POST.get('technical_document')
+            instance.technical_document = project_technical_document
+
+            number_of_members = int(request.POST.get('form-TOTAL_FORMS'))
+
+            for i in range(number_of_members):
+                
+                if request.POST.get(f'form-{i}-member_position') in dictionary:
+                    temp_list = [request.POST.get(f'form-{i}-member_name'), 
+                    "Product Manager", 
+                    request.POST.get(f'form-{i}-member_linkedIn'), 
+                    "rdtfvgbhjnimkol"]
+                    dictionary[request.POST.get(f'form-{i}-member_position')].append(temp_list)
+
+
+            instance.members = dictionary
+
+
+
+            instance.save()
+
+
             return redirect('projects_view')
 
 
