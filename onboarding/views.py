@@ -2,6 +2,11 @@ from django.db.transaction import commit
 from django.forms.formsets import formset_factory
 from django.template import context
 from django.core import serializers
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.files.storage import FileSystemStorage, default_storage
+
+from sitech_onboarding.settings import MEDIA_URL
 
 from .forms import (
     CustomUserCreationForm,
@@ -295,7 +300,7 @@ def projects_details_view(request, project_id):
 
 
 def add_project_view(request, project_id=None):
-    
+  
     instance = AddProjectForm()
 
     if project_id:
@@ -304,54 +309,58 @@ def add_project_view(request, project_id=None):
         form = AddProjectForm(request.POST or None, instance=instance)
         form_set_t = formset_factory(AddProjectMembersForm, can_delete=True)
         formset = form_set_t(request.POST or None,members)
-        print(members)
+   
     else:
-        form = AddProjectForm(request.POST or None, request.FILES or None)
-        form_set_t = formset_factory(AddProjectMembersForm,extra=1, can_delete=True)
-        formset = form_set_t(request.POST or None)
 
-        data = request.POST.get('name')
-        print(data)
+        form = AddProjectForm(request.POST or None, request.FILES or None)
+        form_set_t = formset_factory(AddProjectMembersForm, extra=1, can_delete=True)
+        formset = form_set_t(request.POST or None, request.FILES or None)
+
+       
         if form.is_valid() and formset.is_valid():
+            for x in formset:
+                if x.is_valid():
+                    print(x.cleaned_data.get('image'))
 
             instance = form.save(commit=False)
-
-            # instance = Project()
             
-            project_name = request.POST.get('name')
-            instance.name = project_name
+            # project_name = request.POST.get('name')
+            # instance.name = project_name
 
-            project_description = request.POST.get('description')
-            instance.description = project_description
+            # project_description = request.POST.get('description')
+            # instance.description = project_description
 
+            # project_business_document = request.POST.get('business_document')
+            # instance.business_document = project_business_document
 
-            project_business_document = request.POST.get('business_document')
-            instance.business_document = project_business_document
+            # project_technical_document = request.POST.get('technical_document')
+            # instance.technical_document = project_technical_document
 
-            project_technical_document = request.POST.get('technical_document')
-            instance.technical_document = project_technical_document
+            # number_of_members = int(request.POST.get('form-TOTAL_FORMS'))
 
-            number_of_members = int(request.POST.get('form-TOTAL_FORMS'))
-
-            for i in range(number_of_members):
+            for form in formset:
+                cd = form.cleaned_data
+                member = []
                 
-                if request.POST.get(f'form-{i}-member_position') in dictionary:
-                    temp_list = [request.POST.get(f'form-{i}-member_name'), 
-                    "Product Manager", 
-                    request.POST.get(f'form-{i}-member_linkedIn'), 
-                    "rdtfvgbhjnimkol"]
-                    dictionary[request.POST.get(f'form-{i}-member_position')].append(temp_list)
+                if cd.get('position') in dictionary:
 
+                    member.append(cd.get('name'))
+                    member.append(cd.get('level'))
+                    member.append(cd.get('linkedIn'))
+                    member.append(str(cd.get('image')))
+
+                    dictionary[cd.get('position')].append(member)
+
+                    member_image = cd.get('image')
+                    fs = FileSystemStorage()
+                    filename = fs.save(member_image.name, member_image)
+                    
 
             instance.members = dictionary
 
-
-
             instance.save()
 
-
             return redirect('projects_view')
-
 
     return render(request, 'add_project.html', {'form':form, 'formset':formset})
 

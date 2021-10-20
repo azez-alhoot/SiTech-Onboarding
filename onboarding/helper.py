@@ -3,7 +3,8 @@ from django.template.loader import render_to_string
 from .models import UserTrackBridge, TrackTopicBridge, TopicCourseBridge, Resource, UserProgress, CustomUser, Track
 from django.shortcuts import get_object_or_404
 
-roles = ['PM', 'Tech Lead', 'QA', 'Developer']
+roles = ['PM', 'Tech Lead', 'Developer', 'QA']
+levels = ['Junior', 'Intermediate', 'Senior']
 
 def send_email(context):
     data = "Hello"

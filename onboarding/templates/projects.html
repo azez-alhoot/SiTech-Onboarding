@@ -18,32 +18,33 @@
     <br>
     <p class="fw-bold fs-5">The current projects Sitech is working on :)</p>
     <br>
-    <a href="https://github.com/sitmena" target="_blank" class="btn btn-primary github">Sitech's Public GitHub Repositories</a>
+    <a href="https://github.com/sitmena" target="_blank" class="btn btn-primary github">Sitech's Public GitHub
+        Repositories</a>
 </div>
 
 {% if request.user.is_superuser %}
-        <a href="{% url 'add_project' %}" class="btn btn-primary">Add Project</a>
+<a href="{% url 'add_project' %}" class="btn btn-primary">Add Project</a>
 {% endif %}
 
 <div class=" d-flex justify-content-center p-2 mx-auto">
 
 
-{% for project in projects %}
+    {% for project in projects %}
 
-<div class="card m-4 p-4 col-4 border-1 rounded shadow-lg">
-    <img class=" img-thumbnail track-images d-block" src="{{ project.image.url }}" alt="Card image cap">
-    <div class="card-body d-flex flex-column justify-content-between">
-        <div>
-            <h5 class="card-title mt-2 p-0 fw-bold fs-3">{{ project.name }}</h5>
-            <p class="card-text text-wrap p-0 my-4">{{ project.description }}</p>
-            <a class="btn btn-primary" href="{% url 'projects_details_view' project.id %}">View Project</a>
-            {% if request.user.is_superuser %}
+    <div class="card m-4 p-4 col-4 border-1 rounded shadow-lg">
+        <img class=" img-thumbnail track-images d-block" src="{{ project.image.url }}" alt="Card image cap">
+        <div class="card-body d-flex flex-column justify-content-between">
+            <div>
+                <h5 class="card-title mt-2 p-0 fw-bold fs-3">{{ project.name }}</h5>
+                <p class="card-text text-wrap p-0 my-4">{{ project.description }}</p>
+                <a class="btn btn-primary" href="{% url 'projects_details_view' project.id %}">View Project</a>
+                {% if request.user.is_superuser %}
                 <a href="{% url 'edit_project_view' project.id %}" class="btn btn-primary">Edit Project</a>
-            {% endif %}
+                {% endif %}
+            </div>
         </div>
     </div>
-
     {% endfor %}
-
 </div>
-    {% endblock %}
+
+{% endblock %}

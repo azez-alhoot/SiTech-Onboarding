@@ -34,7 +34,7 @@
                 {% endblock %}
 
                 {% block js %}
-                <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}";</script>
+                
                 <script>
 
                     $(document).ready(function () {
@@ -50,47 +50,12 @@
                             console.log("forms submitted!")
                             var data = $('#project-form').serializeArray()
                             console.log(data)
+                            $('#id_form-0-image').val()
                             $('#project-form').submit();
                             // create_post();
                         });
 
-                        function create_post() {
-                            console.log("create post is working!")
-
-                            var formsData = {
-                                'name': $('#id_name').val(),
-                                'description': $('#id_description').val(),
-                                'business_document': $('#id_business_document').val(),
-                                'technical_document': $('#id_technical_document').val(),
-                                'image': $('#id_image').val(),
-                            };
-                            // var formsData = $('#project-form').serializeArray()
-                            // var members = $('#members-form').serializeArray()
-                            var members = $('#members-form').serializeArray()
-                            // console.log(formsData)
-                            console.log('***************')
-                            console.log(members)
-                            console.log('***************')
-                            $.ajax({
-                                type: "POST",
-                                headers: { "X-CSRFTOKEN": "{{ csrf_token }}" },
-                                url: "{% url 'add_project' %}",
-                                data: formsData,
-
-                                success: function (json) {
-                                    $('#post-name').val('');
-                                    console.log(json);
-                                    console.log("success");
-                                },
-
-                                error: function (xhr, errmsg, err) {
-                                    // $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: " + errmsg +
-                                    //     " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
-                                    // console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-                                    console.log('faild');
-                                }
-                            });
-                        };
+                        
                     })
 
 
