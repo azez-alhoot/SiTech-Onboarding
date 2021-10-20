@@ -7,7 +7,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from crispy_forms.helper import FormHelper
 from django.utils.translation import gettext_lazy as _
 import re
-from .helper import roles
+from django.core.validators import FileExtensionValidator
+from .helper import roles, levels
 
 # from django.forms import formset_factory
 
@@ -159,19 +160,13 @@ class AddProjectForm(forms.ModelForm):
         model = Project
         exclude = ['members']
         fields = '__all__'
-        # fields = ['name']
-        # widgets = {
-        #     'name': forms.TextInput(attrs={
-        #         'id': 'post-name', 
-        #         'required': True, 
-        #         'placeholder': 'Say something...'
-        #     }),
-        # }
+
 
 class AddProjectMembersForm(forms.Form):
     
-    position = forms.ChoiceField(choices=[(x,x) for x in roles])
     name = forms.CharField(label='Name', max_length=66)
-    linkedin = forms.CharField(label='LinkedIn', max_length=66)
-    image = forms.ImageField(label='Image', max_length=66)
+    position = forms.ChoiceField(choices=[(x,x) for x in roles])
+    level = forms.ChoiceField(choices=[(x,x) for x in levels])
+    linkedin = forms.CharField(label='LinkedIn URL', max_length=120)
+    image = forms.FileField(label='Image')
 

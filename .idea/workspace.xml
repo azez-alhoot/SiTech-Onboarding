@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="add4d3f1-7b51-4c77-94bb-63180b2c7919" name="Changes" comment="" />
+    <list default="true" id="add4d3f1-7b51-4c77-94bb-63180b2c7919" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/onboarding/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/onboarding/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onboarding/helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/onboarding/helper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onboarding/templates/add_project.html" beforeDir="false" afterPath="$PROJECT_DIR$/onboarding/templates/add_project.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onboarding/templates/project_details.html" beforeDir="false" afterPath="$PROJECT_DIR$/onboarding/templates/project_details.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onboarding/templates/projects.html" beforeDir="false" afterPath="$PROJECT_DIR$/onboarding/templates/projects.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onboarding/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/onboarding/views.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,7 +38,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DatabaseDriversLRU" value="sqlite" />
+    <property name="DatabaseDriversLRU" value="sqlite&#10;postgresql" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -54,6 +61,7 @@
       <workItem from="1633251154787" duration="1975000" />
       <workItem from="1633606340914" duration="14000" />
       <workItem from="1633606355854" duration="1635000" />
+      <workItem from="1634722736570" duration="821000" />
     </task>
     <servers />
   </component>
